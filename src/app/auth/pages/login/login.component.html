@@ -1,0 +1,30 @@
+<div class="wrapper">
+  <form class="login" #f="ngForm" (ngSubmit)="onLogin()">
+    <p class="title">Log in</p>
+    <input
+      type="text"
+      name="nombreUsuario"
+      id="nombreUsuario"
+      placeholder="Nombre Usuario"
+      [(ngModel)]="nombreUsuario"
+      autofocus
+    />
+    <i class="fa fa-user"></i>
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="Contraseña"
+      [(ngModel)]="password"
+      required
+    />
+
+    <button [disabled]="!f.valid">
+      <i class="spinner"></i>
+      <span class="state">
+        <i class="fa fa-sign-in"></i>
+        Ingresar</span
+      >
+    </button>
+  </form>
+</div>

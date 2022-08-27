@@ -1,0 +1,62 @@
+<h1 mat-dialog-title>Nuevo Punto</h1>
+<div mat-dialog-content>
+  <form [formGroup]="puntoForm" novalidate (ngSubmit)="addPunto()">
+    <div class="card-body">
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm"
+          >Código Cargo</span
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="codigoCargo"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm"
+          >Nombre Cargo :</span
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nombreCargo"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm"
+          >Dedicación Cargo:</span
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="dedicacionCargo"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm"
+          >Cantidad de Puntos:</span
+        >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="cantidad_puntos"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-footer border border-success">
+        <input type="submit" class="btn btn-success mr-2" value="Guardar" />
+        <a href="" class="btn btn-secondary">Volver</a>
+      </div>
+    </div>
+  </form>
+</div>

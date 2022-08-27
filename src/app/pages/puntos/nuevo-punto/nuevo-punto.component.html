@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row vh100">
+      <div class="col-5">
+        <div class="card border border-dark">
+          <div class="card-header bg-info">
+            <h4 class="text-white">Crear Punto</h4>
+          </div>
+          <form [formGroup]="puntoForm" novalidate (ngSubmit)="onSave()">
+            <div class="card-body">
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Código Cargo</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="codigoCargo"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Nombre Cargo :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="nombreCargo"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Dedicación Cargo:</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="dedicacionCargo"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Cantidad de Puntos:</span
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="cantidad_puntos"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-footer border border-success">
+                <input
+                  type="submit"
+                  class="btn btn-success mr-2"
+                  value="Guardar"
+                />
+                <a href="" class="btn btn-secondary">Volver</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-7">
+        <div class="card border border-dark">
+          <div class="card-header bg-info">
+            <h4 class="text-white">Puntos Disponibles</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table
+                class="table border border-dark table-responsive table-borderless"
+              >
+                <thead>
+                  <tr>
+                    <th class="bg-dark" scope="row" width="5%">
+                      <input
+                        id="checkbox-signup"
+                        type="checkbox"
+                        [checked]="isAllCheckboxChecked()"
+                        (change)="checkAllCheckbox($event)"
+                        class="filled-in chk-col-light-blue"
+                      />
+                      <label for="checkbox-signup"></label>
+                    </th>
+                    <th class="bg-dark text-white" scope="col" width="5%">#</th>
+                    <th class="bg-dark text-white" scope="col" width="10%">
+                      Dedicación
+                    </th>
+
+                    <th class="bg-dark text-white" scope="col" width="60%">
+                      Nombre Cargo
+                    </th>
+                    <th class="bg-dark text-white" scope="col" width="10%">
+                      Puntos Disponibles
+                    </th>
+                    <th class="bg-dark text-white" scope="col" width="5%">
+                      <span>Puntos a Ocupar</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let punto of puntoOrigenList;
+                      let i = index;
+                      let odd = odd
+                    "
+                    [ngClass]="odd ? 'odd_col' : 'even_col'"
+                  >
+                    <td>
+                      <input
+                        id="punto.{{ punto.id }}"
+                        type="checkbox"
+                        [value]="punto.id"
+                        (change)="onCheckboxChange(i)"
+                        [(ngModel)]="puntoOrigenList[i].checked"
+                        class="filled-in chk-col-light-blue"
+                      />
+                      <label for="punto.{{ punto.id }}"></label>
+                    </td>
+                    <td>{{ punto.id }}</td>
+                    <td>{{ punto.dedicacionCargo }}</td>
+                    <td>{{ punto.nombreCargo }}</td>
+                    <td>{{ punto.cantidad_puntos }}</td>
+
+                    <td>
+                      <input
+                        type="numer"
+                        name="cantidadOcupada{{ i }}"
+                        id="cantidadOcupada{{ i }}"
+                        size="4"
+                        width="5%"
+                        (change)="changeCantidad(i, $event)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

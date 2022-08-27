@@ -1,0 +1,147 @@
+<mat-card-title>
+  <h1 mat-dialog-title>
+    {{ agente != null ? "Editar Agente" : "Nuevo Agente" }}
+  </h1>
+</mat-card-title>
+<mat-dialog-content class="mat-typography">
+  <div class="card-body">
+    <form
+      [formGroup]="agentForm"
+      novalidate
+      (ngSubmit)="agente != null ? editAgente() : addAgente()"
+    >
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input
+          matInput
+          type="text"
+          id="nombre"
+          name="nombre"
+          formControlName="nombre"
+          placeholder="Nombre de Agente"
+          required
+        />
+      </mat-form-field>
+
+      <div class="form-group">
+        <label>Apellido</label>
+        <input
+          type="text"
+          id="apellido"
+          name="apellido"
+          formControlName="apellido"
+          class="form-control"
+          placeholder="Apellido de Agente"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Tipo Documento</label>
+        <select
+          name="tipoDocId"
+          id="tipoDocId"
+          formControlName="tipoDocId"
+          class="form-control"
+        >
+          <option [ngValue]="item.id" *ngFor="let item of tiposdocumento">
+            {{ item.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>documento</label>
+        <input
+          type="text"
+          id="documento"
+          name="documento"
+          formControlName="documento"
+          class="form-control"
+          placeholder="Número de documento"
+          required
+        />
+      </div>
+
+      <!--  <div class="form-group">
+        <label>Fecha Nacimiento</label>
+        <input
+          type="date"
+          id="fechaNac"
+          name="fechaNac"
+          formControlName="fechaNac"
+          class="form-control"
+          required
+        />
+      </div>
+ -->
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha Nacimiento</mat-label>
+        <input matInput [matDatepicker]="dp" formControlName="fechaNac" />
+        <mat-hint>DD-MM-YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+      </mat-form-field>
+
+      <div class="form-group">
+        <label>Legajo</label>
+        <input
+          type="text"
+          id="legajo"
+          name="legajo"
+          formControlName="legajo"
+          class="form-control"
+          placeholder="Legajo"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>domicilio</label>
+        <input
+          type="text"
+          id="domicilio"
+          name="domicilio"
+          formControlName="domicilio"
+          class="form-control"
+          placeholder="Domicilio"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          formControlName="email"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Telefono</label>
+        <input
+          type="telefono"
+          id="telefono"
+          name="telefono"
+          formControlName="telefono"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <a
+        routerLink="/page/agente"
+        class="btn btn-inverse waves-effect waves-light m-r-10"
+      >
+        Cancelar
+      </a>
+      <button type="submit" class="btn btn-success waves-effect waves-light">
+        Guardar
+      </button>
+    </form>
+  </div>
+</mat-dialog-content>

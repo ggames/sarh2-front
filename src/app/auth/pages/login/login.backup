@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6">
+        <div class="login">
+          <form #f="ngForm" (ngSubmit)="onLogin()" class="custom-form">
+            <label for="nombre">Usuario</label>
+            <input
+              type="text"
+              name="nombreUsuario"
+              id="nombreUsuario"
+              class="form-control"
+              [(ngModel)]="nombreUsuario"
+              required
+            />
+
+            <label for="password">Contraseña</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="form-control"
+              [(ngModel)]="password"
+              required
+            />
+
+            <div class="form-group">
+              <button
+                class="btn btn-outlinw-success btn-block"
+                [disabled]="!f.valid"
+              >
+                <i class="fa fa-sign-in"></i> Ingresar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
