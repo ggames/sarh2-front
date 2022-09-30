@@ -1,3 +1,4 @@
+import { PuntosDTO } from './../../../models/puntos-dto';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { PuntoOrigen } from './../../../models/punto-origen';
@@ -31,7 +32,7 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
     'Cantidad Puntos',
   ];
 
-  public dataSource = new MatTableDataSource<Puntos>();
+  public dataSource = new MatTableDataSource<PuntosDTO>();
   public puntosOrigen: PuntoOrigen[] = [];
 
   resultsLength = 0;

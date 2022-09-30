@@ -9,49 +9,33 @@
           <form [formGroup]="puntoForm" novalidate (ngSubmit)="onSave()">
             <div class="card-body">
               <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Código Cargo</span
+                <span class="input-group-text"> Tipo Cargo </span>
+                <select
+                  #sel
+                  name="tipo_cargo"
+                  id="tipo_cargo"
+                  formControlName="tipo_cargo"
+                  (change)="cambiarPuntos(sel.value)"
                 >
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="codigoCargo"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Nombre Cargo :</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="nombreCargo"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Dedicación Cargo:</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="dedicacionCargo"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
+                  <option
+                    [value]="tipo.id"
+                    *ngFor="let tipo of tipos_cargos; let j = index"
+                  >
+                    {{ tipo.id }} - {{ tipo.cargo }}
+                  </option>
+                </select>
               </div>
 
               <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-sm"
                   >Cantidad de Puntos:</span
                 >
+
                 <input
                   type="number"
                   class="form-control"
+                  name="cantidad_puntos"
+                  readonly
                   formControlName="cantidad_puntos"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-sm"
@@ -94,12 +78,12 @@
                       <label for="checkbox-signup"></label>
                     </th>
                     <th class="bg-dark text-white" scope="col" width="5%">#</th>
-                    <th class="bg-dark text-white" scope="col" width="10%">
-                      Dedicación
+                    <th class="bg-dark text-white" scope="col" width="60%">
+                      Cargo
                     </th>
 
-                    <th class="bg-dark text-white" scope="col" width="60%">
-                      Nombre Cargo
+                    <th class="bg-dark text-white" scope="col" width="10%">
+                      Cantidad Puntos
                     </th>
                     <th class="bg-dark text-white" scope="col" width="10%">
                       Puntos Disponibles
@@ -130,9 +114,9 @@
                       <label for="punto.{{ punto.id }}"></label>
                     </td>
                     <td>{{ punto.id }}</td>
-                    <td>{{ punto.dedicacionCargo }}</td>
-                    <td>{{ punto.nombreCargo }}</td>
-                    <td>{{ punto.cantidad_puntos }}</td>
+                    <td>{{ punto.tipo_cargo.cargo }}</td>
+                    <td>{{ punto.tipo_cargo.cantidad_puntos }}</td>
+                    <td>{{ punto.puntos_disponibles }}</td>
 
                     <td>
                       <input

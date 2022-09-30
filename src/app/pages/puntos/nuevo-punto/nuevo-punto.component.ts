@@ -1,3 +1,6 @@
+import { PuntosDTO } from './../../../models/puntos-dto';
+import { TipoCargo } from './../../../models/tipo-cargo';
+import { TipoCargosService } from './../../../services/tipo-cargos.service';
 import { Puntos } from './../../../models/puntos';
 import { PuntoOrigen } from './../../../models/punto-origen';
 import {
@@ -33,30 +36,47 @@ export class NuevoPuntoComponent implements OnInit {
 
   public punto_nuevo!: Puntos;
 
-  puntoOrigenList: Puntos[] = [];
+  tipos_cargos: TipoCargo[] = [];
 
-  puntosChecked: Puntos[] = [];
+  puntoOrigenList: PuntosDTO[] = [];
+
+  puntosChecked: PuntosDTO[] = [];
 
   puntosOrigenElegido: PuntoOrigen[] = [];
 
-  constructor(private puntoService: PuntoService, private fb: FormBuilder) {}
+  constructor(
+    private puntoService: PuntoService,
+    private tipoCargoService: TipoCargosService,
+    private fb: FormBuilder
+  ) {
+    this.puntoForm = this.fb.group({
+      tipo_cargo: [null, Validators.required],
+      cantidad_puntos: ['', Validators.required],
+      // puntos_disponible: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
-    this.puntoForm = this.fb.group({
-      id: [''],
-      codigoCargo: ['', Validators.required],
-      nombreCargo: ['', Validators.required],
-      dedicacionCargo: ['', Validators.required],
-      cantidad_puntos: ['', Validators.required],
-    });
+    this.getTipoCargos();
 
     this.puntoService.getPuntos().subscribe({
-      next: (puntos) => {
-        this.puntoOrigenList = puntos;
-        //  console.log('LISTA DE PUNTOS ' + JSON.stringify(this.puntoOrigenList));
+      next: (res) => {
+        this.puntoOrigenList = res;
+        console.log('LISTA DE PUNTOS ' + JSON.stringify(this.puntoOrigenList));
       },
       error: (err) => {
         console.log('Error carga');
+      },
+    });
+  }
+
+  getTipoCargos() {
+    this.tipoCargoService.getTiposCargos().subscribe({
+      next: (res) => {
+        this.tipos_cargos = res;
+      },
+      error: (err) => {
+        console.log('Error en la carga de tipo de cargo');
       },
     });
   }
@@ -92,9 +112,9 @@ export class NuevoPuntoComponent implements OnInit {
           punto = res;
 
           if (punto !== null) {
-            punto.cantidad_puntos =
-              punto.cantidad_puntos - element.cantOcupados;
-            console.error('CANTIDAD ACTUALIZADA ' + element.cantOcupados);
+            punto.puntos_disponibles =
+              punto.puntos_disponibles - element.cantOcupados;
+            //    console.error('CANTIDAD ACTUALIZADA ' + element.cantOcupados);
 
             this.puntoService.updatePunto(punto).subscribe({
               next: (res) => {
@@ -113,53 +133,49 @@ export class NuevoPuntoComponent implements OnInit {
   }
 
   changeCantidad(index: number, e: any) {
-    if (this.puntoOrigenList[index].checked == true) {
-      this.puntoOrigenList.forEach((x) => (x.cant_ocupado = e.target.value));
+    /* if (this.puntoOrigenList[index].checked == true) {
+      // this.puntoOrigenList.forEach((x) => (x.cant_ocupado = e.target.value));
       if (
-        this.puntoOrigenList[index].cant_ocupado >
+        //  this.puntoOrigenList[index].cant_ocupado >
         this.puntoOrigenList[index].cantidad_puntos
       ) {
         console.error('Cantidad de puntos excede a la disponible');
       }
     } else {
       this.puntoOrigenList[index].cantidad_puntos -=
-        this.puntoOrigenList[index].cant_ocupado;
-      console.log(
-        'PUNTOS ELEGIDOS ' + JSON.stringify(this.puntoOrigenList[index])
-      );
-    }
+      //  this.puntoOrigenList[index].cant_ocupado;
+    
+    } */
   }
 
   addPuntosOrigenes() {
-    this.puntoOrigenList.forEach((x) => {
+    /*   this.puntoOrigenList.forEach((x) => {
       if (x.checked == true) {
         this.puntosOrigenElegido.push({
-          puntoOrigenId: x.id,
-          puntoId: this.puntoForm.value,
-          cantOcupados: x.cant_ocupado,
+         puntoOrigenId: x.id,
+        puntoId: this.puntoForm.value,
+        cantOcupados: x.cant_ocupado,
         });
       }
-    });
+    }); */
 
     this.punto_nuevo = {
-      id: 0,
-      codigoCargo: this.puntoForm.get('codigoCargo')?.value,
-      nombreCargo: this.puntoForm.get('nombreCargo')?.value,
-      dedicacionCargo: this.puntoForm.get('dedicacionCargo')?.value,
-      cantidad_puntos: this.puntoForm.get('cantidad_puntos')?.value,
+      tipo_cargo_id: this.puntoForm.get('tipo_cargo')?.value,
+      puntos_disponibles: this.puntoForm.get('cantidad_puntos')?.value,
       origenes: [],
-      cant_ocupado: 0,
     };
 
     this.punto_nuevo.origenes = this.puntosOrigenElegido;
   }
 
   onSave(): void {
-    this.addPuntosOrigenes();
+    this.punto_nuevo = {
+      tipo_cargo_id: this.puntoForm.get('tipo_cargo')?.value,
+      puntos_disponibles: this.puntoForm.get('cantidad_puntos')?.value,
+      origenes: [],
+    };
 
-    this.reducirCantidadPuntosDB();
-
-    console.log('PUNTOS NUEVO ' + JSON.stringify(this.punto_nuevo));
+    // console.log('PUNTOS NUEVO ' + JSON.stringify(this.punto_nuevo));
 
     this.puntoService.savePunto(this.punto_nuevo).subscribe({
       next: (resp) => {
@@ -167,6 +183,23 @@ export class NuevoPuntoComponent implements OnInit {
       },
       error: (err) => {
         console.log('Error al intentar guardar el registro');
+      },
+    });
+  }
+
+  cambiarPuntos(index: any) {
+    console.log('Indice ' + JSON.stringify(index));
+
+    this.tipoCargoService.getTipoCargo(parseInt(index)).subscribe({
+      next: (res) => {
+        //   this.currentPuntos = res.cantidad_puntos;
+        this.puntoForm.setValue({
+          tipo_cargo: res,
+          cantidad_puntos: res.cantidad_puntos,
+        });
+      },
+      error: (err) => {
+        console.log('No existe el tipo de cargo');
       },
     });
   }

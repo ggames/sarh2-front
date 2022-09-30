@@ -1,3 +1,4 @@
+import { TipoCargo } from './../app/models/tipo-cargo';
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
@@ -10,6 +11,9 @@ export const environment = {
   puntoURL: 'http://localhost:8080/puntos/',
   rolURL: 'http://localhost:8080/roles/',
   tipoDocURL: 'http://localhost:8080/api/v1/',
+  transfURL: 'http://localhost:8080/transformacion/',
+  unidadURL: 'http://localhost:8080/unidad/',
+  tipoCargoURL: 'http://localhost:8080/tipocargos/',
 };
 
 /*

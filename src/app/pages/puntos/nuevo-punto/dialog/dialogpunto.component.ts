@@ -1,3 +1,4 @@
+import { PuntosDTO } from './../../../../models/puntos-dto';
 import { PuntoService } from './../../../../services/punto.service';
 import { PuntoOrigen } from 'src/app/models/punto-origen';
 import { Puntos } from 'src/app/models/puntos';
@@ -13,9 +14,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class DialogpuntoComponent implements OnInit {
   public punto!: Puntos | null;
 
-  public puntos: Puntos[] = [];
+  public puntos: PuntosDTO[] = [];
 
-  public origenes: Puntos[] = [];
+  public origenes: PuntosDTO[] = [];
 
   public nCantidad = 1;
 

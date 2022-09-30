@@ -1,11 +1,10 @@
 export class Transformacion {
+  id?: number | null;
+  numeroResolucion?: string | null;
+  resultadoTransformacion?: string | null;
 
-    id?: number;
-    numero_resolucion?: string;
-    resultado_transformacion?: number;
-
-    constructor(nroresolucion: string, resultado: number){
-        this.numero_resolucion = nroresolucion;
-        this.resultado_transformacion = resultado;
-    }
+  constructor(nroresolucion: string, resultado: string) {
+    this.numeroResolucion = nroresolucion;
+    this.resultadoTransformacion = resultado;
+  }
 }

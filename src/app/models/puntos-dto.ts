@@ -1,12 +1,12 @@
+import { TipoCargo } from './tipo-cargo';
 import { PuntoOrigen } from './punto-origen';
 
-export interface PuntosCreado {
-  id: number;
-  codigoCargo: string;
-  nombreCargo: string;
-  dedicacionCargo: string;
+export interface PuntosDTO {
+  id?: number;
+  tipo_cargo: TipoCargo;
   origenes: PuntoOrigen[];
-  cantidad_puntos: number;
+  puntos_disponibles: number;
+  checked?: boolean;
 }
 
 // checked?: boolean = false;

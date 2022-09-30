@@ -10,6 +10,7 @@ import { DialogpuntoComponent } from './nuevo-punto/dialog/dialogpunto.component
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
   FontAwesomeModule,
   FaIconLibrary,
@@ -40,6 +41,7 @@ import { ListaPuntosComponent } from './lista-puntos/lista-puntos.component';
     FontAwesomeModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
 })
 export class PuntosModule {}

@@ -1,3 +1,4 @@
+import { PuntosDTO } from './../models/puntos-dto';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
@@ -12,8 +13,8 @@ export class PuntoService {
   puntoURL = environment.puntoURL;
   constructor(private http: HttpClient) {}
 
-  getPuntos(): Observable<Puntos[]> {
-    return this.http.get<Puntos[]>(this.puntoURL + 'all');
+  getPuntos(): Observable<PuntosDTO[]> {
+    return this.http.get<PuntosDTO[]>(this.puntoURL + 'all');
   }
 
   getObtener(id: number): Observable<Puntos | null> {

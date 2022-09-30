@@ -19,6 +19,21 @@ const routes: Routes = [
     loadChildren: () =>
       import('./agentes/agentes.module').then((m) => m.AgentesModule),
   },
+  {
+    path: 'transformaciones',
+    loadChildren: () =>
+      import('./transformaciones/transformaciones.module').then(
+        (m) => m.TransformacionesModule
+      ),
+  },
+
+  {
+    path: 'unidades',
+    loadChildren: () =>
+      import('./unidades-organizativas/unidades-organizativas.module').then(
+        (m) => m.UnidadesOrganizativasModule
+      ),
+  },
 ];
 
 @NgModule({

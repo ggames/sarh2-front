@@ -1,12 +1,11 @@
+import { TipoCargo } from './tipo-cargo';
 import { PuntoOrigen } from './punto-origen';
 
 export interface Puntos {
-  id: number;
-  codigoCargo: string;
-  nombreCargo: string;
-  dedicacionCargo: string;
+  id?: number;
+  tipo_cargo_id: TipoCargo;
   origenes: PuntoOrigen[];
-  cantidad_puntos: number;
+  puntos_disponibles: number;
   checked?: boolean;
-  cant_ocupado: number;
+  //cant_ocupado: number;
 }

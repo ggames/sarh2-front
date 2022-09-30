@@ -17,12 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { AgenteService } from 'src/app/services/agente.service';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { TipoDocumento } from './../../../models/tipodocumento';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import * as moment from 'moment';
@@ -79,7 +74,6 @@ export class DialogAgenteComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder,
     private agenteService: AgenteService,
     private tpdocumentoService: TipoDocumentoService,
     private router: Router,
@@ -149,5 +143,9 @@ export class DialogAgenteComponent implements OnInit {
     // if (this.actualizacionAgente) {
     this.myDate = event.target.valueAsDate;
     // }
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
   }
 }
