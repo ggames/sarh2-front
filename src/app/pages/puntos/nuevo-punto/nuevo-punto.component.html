@@ -1,140 +1,113 @@
-<div class="row">
-  <div class="col-12">
-    <div class="row vh100">
-      <div class="col-5">
-        <div class="card border border-dark">
-          <div class="card-header bg-info">
-            <h4 class="text-white">Crear Punto</h4>
-          </div>
-          <form [formGroup]="puntoForm" novalidate (ngSubmit)="onSave()">
-            <div class="card-body">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text"> Tipo Cargo </span>
-                <select
-                  #sel
-                  name="tipo_cargo"
-                  id="tipo_cargo"
-                  formControlName="tipo_cargo"
-                  (change)="cambiarPuntos(sel.value)"
-                >
-                  <option
-                    [value]="tipo.id"
-                    *ngFor="let tipo of tipos_cargos; let j = index"
-                  >
-                    {{ tipo.id }} - {{ tipo.cargo }}
-                  </option>
-                </select>
-              </div>
+<div class="contenedor">
+  <mat-card>
+    <form [formGroup]="formPunto" novalidate>
+      <mat-card-title class="bg-primary" appearance="fill">
+        Nuevo Punto</mat-card-title
+      >
+      <mat-card-content>
+        <mat-form-field class="full-width">
+          <mat-select
+            name="tipo_cargo_id"
+            formControlName="tipo_cargo_id"
+            (selectionChange)="cambiarTipo()"
+          >
+            <mat-option *ngFor="let tipo of tipocargos" [value]="tipo.id">
+              {{ tipo.id }} - {{ tipo.cargo }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
 
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Cantidad de Puntos:</span
-                >
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-sm"
+            >Cantidad de Puntos:</span
+          >
 
-                <input
-                  type="number"
-                  class="form-control"
-                  name="cantidad_puntos"
-                  readonly
-                  formControlName="cantidad_puntos"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-            <div class="card-footer">
-              <div class="card-footer border border-success">
-                <input
-                  type="submit"
-                  class="btn btn-success mr-2"
-                  value="Guardar"
-                />
-                <a href="" class="btn btn-secondary">Volver</a>
-              </div>
-            </div>
-          </form>
+          <input
+            type="number"
+            class="form-control"
+            name="puntos_disponibles"
+            readonly
+            formControlName="puntos_disponibles"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm"
+          />
         </div>
-      </div>
-      <div class="col-7">
-        <div class="card border border-dark">
-          <div class="card-header bg-info">
-            <h4 class="text-white">Puntos Disponibles</h4>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table
-                class="table border border-dark table-responsive table-borderless"
-              >
-                <thead>
-                  <tr>
-                    <th class="bg-dark" scope="row" width="5%">
-                      <input
-                        id="checkbox-signup"
-                        type="checkbox"
-                        [checked]="isAllCheckboxChecked()"
-                        (change)="checkAllCheckbox($event)"
-                        class="filled-in chk-col-light-blue"
-                      />
-                      <label for="checkbox-signup"></label>
-                    </th>
-                    <th class="bg-dark text-white" scope="col" width="5%">#</th>
-                    <th class="bg-dark text-white" scope="col" width="60%">
-                      Cargo
-                    </th>
+      </mat-card-content>
+    </form>
+  </mat-card>
 
-                    <th class="bg-dark text-white" scope="col" width="10%">
-                      Cantidad Puntos
-                    </th>
-                    <th class="bg-dark text-white" scope="col" width="10%">
-                      Puntos Disponibles
-                    </th>
-                    <th class="bg-dark text-white" scope="col" width="5%">
-                      <span>Puntos a Ocupar</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
-                      let punto of puntoOrigenList;
-                      let i = index;
-                      let odd = odd
-                    "
-                    [ngClass]="odd ? 'odd_col' : 'even_col'"
-                  >
-                    <td>
-                      <input
-                        id="punto.{{ punto.id }}"
-                        type="checkbox"
-                        [value]="punto.id"
-                        (change)="onCheckboxChange(i)"
-                        [(ngModel)]="puntoOrigenList[i].checked"
-                        class="filled-in chk-col-light-blue"
-                      />
-                      <label for="punto.{{ punto.id }}"></label>
-                    </td>
-                    <td>{{ punto.id }}</td>
-                    <td>{{ punto.tipo_cargo.cargo }}</td>
-                    <td>{{ punto.tipo_cargo.cantidad_puntos }}</td>
-                    <td>{{ punto.puntos_disponibles }}</td>
+  <div class="mat-elevation-z8">
+    <mat-card>
+      <table mat-table #puntosDetalle [dataSource]="dataSource">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue && isAllSelected()"
+              [indeterminate]="selection.hasValue && !isAllSelected()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? calcularPuntosOcupado(row) : null"
+              [checked]="selection.isSelected(row)"
+              [disabled]="block"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
 
-                    <td>
-                      <input
-                        type="numer"
-                        name="cantidadOcupada{{ i }}"
-                        id="cantidadOcupada{{ i }}"
-                        size="4"
-                        width="5%"
-                        (change)="changeCantidad(i, $event)"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="tipo_cargo">
+          <th mat-header-cell *matHeaderCellDef>Cargo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.tipo_cargo.cargo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="puntos_disponibles">
+          <th mat-header-cell *matHeaderCellDef>Ptos Disp.</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.puntos_disponibles }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="puntos_ocupados">
+          <th mat-header-cell *matHeaderCellDef>Ptos Ocupados</th>
+          <td mat-cell *matCellDef="let element; let index = index">
+            <input
+              type="text"
+              name="position-{{ index }}"
+              [(ngModel)]="element.cant_ocupados"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones.</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="warn" focusable="false">
+              Borra?
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="selection.toggle(row)"
+        ></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </mat-card>
   </div>
+</div>
+<br /><br />
+<div>
+  <button mat-raised-button (click)="onSave()">Console Log Selected</button>
 </div>

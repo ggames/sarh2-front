@@ -1,10 +1,10 @@
 import { Puntos } from './puntos';
 
-export interface PuntoOrigen {
+export class PuntoOrigen {
   id?: number;
-  puntoOrigenId: number;
-  puntoId: Puntos;
-  cantOcupados: number;
+  puntoOrigenId?: number;
+  puntoId!: Puntos;
+  cantOcupados!: number;
 }
 
 /* constructor(puntoOrigenId: number, puntoId: Puntos, cantOcupados: number) {

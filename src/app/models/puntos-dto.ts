@@ -2,10 +2,11 @@ import { TipoCargo } from './tipo-cargo';
 import { PuntoOrigen } from './punto-origen';
 
 export interface PuntosDTO {
-  id?: number;
+  id: number;
   tipo_cargo: TipoCargo;
   origenes: PuntoOrigen[];
   puntos_disponibles: number;
+  cant_ocupados: number;
   checked?: boolean;
 }
 

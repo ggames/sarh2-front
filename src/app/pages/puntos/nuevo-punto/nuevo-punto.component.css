@@ -1,7 +1,14 @@
-table {
+.full-width {
+   width: 100%;
+}
+.contenedor {
+  height: 30%;
+  margin: 4px;;
+ }
+ table {
     width: 100%;
   }
-  
+/*  
   tr.example-detail-row {
     height: 0;
   }
@@ -45,4 +52,4 @@ table {
   .example-element-description-attribution {
     opacity: 0.5;
   }
-  
+   */

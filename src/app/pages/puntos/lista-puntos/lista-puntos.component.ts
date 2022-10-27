@@ -6,7 +6,6 @@ import { Puntos } from './../../../models/puntos';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { PuntoService } from './../../../services/punto.service';
-import { DialogpuntoComponent } from './../nuevo-punto/dialog/dialogpunto.component';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
@@ -64,7 +63,8 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
   }
 
   openAdd() {
-    const dialogRef = this.matDialog.open(DialogpuntoComponent, {});
+    /*     const dialogRef = this.matDialog.open(DialogpuntoComponent, {});
     dialogRef.afterClosed().subscribe((result) => this.getPuntos());
+ */
   }
 }
