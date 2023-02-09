@@ -34,6 +34,18 @@ const routes: Routes = [
         (m) => m.UnidadesOrganizativasModule
       ),
   },
+
+  {
+    path: 'planta',
+    loadChildren: () =>
+      import('./planta/planta.module').then((m) => m.PlantaModule),
+  },
+
+  {
+    path: 'cargo',
+    loadChildren: () =>
+      import('./cargos/cargos.module').then((m) => m.CargosModule),
+  },
 ];
 
 @NgModule({

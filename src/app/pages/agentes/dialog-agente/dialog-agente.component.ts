@@ -17,7 +17,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { AgenteService } from 'src/app/services/agente.service';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormControl,
+  FormBuilder,
+} from '@angular/forms';
 import { TipoDocumento } from './../../../models/tipodocumento';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import * as moment from 'moment';
@@ -52,7 +57,7 @@ export class DialogAgenteComponent implements OnInit {
   //Lista de tipos de documentos
   tiposdocumento: TipoDocumento[] = [];
 
-  tipodocumento: TipoDocumento = new TipoDocumento('', '');
+  tipodocumento!: TipoDocumento; //= new TipoDocumento('', '');
 
   myDate!: string;
 
@@ -60,40 +65,30 @@ export class DialogAgenteComponent implements OnInit {
 
   date = new FormControl(moment());
 
-  agentForm = new FormGroup({
-    // id: [null],
-    nombre: new FormControl('', Validators.required),
-    apellido: new FormControl('', Validators.required),
-    tipoDocId: new FormControl('', Validators.required),
-    documento: new FormControl('', Validators.required),
-    fechaNac: new FormControl('', Validators.required),
-    legajo: new FormControl('', Validators.required),
-    domicilio: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
-    telefono: new FormControl(),
-  });
-
+  agentForm!: FormGroup;
   constructor(
     private agenteService: AgenteService,
     private tpdocumentoService: TipoDocumentoService,
+    private fb: FormBuilder,
     private router: Router,
     @Inject(LOCALE_ID) public locale: string,
     public dialogRef: MatDialogRef<DialogAgenteComponent>,
     @Inject(MAT_DIALOG_DATA) public agente: Agente
   ) {
+    this.createForm();
+
     if (this.agente != null) {
-      let values = {
+      this.agentForm.setValue({
         nombre: this.agente.nombre,
         apellido: this.agente.apellido,
-        tipoDocId: this.agente.tipoDocId.id,
+        tipoDocId: this.agente.tipoDocId?.id,
         documento: this.agente.documento,
         fechaNac: moment(this.agente.fechaNac).format(),
         legajo: this.agente.legajo,
         domicilio: this.agente.domicilio,
         email: this.agente.email,
         telefono: this.agente.telefono,
-      };
-      this.agentForm.setValue(values);
+      });
 
       // this.myDate = this.agente.fechaNac;
     }
@@ -103,9 +98,24 @@ export class DialogAgenteComponent implements OnInit {
     //console.log('Fecha Nacimiento ' + this.myDate);
 
     this.getTipoDocumentos();
+
+    // this.createForm();
   }
 
-  public setValues(agente: Agente) {}
+  createForm(): void {
+    this.agentForm = this.fb.group({
+      // id: [null],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      tipoDocId: [null, Validators.required],
+      documento: ['', Validators.required],
+      fechaNac: ['', Validators.required],
+      legajo: ['', Validators.required],
+      domicilio: ['', Validators.required],
+      email: ['', Validators.required],
+      telefono: [''],
+    });
+  }
 
   getTipoDocumentos() {
     this.tpdocumentoService.getTipoDocumentos().subscribe({

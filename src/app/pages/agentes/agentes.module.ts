@@ -31,7 +31,6 @@ import { DialogAgenteComponent } from './dialog-agente/dialog-agente.component';
     CdkAccordionModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatInputModule,
     MatDialogModule,
     MatCardModule,
     MatDatepickerModule,

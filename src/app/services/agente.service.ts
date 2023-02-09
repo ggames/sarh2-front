@@ -1,3 +1,4 @@
+import { Agente } from './../models/agente';
 import { TipoDocumento } from './../models/tipodocumento';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -16,19 +17,22 @@ export class AgenteService {
     return this.httpClient.get(this.agenteURL + 'all');
   }
 
+  public getAgenteByDocumento(documento: number): Observable<any> {
+    return this.httpClient.get(this.agenteURL + `${documento}`);
+  }
+
   public obtenerAgente(id: number): Observable<any> {
     return this.httpClient.get(this.agenteURL + id);
   }
 
-  public saveAgente(agente: any): Observable<any> {
-    agente.tipoDocId = new TipoDocumento(agente.tipoDocId, '');
-
-    return this.httpClient.post(this.agenteURL + 'create', agente);
+  public saveAgente(agente: Agente): Observable<Agente> {
+    return this.httpClient.post<Agente>(this.agenteURL + 'create', agente);
   }
 
-  public actualizarAgente(agente: any): Observable<any> {
-    agente.tipoDocId = new TipoDocumento(agente.tipoDocId, '');
-
-    return this.httpClient.put(this.agenteURL + `update/${agente.id}`, agente);
+  public actualizarAgente(agente: Agente): Observable<Agente> {
+    return this.httpClient.put<Agente>(
+      this.agenteURL + `update/${agente.id}`,
+      agente
+    );
   }
 }

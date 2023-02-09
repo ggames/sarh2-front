@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-md">
+      <div class="card">
+        <div class="card-header">Puntos Disponibles</div>
+        <div class="card-body">
+          <h4 class="card-title text-left lead mark">
+            Datos de Puntos Disponibles
+          </h4>
+
+          <div mat-dialog-content>
+            <div class="row">
+              <table class="datatable">
+                <thead>
+                  <th></th>
+                  <th>ID</th>
+                  <th>Tipo Cargo</th>
+                  <th>Ptos. Disponible</th>
+                  <th>Ptos. Ocupado</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let punto of datos; let i = index">
+                    <td>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="punto_{{ punto.id }}"
+                          value="{{ punto.id }}"
+                          (change)="
+                            calcularPunto(punto, $any($event.target)?.checked)
+                          "
+                          [(ngModel)]="datos[i].checked"
+                          [disabled]="estaconfirmado"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="punto_{{ punto.id }}"
+                        >
+                        </label>
+                      </div>
+                    </td>
+                    <td>{{ punto.id }}</td>
+                    <td>{{ punto.tipo_cargo.cargo }}</td>
+                    <td>{{ punto.puntos_disponibles }}</td>
+                    <td>{{ punto.cant_ocupados }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+              ></mat-paginator>
+            </div>
+          </div>
+        </div>
+
+        <div class="gap-3 d-md-flex justify-content-md-center mb-3">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [mat-dialog-close]="confirmarPuntos()"
+          >
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>No.</th>
+                  <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="tipo_cargo">
+                  <th mat-header-cell *matHeaderCellDef>Cargo</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.tipo_cargo.cargo }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="puntos_disponibles">
+                  <th mat-header-cell *matHeaderCellDef>Ptos Disp.</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.puntos_disponibles }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="puntos_ocupados">
+                  <th mat-header-cell *matHeaderCellDef>Ptos Ocupados</th>
+                  <td mat-cell *matCellDef="let element; let index = index">
+                    <input
+                      type="text"
+                      name="position-{{ index }}"
+                      [(ngModel)]="element.cant_ocupados"
+                    />
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef>Acciones.</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="warn" focusable="false">
+                      Borra?
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table> -->

@@ -1,6 +1,6 @@
 import { PuntosDTO } from './../models/puntos-dto';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Puntos } from '../models/puntos';
@@ -13,8 +13,29 @@ export class PuntoService {
   puntoURL = environment.puntoURL;
   constructor(private http: HttpClient) {}
 
-  getPuntos(): Observable<PuntosDTO[]> {
-    return this.http.get<PuntosDTO[]>(this.puntoURL + 'all');
+  getPuntos(transitorio: boolean, estados: number[]): Observable<PuntosDTO[]> {
+    let params = new HttpParams();
+    estados.forEach((id: number) => {
+      params = params.append('estados', id);
+    });
+
+    /* for (let i = 0; i < estados.length; i++) {
+      params = params.append('estados', estados[i]);
+    } */
+
+    console.log(
+      'URL Puntos PARAMETROS ' +
+        this.puntoURL +
+        `transitorios/${transitorio}` +
+        params.toString()
+    );
+
+    return this.http.get<PuntosDTO[]>(
+      this.puntoURL + `transitorios/${transitorio}`,
+      {
+        params: params,
+      }
+    );
   }
 
   getObtener(id: number): Observable<Puntos | null> {

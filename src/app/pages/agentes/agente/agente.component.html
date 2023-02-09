@@ -59,14 +59,14 @@
               <tbody>
                 <tr
                   *ngFor="
-                    let agente of agentes | slice: desde:hasta;
+                    let agente of agentes | slice : desde : hasta;
                     let i = index
                   "
                 >
                   <th>{{ agente.id }}</th>
                   <th>
                     <div role="button" style="cursor: pointer">
-                      {{ agente.tipoDocId.nombre }} : {{ agente.documento }}
+                      {{ agente.tipoDocId?.nombre }} : {{ agente.documento }}
                     </div>
                   </th>
                   <th>{{ agente.apellido }} {{ agente.nombre }}</th>
@@ -97,7 +97,7 @@
             <mat-paginator
               [length]="agentes.length"
               [pageSize]="pageSize"
-              (page)="cambiarpagina($event)"
+              (page)="cambiarPagina($event)"
             ></mat-paginator>
           </div>
         </div>

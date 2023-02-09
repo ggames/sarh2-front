@@ -4,6 +4,7 @@ import { PuntoOrigen } from './punto-origen';
 export interface PuntosDTO {
   id: number;
   tipo_cargo: TipoCargo;
+  transitorio: boolean;
   origenes: PuntoOrigen[];
   puntos_disponibles: number;
   cant_ocupados: number;

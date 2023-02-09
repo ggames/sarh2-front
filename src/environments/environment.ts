@@ -1,19 +1,26 @@
+import { EstadoCargo } from './../app/models/estadoCargo';
 import { TipoCargo } from './../app/models/tipo-cargo';
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const URL = 'http://localhost:8080/';
+
 export const environment = {
   production: false,
-  usuarioURL: 'http://localhost:8080/usuarios',
-  agenteURL: 'http://localhost:8080/agentes/',
-  authURL: 'http://localhost:8080/auth/',
-  puntoURL: 'http://localhost:8080/puntos/',
-  rolURL: 'http://localhost:8080/roles/',
-  tipoDocURL: 'http://localhost:8080/api/v1/',
-  transfURL: 'http://localhost:8080/transformacion/',
-  unidadURL: 'http://localhost:8080/unidad/',
-  tipoCargoURL: 'http://localhost:8080/tipocargos/',
+  usuarioURL: URL + 'usuarios/',
+  agenteURL: URL + 'agentes/',
+  authURL: URL + 'auth/',
+  puntoURL: URL + 'puntos/',
+  rolURL: URL + 'roles/',
+  tipoDocURL: URL + 'api/v1/',
+  transfURL: URL + 'transformacion/',
+  unidadURL: URL + 'unidad/',
+  tipoCargoURL: URL + 'tipocargos/',
+  caracterURL: URL + 'caracteres/',
+  EstadoCargoURL: URL + 'estadocargo/',
+  cargoURL: URL + 'cargo/',
+  plantaURL: URL + 'planta/',
 };
 
 /*

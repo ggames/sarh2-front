@@ -1,0 +1,6 @@
+export enum EstadoCargo {
+  VACANTE_DEFINITIVA,
+  VACANTE_TRANSITORIA,
+  CONGELADO,
+  SOLICITADA,
+}

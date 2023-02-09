@@ -62,7 +62,7 @@ export class AgenteComponent implements OnInit {
     });
   }
 
-  cambiarpagina(e: PageEvent) {
+  cambiarPagina(e: PageEvent) {
     this.desde = e.pageIndex * e.pageSize;
     this.hasta = this.desde + e.pageSize;
   }

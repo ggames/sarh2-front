@@ -1,7 +1,12 @@
 import { Transformacion } from './../../../models/transformacion';
 import { DialogAgenteComponent } from './../../agentes/dialog-agente/dialog-agente.component';
 import { TransformacionesService } from './../../../services/transformaciones.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -11,28 +16,33 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog-transformacion.component.css'],
 })
 export class DialogTransformacionComponent implements OnInit {
-  transformacionForm = new FormGroup({
-    id: new FormControl(0),
-    numeroResolucion: new FormControl('', Validators.required),
-    resultadoTransformacion: new FormControl('', Validators.required),
-  });
+  transformacionForm!: FormGroup;
 
   constructor(
     private transformacionesService: TransformacionesService,
+    private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogAgenteComponent>,
     @Inject(MAT_DIALOG_DATA) public transformacion: Transformacion
   ) {
+    this.createForm();
+
     if (this.transformacion != null) {
       let values = {
-        id: this.transformacion.id!,
-        numeroResolucion: this.transformacion.numeroResolucion!,
-        resultadoTransformacion: this.transformacion.resultadoTransformacion!,
+        numeroResolucion: this.transformacion.numeroResolucion,
+        resultadoTransformacion: this.transformacion.resultadoTransformacion,
       };
       this.transformacionForm.setValue(values);
     }
   }
 
   ngOnInit(): void {}
+
+  createForm() {
+    this.transformacionForm = this.fb.group({
+      numeroResolucion: ['', Validators.required],
+      resultadoTransformacion: ['', Validators.required],
+    });
+  }
 
   addTransformacion() {
     this.transformacionesService

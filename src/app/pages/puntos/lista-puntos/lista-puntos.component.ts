@@ -56,7 +56,7 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
   }
 
   getPuntos(): void {
-    this.puntoService.getPuntos().subscribe((res) => {
+    this.puntoService.getPuntos(false, []).subscribe((res) => {
       this.dataSource.data = res;
       console.log(res);
     });

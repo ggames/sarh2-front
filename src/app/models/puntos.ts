@@ -3,7 +3,8 @@ import { PuntoOrigen } from './punto-origen';
 
 export class Puntos {
   id?: number;
-  tipo_cargo_id!: TipoCargo;
+  tipo_cargo!: TipoCargo;
+  transitorio!: boolean;
   origenes!: PuntoOrigen[];
   puntos_disponibles!: number;
   checked?: boolean;

@@ -1,6 +1,89 @@
-<div class="contenedor">
-  <mat-card>
-    <form [formGroup]="formPunto" novalidate>
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-md">
+      <div class="card">
+        <div class="card-header">Creación Punto</div>
+        <div class="card-body">
+          <h4 class="card-title text-left lead mark">Datos de Punto</h4>
+          <form class="row g-3" [formGroup]="formPunto" novalidate>
+            <div class="col-md-6">
+              <label for="" class="form-label">Pto. Cargo</label>
+              <select
+                name="tipo_cargo"
+                formControlName="tipo_cargo"
+                (change)="cambiarTipo()"
+                class="form-control"
+              >
+                <option [value]="0">Seleccionar</option>
+                <option *ngFor="let tipo of tipocargos" [value]="tipo.id">
+                  {{ tipo.id }} - {{ tipo.cargo }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="form-label">Unidades Ptos.</label>
+              <input
+                type="number"
+                readonly
+                name="puntos_disponibles"
+                formControlName="puntos_disponibles"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-6 form-check form-check-inline">
+              <input
+                class="form-comtrol form-check-input"
+                type="checkbox"
+                id="transitorio"
+                name="transitorio"
+                formControlName="transitorio"
+              />
+              <label class="form-check-label" for="transitorio">
+                Transitorio
+              </label>
+            </div>
+            <div
+              class="col-md-5 gap-3 d-md-flex justify-content-md-center mb-3"
+            >
+              <button
+                class="btn btn-primary"
+                mat-raised-button
+                (click)="abrirDialogo()"
+              >
+                Puntos Libres
+              </button>
+            </div>
+
+            <div class="gap-3 d-md-flex justify-content-md-center mb-3">
+              <button class="btn btn-primary" type="button" (click)="onSave()">
+                Confirmar Punto
+              </button>
+            </div>
+          </form>
+
+          <table class="datatable">
+            <thead>
+              <th>ID</th>
+              <th>Tipo Cargo</th>
+              <th>Ptos. Disponible</th>
+              <th>Ptos. Ocupados</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let punto of puntosDetalles; let i = index">
+                <td>{{ punto.id }}</td>
+                <td>{{ punto.tipo_cargo.cargo }}</td>
+                <td>{{ punto.puntos_disponibles }}</td>
+                <td>{{ punto.cant_ocupados }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  <form [formGroup]="formPunto" novalidate>
       <mat-card-title class="bg-primary" appearance="fill">
         Nuevo Punto</mat-card-title
       >
@@ -32,10 +115,20 @@
             aria-describedby="inputGroup-sizing-sm"
           />
         </div>
+        <div class="form-check form-check-online">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name=""
+            id=""
+            value="checkbox1"
+          />
+          <label class="form-check-label" for="">Transitorio</label>
+        </div>
       </mat-card-content>
     </form>
-  </mat-card>
-
+   -->
+  <!-- 
   <div class="mat-elevation-z8">
     <mat-card>
       <table mat-table #puntosDetalle [dataSource]="dataSource">
@@ -104,10 +197,5 @@
         [pageSizeOptions]="[5, 10, 20]"
         showFirstLastButtons
       ></mat-paginator>
-    </mat-card>
-  </div>
-</div>
-<br /><br />
-<div>
-  <button mat-raised-button (click)="onSave()">Console Log Selected</button>
+    </mat-card> -->
 </div>
