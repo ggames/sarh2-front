@@ -1,3 +1,4 @@
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DateInputConverter } from './../../utils/date-input-converter.directive';
 import { PlantaNuevaComponent } from './planta-nueva/planta-nueva.component';
@@ -27,6 +28,7 @@ import { PlantaEditarComponent } from './planta-editar/planta-editar.component';
     PlantaRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     MatInputModule,
     MatFormFieldModule,
     MatPaginatorModule,

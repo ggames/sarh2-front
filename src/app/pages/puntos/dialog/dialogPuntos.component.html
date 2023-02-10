@@ -31,7 +31,7 @@
                             calcularPunto(punto, $any($event.target)?.checked)
                           "
                           [(ngModel)]="datos[i].checked"
-                          [disabled]="estaconfirmado"
+                          [disabled]="datos[i].checked"
                         />
                         <label
                           class="form-check-label"

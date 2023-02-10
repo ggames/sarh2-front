@@ -7,6 +7,6 @@ export class Puntos {
   transitorio!: boolean;
   origenes!: PuntoOrigen[];
   puntos_disponibles!: number;
-  checked?: boolean;
+  checked?: boolean = false;
   //cant_ocupado: number;
 }

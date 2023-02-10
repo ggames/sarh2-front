@@ -47,9 +47,12 @@
             </th>
 
             <th class="d-flex justify-content-center">
-              <button class="btn btn-primary mr-3">
+              <a
+                class="btn btn-primary mr-3"
+                [routerLink]="['/app/planta/edit', planta.id]"
+              >
                 <i class="fa fa-pencil-square-o"></i>
-              </button>
+              </a>
               <button class="btn btn-danger">
                 <i class="fa fa-trash-o"></i>
               </button>

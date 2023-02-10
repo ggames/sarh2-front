@@ -1,7 +1,7 @@
 import { Puntos } from './puntos';
 
 export class PuntoOrigenRequest {
-  puntoOrigenId!: number;
+  puntoOrigenId?: number;
   puntoId!: Puntos;
   cantOcupados!: number;
 }

@@ -184,7 +184,7 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
     this.puntosDetalles.forEach((x) =>
       //this.selection.selected.forEach((x) =>
       this.detalleOrigenes.push({
-        puntoOrigenId: x.id,
+        puntoOrigenId: x?.id,
         puntoId: this.formPunto.value,
         cantOcupados: x.cant_ocupados,
       })

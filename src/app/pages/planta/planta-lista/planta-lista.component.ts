@@ -2,6 +2,7 @@ import { Planta } from './../../../models/planta';
 import { PlantaService } from './../../../services/planta.service';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-planta-lista',
@@ -15,7 +16,11 @@ export class PlantaListaComponent implements OnInit {
   desde: number = 0;
   hasta: number = 5;
 
-  constructor(private plantaService: PlantaService) {}
+  constructor(
+    private plantaService: PlantaService,
+    private router: Router,
+    activeRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.cargarPlanta();
@@ -27,6 +32,10 @@ export class PlantaListaComponent implements OnInit {
         this.planta_arr = planta;
       },
     });
+  }
+
+  abrirEditar(planta: Planta) {
+    this.router.navigate(['/planta/edit', planta.id]);
   }
 
   cambiarPagina(e: PageEvent) {
