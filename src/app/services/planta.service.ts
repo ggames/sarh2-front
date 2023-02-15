@@ -27,4 +27,15 @@ export class PlantaService {
   getPlantaTotal(): Observable<Planta[]> {
     return this.http.get<Planta[]>(this.plantaURL + 'all');
   }
+
+  crearPlanta(planta: Planta): Observable<Planta> {
+    return this.http.post<Planta>(this.plantaURL + 'create', planta);
+  }
+
+  actualizarPlanta(planta: Planta): Observable<Planta> {
+    return this.http.put<Planta>(
+      this.plantaURL + `update/${planta.id}`,
+      planta
+    );
+  }
 }

@@ -75,10 +75,10 @@ export class CargoNuevoComponent implements OnInit {
   }
 
   changePuntos(event: Event): void {
-    let valor = this.formCargo.get('caracter_cargo')?.value;
+    let valor = this.formCargo.get('caracter')?.value;
 
     if (valor.id === 3) {
-      this.ptoService.getPuntos(true, [3, 5]).subscribe({
+      this.ptoService.getPuntos(true, [1, 2]).subscribe({
         next: (res) => {
           this.puntos = res;
         },
@@ -87,7 +87,7 @@ export class CargoNuevoComponent implements OnInit {
         },
       });
     } else {
-      this.ptoService.getPuntos(false, [3, 5]).subscribe({
+      this.ptoService.getPuntos(false, [1, 2]).subscribe({
         next: (res) => {
           this.puntos = res;
         },

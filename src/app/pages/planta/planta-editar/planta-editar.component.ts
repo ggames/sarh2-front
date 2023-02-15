@@ -1,3 +1,5 @@
+import { Cargo } from 'src/app/models/cargo';
+import { Agente } from './../../../models/agente';
 import { ActivatedRoute } from '@angular/router';
 
 import { Component, OnInit } from '@angular/core';
@@ -44,6 +46,14 @@ export class PlantaEditarComponent implements OnInit {
 
   tipodocumento_list: TipoDocumento[] = [];
 
+  planta = new Planta();
+
+  agente = new Agente();
+
+  cargo = new Cargo();
+
+  estadoCargo!: EstadoCargoDTO;
+
   constructor(
     private plantaService: PlantaService,
     private cargoService: CargoService,
@@ -83,7 +93,7 @@ export class PlantaEditarComponent implements OnInit {
     this.plantaService.getPlantaById(id).subscribe({
       next: (planta) => {
         this.reg_planta = planta;
-        console.log('PLANTA PERMANENTE ' + JSON.stringify(this.reg_planta));
+        //        console.log('PLANTA PERMANENTE ' + JSON.stringify(this.reg_planta));
 
         this.cargarFormPlanta(this.reg_planta);
       },
@@ -112,31 +122,6 @@ export class PlantaEditarComponent implements OnInit {
       fechaInicio: [null],
       resolucionFin: [null],
       fechaFin: [null],
-    });
-  }
-
-  cargarFormPlanta(planta: Planta) {
-    this.formPlanta.patchValue({
-      idCargo: planta.cargoId.idCargo,
-      tipoCargo: planta.cargoId.puntoId.tipo_cargo.cargo,
-      unidadOrganizativaId: planta.cargoId.unidadOrganizativaId?.id,
-      caracter: planta.cargoId.caracter?.id,
-      estadoCargo: planta.cargoId.estadoCargo?.id,
-      puntoId: planta.cargoId.puntoId?.id,
-      transfCreacionId: planta.cargoId.transfCreacionId?.id,
-      transfSupresionId: planta.cargoId.transfSupresionId?.id,
-      tipoDocId: planta.agenteId.tipoDocId?.id,
-      documento: planta.agenteId.documento,
-      nombre: planta.agenteId.nombre,
-      apellido: planta.agenteId.apellido,
-      legajo: planta.agenteId.legajo,
-      fechaNac: formatDate(planta.agenteId.fechaNac, 'yyyy-MM-dd', 'en'),
-      fechaMovimiento: formatDate(planta.fechaMovimiento, 'yyyy-MM-dd', 'en'),
-      motivoMovimiento: planta.motivoMovimiento ?? null,
-      resolucionInicio: planta.resolucionInicio ?? null,
-      fechaInicio: planta?.fechaInicio,
-      resolucionFin: planta.resolucionFin,
-      fechaFin: planta.fechaFin,
     });
   }
 
@@ -201,6 +186,99 @@ export class PlantaEditarComponent implements OnInit {
       },
       error: (err) => {
         console.log('No hay ningun tipo de documento cargado');
+      },
+    });
+  }
+
+  cargarFormPlanta(planta: Planta) {
+    this.formPlanta.patchValue({
+      idCargo: planta.cargoId.idCargo,
+      tipoCargo: planta.cargoId.puntoId.tipo_cargo.cargo,
+      unidadOrganizativaId: planta.cargoId.unidadOrganizativaId?.id,
+      caracter: planta.cargoId.caracter?.id,
+      estadoCargo: planta.cargoId.estadoCargo?.id,
+      puntoId: planta.cargoId.puntoId?.id,
+      transfCreacionId: planta.cargoId.transfCreacionId?.id,
+      transfSupresionId: planta.cargoId.transfSupresionId?.id,
+      tipoDocId: planta.agenteId.tipoDocId?.id,
+      documento: planta.agenteId.documento,
+      nombre: planta.agenteId.nombre,
+      apellido: planta.agenteId.apellido,
+      legajo: planta.agenteId.legajo,
+      fechaNac: formatDate(planta.agenteId.fechaNac, 'yyyy-MM-dd', 'en'),
+      fechaMovimiento: formatDate(planta.fechaMovimiento, 'yyyy-MM-dd', 'en'),
+      motivoMovimiento: planta.motivoMovimiento ?? null,
+      resolucionInicio: planta.resolucionInicio ?? null,
+      fechaInicio: planta?.fechaInicio,
+      resolucionFin: planta.resolucionFin,
+      fechaFin: planta.fechaFin,
+    });
+  }
+
+  editarPlanta() {
+    // Datos del Agente
+    //console.log('AGENTE .... ' + JSON.stringify(this.reg_planta.agenteId));
+
+    this.agente.id = this.reg_planta.agenteId.id;
+    this.agente.tipoDocId = this.reg_planta.agenteId.tipoDocId;
+    this.agente.documento = this.reg_planta.agenteId.documento;
+    this.agente.nombre = this.reg_planta.agenteId.nombre;
+    this.agente.apellido = this.reg_planta.agenteId.apellido;
+    this.agente.fechaNac = this.reg_planta.agenteId.fechaNac;
+    this.agente.domicilio = this.reg_planta.agenteId.domicilio;
+    this.agente.legajo = this.reg_planta.agenteId.legajo;
+    this.agente.telefono = this.reg_planta.agenteId.telefono;
+
+    this.cargo.id = this.reg_planta.cargoId.id;
+    this.cargo.caracter = this.reg_planta.cargoId.caracter;
+    this.cargo.estadoCargo = this.estadoCargo;
+
+    this.cargo.idCargo = this.reg_planta.cargoId.idCargo;
+    this.cargo.puntoId = this.reg_planta.cargoId.puntoId;
+    this.cargo.transfCreacionId = this.reg_planta.cargoId.transfCreacionId;
+    this.cargo.transfSupresionId = this.reg_planta.cargoId.transfSupresionId;
+
+    this.planta.id = this.reg_planta.id;
+
+    this.planta.cargoId = this.cargo;
+    this.planta.agenteId = this.agente;
+
+    this.planta.fechaInicio = this.formPlanta.get('fechaInicio')?.value;
+    this.planta.resolucionInicio =
+      this.formPlanta.get('resolucionInicio')?.value;
+
+    this.planta.fechaMovimiento = this.formPlanta.get('fechaMovimiento')?.value;
+    this.planta.motivoMovimiento =
+      this.formPlanta.get('motivoMovimiento')?.value;
+
+    this.planta.fechaFin = this.formPlanta.get('fechaFin')?.value;
+    this.planta.resolucionFin = this.formPlanta.get('resolucionFin')?.value;
+
+    console.log('Agente ... : ' + JSON.stringify(this.agente));
+    console.log('Cargo ... : ' + JSON.stringify(this.cargo));
+  }
+
+  actualizarPlanta() {
+    this.editarPlanta();
+
+    this.plantaService.actualizarPlanta(this.planta).subscribe({
+      next: (res) => {
+        console.log('Planta actualizada correctamente');
+      },
+    });
+
+    //this.cargoService.
+  }
+
+  getValue(event: any): number {
+    return event.target.value.split(':')[1];
+  }
+
+  cambiarEstadoCargo(e: any) {
+    const id = this.getValue(e);
+    this.estadocargoService.getEstadoCargoById(id).subscribe({
+      next: (res) => {
+        this.estadoCargo = res;
       },
     });
   }

@@ -47,7 +47,7 @@
                 class="form-control"
               >
                 <option
-                  [ngValue]="caracter.id"
+                  [ngValue]="caracter"
                   *ngFor="let caracter of caracter_list"
                 >
                   {{ caracter.nombre }}
@@ -63,8 +63,8 @@
                 class="form-control"
               >
                 <option
+                  [ngValue]="estado"
                   *ngFor="let estado of estadocargo_list"
-                  [ngValue]="estado.id"
                 >
                   {{ estado.nombre }}
                 </option>
@@ -82,7 +82,7 @@
               >
                 <option
                   *ngFor="let transf of transformacion_list"
-                  [ngValue]="transf.id"
+                  [ngValue]="transf"
                 >
                   {{ transf.numeroResolucion }}
                 </option>
@@ -101,14 +101,14 @@
                 <option [ngValue]="0">Sin Información</option>
                 <option
                   *ngFor="let transf of transformacion_list"
-                  [ngValue]="transf.id"
+                  [ngValue]="transf"
                 >
                   {{ transf.numeroResolucion }}
                 </option>
               </select>
             </div>
             <div class="col-md-6">
-              <label for="unidadOrganizativaId|" class="form-label"
+              <label for="unidadOrganizativaId" class="form-label"
                 >Unidad Org.</label
               >
               <select
@@ -120,7 +120,7 @@
               >
                 <option [ngValue]="0">Sin Información</option>
                 <option
-                  [ngValue]="unidad.id"
+                  [ngValue]="unidad"
                   *ngFor="let unidad of unidadesorganizativa_list"
                 >
                   {{ unidad.nombre }}
@@ -153,7 +153,7 @@
                 class="form-control"
               >
                 <option
-                  [ngValue]="tipo.id"
+                  [ngValue]="tipo"
                   *ngFor="let tipo of tipodocumento_list"
                 >
                   {{ tipo.nombre }}
@@ -301,7 +301,9 @@
               ></textarea>
             </div>
             <div class="col-md-12">
-              <button type="submit" class="btn btn-primary">Confirmar</button>
+              <button type="submit" class="btn btn-primary" (click)="onSave()">
+                Confirmar
+              </button>
             </div>
           </form>
         </div>

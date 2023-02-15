@@ -15,4 +15,8 @@ export class EstadocargoService {
   getAllEstadosCargos(): Observable<EstadoCargoDTO[]> {
     return this.http.get<EstadoCargoDTO[]>(this.estadoCargoURL + 'all');
   }
+
+  getEstadoCargoById(id: number): Observable<EstadoCargoDTO> {
+    return this.http.get<EstadoCargoDTO>(this.estadoCargoURL + `${id}`);
+  }
 }

@@ -61,7 +61,7 @@ export class PlantaNuevaComponent implements OnInit {
 
   agente!: Agente;
 
-  planta!: Planta;
+  planta: Planta = new Planta();
 
   date = new Date();
 
@@ -90,8 +90,6 @@ export class PlantaNuevaComponent implements OnInit {
     this.getAllUnidadesOrganizativas();
     // this.getAllPuntos();
     this.getAllTipoDocumento();
-
-    this.buscarPlantaByCodigo();
 
     this.createForm();
   }
@@ -190,43 +188,46 @@ export class PlantaNuevaComponent implements OnInit {
   }
 
   buscarPlantaByCodigo(): void {
-    this.plantaService.getPlantaByCargo(8585).subscribe({
+    let nroCodigo = this.formCargo.get('idCargo')?.value;
+    this.plantaService.getPlantaByCargo(nroCodigo).subscribe({
       next: (res) => {
         this.planta = res;
-        console.log('Valor de Planta de Cargo ' + JSON.stringify(this.planta));
+        // console.log('Valor de Planta de Cargo ' + JSON.stringify(this.planta));
       },
     });
   }
 
   buscarCargos(): void {
     if (this.formCargo.get('idCargo')?.value != undefined) {
-      this.cargoService.getCargoByCodigo(8585).subscribe({
-        next: (res) => {
-          this.cargo = res;
+      this.cargoService
+        .getCargoByCodigo(this.formCargo.get('idCargo')?.value)
+        .subscribe({
+          next: (res) => {
+            this.cargo = res;
 
-          if (this.cargo != undefined) {
-            this.formCargo.patchValue({
-              tipoCargo: this.cargo.puntoId.tipo_cargo.cargo,
-              caracter: this.cargo.caracter.id,
-              estadoCargo: this.cargo.estadoCargo.id,
-              transfCreacionId: this.cargo.transfCreacionId.id,
-              transfSupresionId:
-                this.cargo.transfSupresionId !== null
-                  ? this.cargo.transfSupresionId.id
-                  : 0,
-              unidadOrganizativaId: this.cargo.unidadOrganizativaId.id,
-              puntoId:
-                this.cargo.puntoId.id +
-                ' ' +
-                this.cargo.puntoId.tipo_cargo.cargo +
-                ' ' +
-                this.cargo.puntoId.puntos_disponibles,
-            });
+            if (this.cargo != undefined) {
+              this.formCargo.patchValue({
+                tipoCargo: this.cargo.puntoId.tipo_cargo.cargo,
+                caracter: this.cargo.caracter.id,
+                estadoCargo: this.cargo.estadoCargo.id,
+                transfCreacionId: this.cargo.transfCreacionId.id,
+                transfSupresionId:
+                  this.cargo.transfSupresionId !== null
+                    ? this.cargo.transfSupresionId.id
+                    : 0,
+                unidadOrganizativaId: this.cargo.unidadOrganizativaId.id,
+                puntoId:
+                  this.cargo.puntoId.id +
+                  ' ' +
+                  this.cargo.puntoId.tipo_cargo.cargo +
+                  ' ' +
+                  this.cargo.puntoId.puntos_disponibles,
+              });
 
-            console.log('Cargo ' + JSON.stringify(this.cargo));
-          }
-        },
-      });
+              // console.log('Cargo ' + JSON.stringify(this.cargo));
+            }
+          },
+        });
     }
   }
 
@@ -251,5 +252,25 @@ export class PlantaNuevaComponent implements OnInit {
         },
       });
     }
+  }
+
+  onSave() {
+    //console.log('Carogoooooooo ' + JSON.stringify(this.cargo));
+    this.planta.cargoId = this.cargo;
+    this.planta.agenteId = this.agente;
+    this.planta.fechaMovimiento = this.formAgente.get('fechaMovimiento')?.value;
+    this.planta.motivoMovimiento =
+      this.formAgente.get('motivoMovimiento')?.value;
+    this.planta.fechaInicio = this.formAgente.get('fechaInicio')?.value;
+    this.planta.resolucionInicio =
+      this.formAgente.get('resolucionInicio')?.value;
+    this.planta.fechaFin = this.formAgente.get('fechaFin')?.value;
+    this.planta.resolucionFin = this.formAgente.get('resolucionFin')?.value;
+
+    this.plantaService.crearPlanta(this.planta).subscribe({
+      next: (res) => {
+        console.log('La planta se guardo con exito ');
+      },
+    });
   }
 }

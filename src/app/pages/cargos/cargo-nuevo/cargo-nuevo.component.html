@@ -21,9 +21,9 @@
                 >Caracter Cargo.</label
               >
               <select
-                name="caracter_cargo"
-                id="caracter_cargo"
-                formControlName="caracter_cargo"
+                name="caracter"
+                id="caracter"
+                formControlName="caracter"
                 class="form-control"
                 (change)="changePuntos($event)"
               >
@@ -53,9 +53,9 @@
             <div class="col-md-6">
               <label for="estado_cargo" class="form-label">Estado Cargo.</label>
               <select
-                name="estado_cargo"
-                id="estado_cargo"
-                formControlName="estado_cargo"
+                name="estadoCargo"
+                id="estadoCargo"
+                formControlName="estadoCargo"
                 class="form-control"
               >
                 <option [ngValue]="estado" *ngFor="let estado of estado_cargos">

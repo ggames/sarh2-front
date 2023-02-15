@@ -36,6 +36,7 @@
                 id="caracter"
                 formControlName="caracter"
                 class="form-control"
+                [attr.disabled]="true"
               >
                 <option
                   [ngValue]="caracter.id"
@@ -51,11 +52,12 @@
                 name="estadoCargo"
                 id="estadoCargo"
                 formControlName="estadoCargo"
+                (change)="cambiarEstadoCargo($event)"
                 class="form-control"
               >
                 <option
-                  *ngFor="let estado of estadocargo_list"
                   [ngValue]="estado.id"
+                  *ngFor="let estado of estadocargo_list"
                 >
                   {{ estado.nombre }}
                 </option>
@@ -81,7 +83,7 @@
             </div>
             <div class="col-md-4">
               <label for="tranfSupresionId" class="form-label"
-                >Transf Creacion</label
+                >Transf Supresión</label
               >
               <select
                 name="tranfSupresionId"
@@ -99,7 +101,7 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label for="unidadOrganizativaId|" class="form-label"
+              <label for="unidadOrganizativaId" class="form-label"
                 >Unidad Org.</label
               >
               <select
@@ -107,6 +109,7 @@
                 id="unidadOrganizativaId"
                 formControlName="unidadOrganizativaId"
                 class="form-control"
+                [attr.disabled]="true"
               >
                 <option [ngValue]="0">Sin Información</option>
                 <option
@@ -171,6 +174,7 @@
                 id="nombre"
                 name="nombre"
                 formControlName="nombre"
+                readonly
               />
             </div>
             <div class="col-md-4">
@@ -181,6 +185,7 @@
                 id="apellido"
                 name="apellido"
                 formControlName="apellido"
+                readonly
               />
             </div>
             <div class="col-md-4">
@@ -281,7 +286,13 @@
               ></textarea>
             </div>
             <div class="col-md-12">
-              <button type="submit" class="btn btn-primary">Confirmar</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="editarPlanta()"
+              >
+                Confirmar
+              </button>
             </div>
           </form>
         </div>
