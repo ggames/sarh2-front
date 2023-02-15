@@ -26,7 +26,7 @@ export class PuntoService {
     console.log(
       'URL Puntos PARAMETROS ' +
         this.puntoURL +
-        `transitorios/${transitorio}` +
+        `transitorios/${transitorio}/` +
         params.toString()
     );
 
