@@ -11,3 +11,7 @@ mat-card-header{
   mat-card{
     padding:0;
   }
+
+  .color {
+    background-color: green;
+  }

@@ -166,7 +166,7 @@ export class PlantaNuevaComponent implements OnInit {
   }
 
   getAllPuntos(): void {
-    this.puntoService.getPuntos(true, [3, 5]).subscribe({
+    this.puntoService.getPuntosLibres(true, [3, 5]).subscribe({
       next: (resp) => {
         this.puntos_list = resp;
       },

@@ -1,7 +1,7 @@
 import { DialogPuntosComponent } from './../dialog/dialogPuntos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PuntoOrigenRequest } from './../../../models/puntoorigen-request';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { UnidadesOrganizativasModule } from './../../unidades-organizativas/unidades-organizativas.module';
 import { PuntoOrigen } from './../../../models/punto-origen';
@@ -12,6 +12,8 @@ import {
   ReplaySubject,
   debounceTime,
   debounce,
+  timeout,
+  timer,
 } from 'rxjs';
 import { PuntosDTO } from '../../../models/puntos-dto';
 import { TipoCargo } from '../../../models/tipo-cargo';
@@ -25,13 +27,18 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import { PuntoService } from '../../../services/punto.service';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-puntos',
@@ -48,24 +55,50 @@ import { SelectionModel } from '@angular/cdk/collections';
     ]),
   ],
 })
-export class NuevoPuntoComponent implements OnInit, OnDestroy {
+export class NuevoPuntoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  @ViewChild('tipoCargo', { static: false })
+  tipoCargo!: ElementRef<HTMLInputElement>;
 
   datasource = new MatTableDataSource<PuntosDTO>();
 
+  // ****  VARIABLES DE PAGINACION ****************** ////
+
+  pageSize = 5;
+  i: number = 1;
+  desde: number = 0;
+  hasta: number = 5;
+
+  // ***** TOTALIZADORES, RESTOS , CANTIDADES  ********** ///
+
   puntos_disponibles = 0;
 
-  total = 0;
+  subtotal = 0;
+
+  resto = 0;
+
+  ocupado = 0;
 
   cantidad = 0;
 
+  data!: number;
+
+  // ****** VARIABLES BOOLEANAS ************************
+
+  confirmado = false;
+
   block = false;
 
-  cantidadOcupados = 0;
+  submitted = false;
+
+  //********** VARIABLES DE FORMULARIOS  ******/
 
   formPunto!: FormGroup;
 
   formDetalle!: FormGroup;
+
+  //********** VARIABLES ARRAYS ******** */
 
   detalleOrigenes: PuntoOrigenRequest[] = [];
 
@@ -73,21 +106,21 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
 
   puntosDisponible: PuntosDTO[] = [];
 
-  punto!: Puntos;
-
-  tipo_c!: TipoCargo;
-
   tipocargos: TipoCargo[] = [];
 
-  puntos: PuntosDTO[] = [];
-
-  readonly width: string = '800px';
+  puntos_libres: PuntosDTO[] = [];
 
   subscripciones: Subscription[] = [];
 
   private puntos$!: Subject<Puntos>;
 
   private puntoDetalles$!: ReplaySubject<PuntoOrigen[]>;
+
+  punto!: Puntos;
+
+  tipo_c!: TipoCargo;
+
+  readonly width: string = '800px';
 
   constructor(
     private puntoService: PuntoService,
@@ -99,10 +132,11 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
     this.puntos$ = new Subject();
     this.puntoDetalles$ = new ReplaySubject();
   }
-  ngOnDestroy(): void {
+
+  /*   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
-
+ */
   ngOnInit(): void {
     console.log('AddPuntoComponent: onInit');
 
@@ -110,36 +144,27 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
 
     this.punto.origenes = [];
 
-    //this.puntoDetalle = new PuntoOrigen();
-
     this.getTipoCargos();
 
     this.createForm();
   }
 
+  get f() {
+    return this.formPunto.controls;
+  }
+
+  cambiarPagina(e: PageEvent) {
+    this.desde = e.pageIndex * e.pageSize;
+    this.hasta = this.desde + e.pageSize;
+  }
+
   createForm() {
     this.formPunto = this.fb.group({
       // id: [this.punto.id],
-      tipo_cargo: [this.punto.tipo_cargo ?? null, Validators.required],
-      puntos_disponibles: [
-        this.punto.puntos_disponibles ?? null,
-        Validators.required,
-      ],
-      transitorio: [this.punto.transitorio ?? null],
+      tipo_cargo: [null, Validators.required],
+      puntos_disponibles: [0],
+      transitorio: [''],
     });
-
-    this.formPunto.get('tipo_cargo')?.valueChanges.subscribe((valor) => {
-      //this.formPunto.setValue({ tipo_cargo: valor.id });
-      console.log('VALOR ' + JSON.stringify(valor));
-    });
-
-    /* this.subcripcionPunto =
-      this.formDetalle
-        .get('punto_origen')
-        ?.valueChanges.pipe(debounceTime(700))
-        .subscribe((data) => {}) || Subscription.EMPTY;
-
-    this.subscripciones.push(this.subcripcionPunto); */
   }
 
   /**
@@ -149,12 +174,15 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
    */
 
   cambiarTipo() {
-    this.tipoCargoService
-      .getTipoCargo(this.formPunto.get('tipo_cargo')?.value)
-      .subscribe({
+    const id = this.formPunto.get('tipo_cargo')?.value;
+    if (id !== undefined || id !== null || id !== 0) {
+      this.block = true;
+
+      this.tipoCargoService.getTipoCargo(id).subscribe({
         next: (res) => {
-          console.log('Cantidad de puntos ' + res.cantidad_puntos);
-          this.cantidad = res.cantidad_puntos;
+          //  console.log('Cantidad de puntos ' + res.cantidad_puntos);
+          this.cantidad = res.cantidad_puntos ?? null;
+          this.data = res.cantidad_puntos;
           this.tipo_c = res;
           this.formPunto.patchValue({
             tipo_cargo: res.id ?? null,
@@ -165,6 +193,16 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
           console.log('No existe el tipo de cargo');
         },
       });
+
+      this.getPuntosLibres();
+      this.puntosDetalles = [];
+      this.confirmado = false;
+      this.submitted = false;
+      this.subtotal = 0;
+    } else {
+      this.block = false;
+      this.getPuntosLibres();
+    }
   }
 
   getTipoCargos() {
@@ -179,13 +217,16 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
   }
 
   addPuntosOrigen(): void {
-    // console.log('PUNTOS ASOCIADOS ' + JSON.stringify(this.formPunto.value));
+    let puntoNuevo = new Puntos();
+    puntoNuevo.tipo_cargo = this.tipo_c;
+    puntoNuevo.puntos_disponibles =
+      this.formPunto.get('puntos_disponibles')?.value;
+    puntoNuevo.transitorio = this.formPunto.get('transitorio')?.value;
 
     this.puntosDetalles.forEach((x) =>
-      //this.selection.selected.forEach((x) =>
       this.detalleOrigenes.push({
         puntoOrigenId: x?.id,
-        puntoId: this.formPunto.value,
+        puntoId: puntoNuevo,
         cantOcupados: x.cant_ocupados,
       })
     );
@@ -193,30 +234,68 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
     //    console.log('Puntos Origen ' + JSON.stringify(this.detalleOrigenes));
   }
 
-  calcularPuntosOcupado(row: PuntosDTO) {
-    this.total = row.puntos_disponibles;
-    if (this.total <= this.cantidad) {
-      row.cant_ocupados = row.puntos_disponibles;
-      row.puntos_disponibles -= this.total;
-      this.cantidad -= row.cant_ocupados;
-      this.cantidadOcupados += row.cant_ocupados;
-      this.puntosDetalles.push(row);
-    } else {
-      row.puntos_disponibles = this.total - this.cantidad;
-      row.cant_ocupados = this.cantidad;
-      this.puntosDetalles.push(row);
-      this.cantidadOcupados += row.cant_ocupados;
-    }
+  // La funcion CALCULAR se utiliza
 
-    let cant = this.formPunto.get('puntos_disponibles')?.value;
-    if (this.cantidadOcupados === cant) {
-      this.block = true;
-    }
+  calcular() {
+    let total = 0;
+    this.subtotal = 0;
 
-    // console.log(' Listar Puntos ' + JSON.stringify(this.selection.selected));
+    let totalptosCargo = this.data;
+
+    this.puntos_libres.forEach((elem) => {
+      // Si se tilda una fila realiza todos los calculos
+
+      if (elem.checked) {
+        // Con este control verifico que la sumaria (subtotal) no supere la cantidad
+        // de puntos asociado al tipo de cargo
+
+        if (this.subtotal < this.data) {
+          // Cambia el color de la fila tildada si no supera a la cantidad de ptos asociados
+          // al Tipo de cargo
+          elem.color = 'bg-success';
+
+          this.resto = elem.puntos_disponibles - totalptosCargo;
+
+          this.ocupado = elem.puntos_disponibles - Math.max(0, this.resto);
+
+          elem.cant_ocupados = this.ocupado;
+
+          totalptosCargo = Math.abs(this.resto);
+
+          total += elem.cant_ocupados;
+
+          this.subtotal = total;
+
+          // Este control verifica que el calculo total si supera a la cantidad de puntos
+          // desmarca el check y cambia el color de la fila a vacio
+          if (total > this.data) {
+            elem.checked = false;
+            elem.color = '';
+            elem.cant_ocupados = 0;
+            // this.subtotal = total;
+          }
+        } else {
+          elem.checked = false;
+          elem.cant_ocupados = 0;
+          elem.color = '';
+        }
+      } else {
+        elem.cant_ocupados = 0;
+        elem.color = '';
+        elem.checked = false;
+        //total = 0;
+        //this.subtotal = 0;
+      }
+    });
   }
 
   onSave(): void {
+    this.submitted = true;
+
+    if (this.formPunto.invalid) {
+      return;
+    }
+
     this.addPuntosOrigen();
 
     this.punto = {
@@ -226,9 +305,9 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
       origenes: [],
     };
 
-    // console.log('VALOR DE TRANSITORIO ' + this.punto.transitorio);
-
     this.punto.origenes = this.detalleOrigenes;
+
+    console.log('VALOR DE TRANSITORIO ' + JSON.stringify(this.punto.origenes));
 
     this.puntoService.savePunto(this.punto).subscribe({
       next: (res) => {
@@ -238,9 +317,11 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
         console.log('No se puede guardar el punto');
       },
     });
+
+    this.formReset();
   }
 
-  abrirDialogo(): void {
+  /*  abrirDialogo(): void {
     const dialogRef = this.dialog.open(DialogPuntosComponent, {
       width: this.width,
       data: this.formPunto.get('puntos_disponibles')?.value,
@@ -253,5 +334,52 @@ export class NuevoPuntoComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+ */
+  getPuntosLibres() {
+    this.puntoService.getPuntosLibres(false, [1, 2]).subscribe((res) => {
+      this.puntos_libres = res;
+    });
+  }
+
+  /* calcularPunto(pto: PuntosDTO, isChecked: boolean) {
+    console.log('CANTIDAD DE PUNTOS ASOCIADOS ' + this.data);
+
+    if (isChecked) {
+      this.resto = pto.puntos_disponibles - this.data;
+      this.ocupado = pto.puntos_disponibles - Math.max(0, this.resto);
+
+      pto.cant_ocupados = this.ocupado;
+      pto.puntos_disponibles = Math.max(0, this.resto);
+
+      this.data = Math.abs(this.resto);
+      this.total += pto.cant_ocupados;
+      // console.log('TOTAL PUNTOS ' + (this.punto_disponible_aux === this.total));
+    }
+  }
+ */
+  confirmarPuntos(): PuntosDTO[] {
+    let suma = 0;
+
+    this.puntos_libres.forEach((x) => {
+      let resta;
+      if (x.checked && x.cant_ocupados > 0) {
+        resta = x.puntos_disponibles - x.cant_ocupados;
+        x.puntos_disponibles = resta;
+        this.puntosDetalles.push(x);
+        suma += x.puntos_disponibles;
+      }
+    });
+    this.confirmado = true;
+    return this.puntos_libres;
+  }
+
+  formReset(): void {
+    this.formPunto.reset();
+    this.getPuntosLibres();
+    this.puntosDetalles = [];
+    this.puntosDisponible = [];
+    this.confirmado = false;
+    this.submitted = false;
   }
 }

@@ -78,7 +78,7 @@ export class CargoNuevoComponent implements OnInit {
     let valor = this.formCargo.get('caracter')?.value;
 
     if (valor.id === 3) {
-      this.ptoService.getPuntos(true, [1, 2]).subscribe({
+      this.ptoService.getPuntosLibres(true, [1, 2]).subscribe({
         next: (res) => {
           this.puntos = res;
         },
@@ -87,7 +87,7 @@ export class CargoNuevoComponent implements OnInit {
         },
       });
     } else {
-      this.ptoService.getPuntos(false, [1, 2]).subscribe({
+      this.ptoService.getPuntosLibres(false, [1, 2]).subscribe({
         next: (res) => {
           this.puntos = res;
         },
@@ -99,7 +99,7 @@ export class CargoNuevoComponent implements OnInit {
   }
 
   getPuntos(): void {
-    this.ptoService.getPuntos(true, [3, 5]).subscribe({
+    this.ptoService.getPuntosLibres(true, [3, 5]).subscribe({
       next: (res) => {
         this.puntos = res;
       },

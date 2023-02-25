@@ -1,3 +1,4 @@
+import { PuntoDetail } from './../models/puntoDetail';
 import { HttpClient } from '@angular/common/http';
 import { Planta } from './../models/planta';
 import { Observable } from 'rxjs';
@@ -11,6 +12,10 @@ export class PlantaService {
   plantaURL = environment.plantaURL;
 
   constructor(private http: HttpClient) {}
+
+  getPuntosOcupadosLibres(): Observable<PuntoDetail[]> {
+    return this.http.get<PuntoDetail[]>(this.plantaURL + 'libres/ocupado');
+  }
 
   getPlantaById(id: number): Observable<Planta> {
     return this.http.get<Planta>(this.plantaURL + `${id}`);

@@ -1,8 +1,8 @@
 import { Puntos } from './puntos';
-export interface TipoCargo {
+export class TipoCargo {
   id?: number;
-  cargo: string;
-  cantidad_puntos: number;
-  basico: number;
-  puntos: Puntos[];
+  cargo!: string;
+  cantidad_puntos: number = 0;
+  basico!: number;
+  puntos!: Puntos[];
 }

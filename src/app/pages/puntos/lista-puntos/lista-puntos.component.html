@@ -1,0 +1,46 @@
+<div class="con"></div>
+<div class="row gt-3">
+  <div class="box-row animate_animated animate_fadeIn">
+    <div class="row">
+      <div class="d-flex">
+        <button class="btn btn-success ml-auto">Agregar</button>
+      </div>
+      <div class="row">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre y Apellido</th>
+              <th>Tipo Cargo</th>
+              <th>Estado Cargo</th>
+              <th>Cod. Cargo</th>
+              <th>Ptos Disponibles</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              [ngClass]="ocupadoLibres[i].color"
+              *ngFor="
+                let punto of ocupadoLibres | slice : desde : hasta;
+                let i = index
+              "
+            >
+              <td>{{ punto.id }}</td>
+              <td>{{ punto.apellido }} - {{ punto.nombre }}</td>
+              <td>{{ punto.cargo }}</td>
+              <td>{{ punto.estado }}</td>
+              <td>{{ punto.codCargo }}</td>
+              <td>{{ punto.disponible }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator
+          [pageSize]="pageSize"
+          [length]="ocupadoLibres.length"
+          (page)="cambiarPagina($event)"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

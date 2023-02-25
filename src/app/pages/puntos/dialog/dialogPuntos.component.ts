@@ -58,7 +58,7 @@ export class DialogPuntosComponent implements OnInit {
   }
 
   getPuntosLibres() {
-    this.puntoService.getPuntos(false, [1, 2]).subscribe((res) => {
+    this.puntoService.getPuntosLibres(false, [1, 2]).subscribe((res) => {
       this.datos = res;
     });
   }

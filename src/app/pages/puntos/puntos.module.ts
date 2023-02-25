@@ -35,8 +35,8 @@ import { DialogPuntosComponent } from './dialog/dialogPuntos.component';
   imports: [
     CommonModule,
     FormsModule,
-    PuntosRoutingModule,
     ReactiveFormsModule,
+    PuntosRoutingModule,
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,

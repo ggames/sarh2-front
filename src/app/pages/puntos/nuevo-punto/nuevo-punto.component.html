@@ -2,23 +2,38 @@
   <div class="row mt-3">
     <div class="col-md">
       <div class="card">
-        <div class="card-header">Creación Punto</div>
+        <div class="h4" style="color: #1884e9f5">
+          <div class="m-3" style="font-weight: bold">Creación Punto</div>
+        </div>
         <div class="card-body">
-          <h4 class="card-title text-left lead mark">Datos de Punto</h4>
+          <div class="h2 text-left lead mark" style="font-weight: bold">
+            Datos de Punto
+          </div>
           <form class="row g-3" [formGroup]="formPunto" novalidate>
             <div class="col-md-6">
               <label for="" class="form-label">Pto. Cargo</label>
               <select
+                [ngClass]="{ 'is-invalid': submitted && f.tipo_cargo.errors }"
+                autofocus
                 name="tipo_cargo"
                 formControlName="tipo_cargo"
                 (change)="cambiarTipo()"
                 class="form-control"
+                #tipoCargo
               >
-                <option [value]="0">Seleccionar</option>
                 <option *ngFor="let tipo of tipocargos" [value]="tipo.id">
                   {{ tipo.id }} - {{ tipo.cargo }}
                 </option>
               </select>
+
+              <div
+                *ngIf="submitted && f.tipo_cargo.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.tipo_cargo.errors.required">
+                  El Tipo de Cargo es requerido
+                </div>
+              </div>
             </div>
             <div class="col-md-6">
               <label for="" class="form-label">Unidades Ptos.</label>
@@ -45,22 +60,96 @@
             </div>
             <div
               class="col-md-5 gap-3 d-md-flex justify-content-md-center mb-3"
-            >
-              <button
-                class="btn btn-primary"
-                mat-raised-button
-                (click)="abrirDialogo()"
-              >
-                Puntos Libres
-              </button>
+            ></div>
+          </form>
+
+          <div>
+            <div class="card-body">
+              <h4 class="card-title text-left lead mark">
+                Datos de Puntos Disponibles
+              </h4>
+
+              <div mat-dialog-content *ngIf="block">
+                <div class="row">
+                  <table class="datatable">
+                    <thead>
+                      <th></th>
+                      <th>ID</th>
+                      <th>Tipo Cargo</th>
+                      <th>Ptos. Disponible</th>
+                      <th>Ptos. Ocupado</th>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <td
+                          colspan="4"
+                          style="
+                            font-weight: bold;
+                            font-size: larger;
+                            text-align: right;
+                          "
+                        >
+                          TOTAL:
+                        </td>
+                        <td style="font-weight: bold; font-size: larger">
+                          {{ subtotal }}
+                        </td>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <tr
+                        [ngClass]="puntos_libres[i].color"
+                        *ngFor="
+                          let punto of puntos_libres | slice : desde : hasta;
+                          let i = index
+                        "
+                      >
+                        <td>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="punto_{{ punto.id }}"
+                              value="{{ punto.id }}"
+                              (change)="calcular()"
+                              [(ngModel)]="puntos_libres[i].checked"
+                              [disabled]="confirmado"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="punto_{{ punto.id }}"
+                            >
+                            </label>
+                          </div>
+                        </td>
+                        <td>{{ punto.id }}</td>
+                        <td>{{ punto.tipo_cargo.cargo }}</td>
+                        <td>{{ punto.puntos_disponibles }}</td>
+                        <td>{{ punto.cant_ocupados }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <mat-paginator
+                    [pageSizeOptions]="[5, 10, 20]"
+                    [length]="puntos_libres.length"
+                    (page)="cambiarPagina($event)"
+                    showFirstLastButtons
+                  ></mat-paginator>
+                </div>
+              </div>
             </div>
 
             <div class="gap-3 d-md-flex justify-content-md-center mb-3">
-              <button class="btn btn-primary" type="button" (click)="onSave()">
-                Confirmar Punto
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="confirmarPuntos()"
+                [disabled]="confirmado"
+              >
+                Confirmar
               </button>
             </div>
-          </form>
+          </div>
 
           <table class="datatable">
             <thead>
@@ -78,6 +167,11 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="gap-3 d-md-flex justify-content-md-center mb-3">
+          <button class="btn btn-primary" type="button" (click)="onSave()">
+            Confirmar Punto
+          </button>
         </div>
       </div>
     </div>

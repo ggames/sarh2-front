@@ -9,6 +9,7 @@ export class PuntosDTO {
   puntos_disponibles!: number;
   cant_ocupados!: number;
   checked: boolean = false;
+  color: string = '';
 }
 
 // checked?: boolean = false;

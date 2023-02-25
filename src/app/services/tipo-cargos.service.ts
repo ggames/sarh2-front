@@ -3,6 +3,7 @@ import { TipoCargo } from './../models/tipo-cargo';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PorcentajeIndiceDto } from '../dto/porcentaje-indice.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -29,5 +30,9 @@ export class TipoCargosService {
       this.TipoCargoURL + `update/${tipoCargo.id}`,
       tipoCargo
     );
+  }
+
+  updateAllTipoCargo(porcentaje: PorcentajeIndiceDto): Observable<boolean> {
+    return this.http.put<boolean>(this.TipoCargoURL + 'updateAll', porcentaje);
   }
 }
