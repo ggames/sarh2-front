@@ -1,3 +1,4 @@
+import { DialogTipoCargoIndivComponent } from './dialog-tipo-cargo/dialog-tipo-cargo-indiv.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +12,11 @@ import { TipoCargosRoutingModule } from './tipo-cargos-routing.module';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 
 @NgModule({
-  declarations: [ListarTipoComponent, DialogTipoCargoComponent],
+  declarations: [
+    ListarTipoComponent,
+    DialogTipoCargoComponent,
+    DialogTipoCargoIndivComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,

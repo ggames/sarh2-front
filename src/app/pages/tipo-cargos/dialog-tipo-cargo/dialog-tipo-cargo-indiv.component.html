@@ -1,33 +1,29 @@
-<mat-card-title> Actualizar Tipo de Cargo </mat-card-title>
+<mat-card-title> {{ tipo_cargo.cargo }} </mat-card-title>
 <div class="container mt-3">
   <mat-dialog-content>
-    <form [formGroup]="formTipoCargo">
+    <form [formGroup]="tipoCargoForm">
       <div class="form-group">
-        <label for="porcentaje" id="porcentaje" class="form-label"
-          >Porcentaje Paritaria</label
-        >
+        <label for="basico" id="basico" class="form-label">Sueldo Basico</label>
         <input
           type="number"
           step="0.01"
-          value="1.00"
-          name="porcentaje"
-          id="porcentaje"
+          name="basico"
+          id="basico"
           class="form-control"
-          formControlName="porcentaje"
+          formControlName="basico"
         />
       </div>
       <div class="form-group">
-        <label for="indice" id="indice" class="form-label"
-          >Indice Actualización Ptos Doc</label
+        <label for="cantidad_puntos" id="cantidad_puntos" class="form-label"
+          >Puntos de Cargo</label
         >
         <input
           type="number"
           step="0.01"
-          value="1.01"
-          name="indice"
-          id="indice"
+          name="cantidad_puntos"
+          id="cantidad_puntos"
           class="form-control"
-          formControlName="indice"
+          formControlName="cantidad_puntos"
         />
       </div>
 
@@ -39,7 +35,7 @@
       </button>
       <button
         class="btn btn-success waves-effect waves-light mb-2"
-        (click)="actualizarTipoCargo()"
+        (click)="editarTipoCargo()"
       >
         Guardar
       </button>

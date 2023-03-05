@@ -1,3 +1,4 @@
+import { DialogTipoCargoIndivComponent } from './../dialog-tipo-cargo/dialog-tipo-cargo-indiv.component';
 import { DialogTipoCargoComponent } from './../dialog/dialog-tipo-cargo.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -46,6 +47,15 @@ export class ListarTipoComponent implements OnInit {
   openDialog() {
     const dialogRef = this.matDialog.open(DialogTipoCargoComponent, {
       width: this.width,
+    });
+
+    dialogRef.afterClosed().subscribe(() => this.obtenerAllTipoCargos());
+  }
+
+  editDialog(tipo: TipoCargo) {
+    const dialogRef = this.matDialog.open(DialogTipoCargoIndivComponent, {
+      width: this.width,
+      data: tipo,
     });
 
     dialogRef.afterClosed().subscribe(() => this.obtenerAllTipoCargos());

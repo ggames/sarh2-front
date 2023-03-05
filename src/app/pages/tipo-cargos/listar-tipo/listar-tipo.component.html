@@ -1,59 +1,64 @@
-<div class="row gt-3">
-  <div class="box-row animate_animated animate_fadeIn">
-    <div class="row">
-      <div class="d-flex">
-        <button class="btn btn-success ml-auto" (click)="openDialog()">
-          Actualizar
-        </button>
+<div class="container m-3">
+  <div class="row gt-3">
+    <div class="box-row animate_animated animate_fadeIn">
+      <div class="row">
+        <div class="d-flex">
+          <button class="btn btn-success ml-auto" (click)="openDialog()">
+            Actualizar
+          </button>
+        </div>
+        <cdk-accordion class="accordion">
+          <cdk-accordion-item> </cdk-accordion-item>
+        </cdk-accordion>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo Cargo</th>
+              <th>Sueldo Basico</th>
+              <th>Puntos Cargo</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let tipo of tiposCargos | slice : desde : hasta;
+                let i = index
+              "
+            >
+              <th>{{ tipo.id }}</th>
+              <th>
+                <div role="button" style="cursor: pointer">
+                  {{ tipo.cargo }}
+                </div>
+              </th>
+              <th>{{ tipo.basico }}</th>
+              <th>
+                {{ tipo.cantidad_puntos }}
+              </th>
+
+              <th class="d-flex justify-content-center">
+                <a class="btn btn-primary mr-3">
+                  <i
+                    class="fa fa-pencil-square-o"
+                    (click)="editDialog(tipo)"
+                  ></i>
+                </a>
+                <button class="btn btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator
+          [length]="tiposCargos.length"
+          [pageSize]="pageSize"
+          (page)="cambiarPagina($event)"
+        ></mat-paginator>
       </div>
-      <cdk-accordion class="accordion">
-        <cdk-accordion-item> </cdk-accordion-item>
-      </cdk-accordion>
-
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tipo Cargo</th>
-            <th>Sueldo Basico</th>
-            <th>Puntos Cargo</th>
-            <th class="text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let tipo of tiposCargos | slice : desde : hasta;
-              let i = index
-            "
-          >
-            <th>{{ tipo.id }}</th>
-            <th>
-              <div role="button" style="cursor: pointer">
-                {{ tipo.cargo }}
-              </div>
-            </th>
-            <th>{{ tipo.basico }}</th>
-            <th>
-              {{ tipo.cantidad_puntos }}
-            </th>
-
-            <th class="d-flex justify-content-center">
-              <a class="btn btn-primary mr-3">
-                <i class="fa fa-pencil-square-o"></i>
-              </a>
-              <button class="btn btn-danger">
-                <i class="fa fa-trash-o"></i>
-              </button>
-            </th>
-          </tr>
-        </tbody>
-      </table>
-      <mat-paginator
-        [length]="tiposCargos.length"
-        [pageSize]="pageSize"
-        (page)="cambiarPagina($event)"
-      ></mat-paginator>
     </div>
   </div>
 </div>
