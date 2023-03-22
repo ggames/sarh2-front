@@ -3,7 +3,7 @@ export class Agente {
   id?: number;
   nombre!: string;
   apellido!: string;
-  tipoDocId?: TipoDocumento;
+  tipoDocId!: TipoDocumento;
   documento!: string;
   fechaNac!: string;
   email!: string;

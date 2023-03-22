@@ -21,6 +21,8 @@ export const environment = {
   EstadoCargoURL: URL + 'estadocargo/',
   cargoURL: URL + 'cargo/',
   plantaURL: URL + 'planta/',
+  subunidadURL: URL + 'subunidad/',
+  rolplantaURL: URL + 'rolplanta/',
 };
 
 /*

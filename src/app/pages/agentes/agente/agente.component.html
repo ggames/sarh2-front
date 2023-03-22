@@ -63,24 +63,24 @@
                     let i = index
                   "
                 >
-                  <th>{{ agente.id }}</th>
-                  <th>
+                  <td>{{ agente.id }}</td>
+                  <td>
                     <div role="button" style="cursor: pointer">
-                      {{ agente.tipoDocId?.nombre }} : {{ agente.documento }}
+                      {{ agente.tipoDocId.nombre }} : {{ agente.documento }}
                     </div>
-                  </th>
-                  <th>{{ agente.apellido }} {{ agente.nombre }}</th>
-                  <th>
+                  </td>
+                  <td>{{ agente.apellido }} {{ agente.nombre }}</td>
+                  <td>
                     {{ agente.legajo }}
-                  </th>
-                  <th>
+                  </td>
+                  <td>
                     {{ agente.email }}
-                  </th>
-                  <th>
+                  </td>
+                  <td>
                     {{ agente.telefono }}
-                  </th>
+                  </td>
 
-                  <th class="d-flex justify-content-center">
+                  <td class="d-flex justify-content-center">
                     <button
                       class="btn btn-primary mr-3"
                       (click)="openEdit(agente)"
@@ -90,7 +90,7 @@
                     <button class="btn btn-danger">
                       <i class="fa fa-trash-o"></i>
                     </button>
-                  </th>
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -74,32 +74,35 @@ export class DialogAgenteComponent implements OnInit {
     @Inject(LOCALE_ID) public locale: string,
     public dialogRef: MatDialogRef<DialogAgenteComponent>,
     @Inject(MAT_DIALOG_DATA) public agente: Agente
-  ) {
-    this.createForm();
-
-    if (this.agente != null) {
-      this.agentForm.setValue({
-        nombre: this.agente.nombre,
-        apellido: this.agente.apellido,
-        tipoDocId: this.agente.tipoDocId?.id,
-        documento: this.agente.documento,
-        fechaNac: moment(this.agente.fechaNac).format(),
-        legajo: this.agente.legajo,
-        domicilio: this.agente.domicilio,
-        email: this.agente.email,
-        telefono: this.agente.telefono,
-      });
-
-      // this.myDate = this.agente.fechaNac;
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
     //console.log('Fecha Nacimiento ' + this.myDate);
 
     this.getTipoDocumentos();
 
-    // this.createForm();
+    this.createForm();
+
+    if (this.agente != null) {
+      this.cargarAgente(this.agente);
+    }
+  }
+
+  cargarAgente(agente: Agente): void {
+    let values_agente = {
+      nombre: this.agente.nombre,
+      apellido: this.agente.apellido,
+      tipoDocId: this.agente.tipoDocId?.id,
+      documento: this.agente.documento,
+      fechaNac: moment(this.agente.fechaNac).format(),
+      legajo: this.agente.legajo,
+      domicilio: this.agente.domicilio,
+      email: this.agente.email,
+      telefono: this.agente.telefono,
+    };
+
+    this.tipodocumento = this.agente.tipoDocId;
+    this.agentForm.setValue(values_agente);
   }
 
   createForm(): void {
@@ -130,7 +133,18 @@ export class DialogAgenteComponent implements OnInit {
   }
 
   addAgente() {
-    this.agenteService.saveAgente(this.agentForm.value).subscribe({
+    let agente_nuevo = {
+      nombre: this.agentForm.get('nombre')?.value,
+      apellido: this.agentForm.get('apellido')?.value,
+      tipoDocId: this.tipodocumento,
+      documento: this.agentForm.get('documento')?.value,
+      fechaNac: moment(this.agentForm.get('fechaNac')?.value).format(),
+      legajo: this.agentForm.get('legajo')?.value,
+      domicilio: this.agentForm.get('domicilio')?.value,
+      email: this.agentForm.get('email')?.value,
+      telefono: this.agentForm.get('telefono')?.value,
+    };
+    this.agenteService.saveAgente(agente_nuevo).subscribe({
       next: (res) => {
         console.log('El agente se ha registrado exitosamente');
       },
@@ -142,9 +156,31 @@ export class DialogAgenteComponent implements OnInit {
   }
 
   editAgente() {
-    this.agenteService.actualizarAgente(this.agentForm.value).subscribe({
+    let agente_update = {
+      id: this.agente.id,
+      nombre: this.agentForm.get('nombre')?.value,
+      apellido: this.agentForm.get('apellido')?.value,
+      tipoDocId: this.tipodocumento,
+      documento: this.agentForm.get('documento')?.value,
+      fechaNac: moment(this.agentForm.get('fechaNac')?.value).format(),
+      legajo: this.agentForm.get('legajo')?.value,
+      domicilio: this.agentForm.get('domicilio')?.value,
+      email: this.agentForm.get('email')?.value,
+      telefono: this.agentForm.get('telefono')?.value,
+    };
+    this.agenteService.actualizarAgente(agente_update).subscribe({
       next: (response) => {
         console.log('Edicion Agente ' + JSON.stringify(response));
+      },
+    });
+  }
+
+  cambiarTipoDocumento(id: any): void {
+    const _id = this.getValue(id);
+
+    this.tpdocumentoService.getTipoDocumentoById(_id).subscribe({
+      next: (res) => {
+        this.tipodocumento = res;
       },
     });
   }
@@ -153,6 +189,10 @@ export class DialogAgenteComponent implements OnInit {
     // if (this.actualizacionAgente) {
     this.myDate = event.target.valueAsDate;
     // }
+  }
+
+  getValue(event: any): number {
+    return event.target.value.split(':')[1];
   }
 
   onClose(): void {

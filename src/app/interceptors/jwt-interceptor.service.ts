@@ -54,8 +54,8 @@ export class JwtInterceptorService implements HttpInterceptor {
             })
           );
         } else {
-          this.tokenService.logOut();
-          return throwError(err);
+          // this.tokenService.logOut();
+          return throwError(() => err);
         }
       })
     );

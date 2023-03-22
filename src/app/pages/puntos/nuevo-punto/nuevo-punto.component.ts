@@ -161,8 +161,10 @@ export class NuevoPuntoComponent implements OnInit {
   createForm() {
     this.formPunto = this.fb.group({
       // id: [this.punto.id],
+      codPunto: [0, Validators.required],
       tipo_cargo: [null, Validators.required],
       puntos_disponibles: [0],
+      puntos_faltantes: [0],
       transitorio: [''],
     });
   }
@@ -298,9 +300,17 @@ export class NuevoPuntoComponent implements OnInit {
 
     this.addPuntosOrigen();
 
+    console.log(
+      'Puntos faltantes ' +
+        `${this.formPunto.get('puntos_disponibles')?.value - this.subtotal}`
+    );
+
     this.punto = {
+      codPunto: this.formPunto.get('codPunto')?.value,
       tipo_cargo: this.tipo_c,
       puntos_disponibles: this.formPunto.get('puntos_disponibles')?.value,
+      puntos_faltantes:
+        this.formPunto.get('puntos_disponibles')?.value - this.subtotal,
       transitorio: this.formPunto.get('transitorio')?.value,
       origenes: [],
     };
@@ -314,7 +324,7 @@ export class NuevoPuntoComponent implements OnInit {
         console.log('El punto se guardo con exito');
       },
       error: (err) => {
-        console.log('No se puede guardar el punto');
+        console.log(err.error.mensaje);
       },
     });
 

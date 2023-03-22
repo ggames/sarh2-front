@@ -3,10 +3,12 @@ import { PuntoOrigen } from './punto-origen';
 
 export class PuntosDTO {
   id?: number;
+  codPunto!: number;
   tipo_cargo!: TipoCargo;
   transitorio!: boolean;
   origenes!: PuntoOrigen[];
   puntos_disponibles!: number;
+  puntos_faltantes!: number;
   cant_ocupados!: number;
   checked: boolean = false;
   color: string = '';

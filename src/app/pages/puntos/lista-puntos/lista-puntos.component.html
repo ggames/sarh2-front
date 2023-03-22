@@ -15,11 +15,12 @@
                 <th>Estado Cargo</th>
                 <th>Cod. Cargo</th>
                 <th>Ptos Disponibles</th>
+                <th>Ptos Res 99</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                [ngClass]="ocupadoLibres[i].color"
+                [ngClass]="punto.color"
                 *ngFor="
                   let punto of ocupadoLibres | slice : desde : hasta;
                   let i = index
@@ -31,6 +32,7 @@
                 <td>{{ punto.estado }}</td>
                 <td>{{ punto.codCargo }}</td>
                 <td>{{ punto.disponible }}</td>
+                <td>{{ punto.faltantes }}</td>
               </tr>
             </tbody>
           </table>

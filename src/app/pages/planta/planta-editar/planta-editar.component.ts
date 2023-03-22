@@ -1,3 +1,6 @@
+import { RolPlantaService } from './../../../services/rol-planta.service';
+import { SubUnidadOrganizativa } from './../../../models/subunidad-organizativa';
+import { SubunidadOrganizativaService } from './../../../services/subunidad-organizativa.service';
 import { Cargo } from 'src/app/models/cargo';
 import { Agente } from './../../../models/agente';
 import { ActivatedRoute } from '@angular/router';
@@ -40,9 +43,9 @@ export class PlantaEditarComponent implements OnInit {
 
   transformacion_list: Transformacion[] = [];
 
-  unidadesorganizativa_list: UnidadOrganizativa[] = [];
+  subunidades: SubUnidadOrganizativa[] = [];
 
-  puntos_list: PuntosDTO[] = [];
+  puntos: PuntosDTO[] = [];
 
   tipodocumento_list: TipoDocumento[] = [];
 
@@ -62,9 +65,10 @@ export class PlantaEditarComponent implements OnInit {
     private tipoCargoService: TipoCargosService,
     private caracterService: CaracterService,
     private estadocargoService: EstadocargoService,
-    private unidadOrganizativaService: UnidadOrganizativaService,
+    private subunidadService: SubunidadOrganizativaService,
     private puntoService: PuntoService,
     private tipoDocumentoService: TipoDocumentoService,
+    private rolPlantaService: RolPlantaService,
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute
   ) {
@@ -72,12 +76,12 @@ export class PlantaEditarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllCaracteres();
-    this.getAllEstadosCargos();
-    this.getAllTransformaciones();
-    this.getAllUnidadesOrganizativas();
-    // this.getAllPuntos();
-    this.getAllTipoDocumento();
+    this.obtenerCaracteres();
+    this.obtenerEstadosCargos();
+    this.obtenerTransformaciones();
+    this.obtenerSubUnidadesOrganizativas();
+    this.obtenerTodosPuntos();
+    this.obtenerTipoDocumento();
 
     this.activatedRoute.params.subscribe((params: any) => {
       const _id = params?.id;
@@ -104,7 +108,7 @@ export class PlantaEditarComponent implements OnInit {
     this.formPlanta = this.fb.group({
       idCargo: [0, Validators.required],
       tipoCargo: [null],
-      unidadOrganizativaId: [null],
+      subunidadOrganizativaId: [null],
       caracter: [null, Validators.required],
       estadoCargo: [null, Validators.required],
       puntoId: [null],
@@ -125,7 +129,7 @@ export class PlantaEditarComponent implements OnInit {
     });
   }
 
-  getAllCaracteres(): void {
+  obtenerCaracteres(): void {
     this.caracterService.getCaracteres().subscribe({
       next: (resp) => {
         this.caracter_list = resp;
@@ -136,7 +140,7 @@ export class PlantaEditarComponent implements OnInit {
     });
   }
 
-  getAllEstadosCargos(): void {
+  obtenerEstadosCargos(): void {
     this.estadocargoService.getAllEstadosCargos().subscribe({
       next: (res) => {
         this.estadocargo_list = res;
@@ -146,7 +150,8 @@ export class PlantaEditarComponent implements OnInit {
       },
     });
   }
-  getAllTransformaciones(): void {
+
+  obtenerTransformaciones(): void {
     this.tr_service.getTransformaciones().subscribe({
       next: (resp) => {
         this.transformacion_list = resp;
@@ -157,10 +162,10 @@ export class PlantaEditarComponent implements OnInit {
     });
   }
 
-  getAllUnidadesOrganizativas(): void {
-    this.unidadOrganizativaService.getUnidades().subscribe({
+  obtenerSubUnidadesOrganizativas(): void {
+    this.subunidadService.obtenerSubunidades().subscribe({
       next: (resp) => {
-        this.unidadesorganizativa_list = resp;
+        this.subunidades = resp;
       },
       error: (err) => {
         console.log('No hay unidades organizativas cargadas');
@@ -168,10 +173,10 @@ export class PlantaEditarComponent implements OnInit {
     });
   }
 
-  getAllPuntos(): void {
-    this.puntoService.getPuntosLibres(true, [3, 5]).subscribe({
+  obtenerTodosPuntos(): void {
+    this.puntoService.obtenerPuntos().subscribe({
       next: (resp) => {
-        this.puntos_list = resp;
+        this.puntos = resp;
       },
       error: (err) => {
         console.log('No hay puntos creados');
@@ -179,7 +184,7 @@ export class PlantaEditarComponent implements OnInit {
     });
   }
 
-  getAllTipoDocumento(): void {
+  obtenerTipoDocumento(): void {
     this.tipoDocumentoService.getTipoDocumentos().subscribe({
       next: (resp) => {
         this.tipodocumento_list = resp;
@@ -194,7 +199,7 @@ export class PlantaEditarComponent implements OnInit {
     this.formPlanta.patchValue({
       idCargo: planta.cargoId.idCargo,
       tipoCargo: planta.cargoId.puntoId.tipo_cargo.cargo,
-      unidadOrganizativaId: planta.cargoId.unidadOrganizativaId?.id,
+      subunidadOrganizativaId: planta.subUnidadOrganizativaId.id,
       caracter: planta.cargoId.caracter?.id,
       estadoCargo: planta.cargoId.estadoCargo?.id,
       puntoId: planta.cargoId.puntoId?.id,

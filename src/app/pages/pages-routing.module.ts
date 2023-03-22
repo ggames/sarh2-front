@@ -34,6 +34,14 @@ const routes: Routes = [
         (m) => m.UnidadesOrganizativasModule
       ),
   },
+  {
+    path: 'subunidades',
+
+    loadChildren: () =>
+      import('./subunidad-organizativa/subunidad-organizativa.module').then(
+        (m) => m.SubunidadOrganizativaModule
+      ),
+  },
 
   {
     path: 'planta',

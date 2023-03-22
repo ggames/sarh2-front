@@ -6,5 +6,6 @@ export class PuntoDetail {
   estado!: string;
   codCargo!: number;
   disponible!: number;
+  faltantes!: number;
   color: string = 'bg-info';
 }

@@ -35,7 +35,7 @@
                 name="caracter"
                 id="caracter"
                 formControlName="caracter"
-                class="form-control"
+                class="form-select"
                 [attr.disabled]="true"
               >
                 <option
@@ -53,7 +53,7 @@
                 id="estadoCargo"
                 formControlName="estadoCargo"
                 (change)="cambiarEstadoCargo($event)"
-                class="form-control"
+                class="form-select"
               >
                 <option
                   [ngValue]="estado.id"
@@ -70,7 +70,7 @@
               <select
                 name="transfCreacionId"
                 id="transfCreacionId"
-                class="form-control"
+                class="form-select"
                 formControlName="transfCreacionId"
               >
                 <option
@@ -88,7 +88,7 @@
               <select
                 name="tranfSupresionId"
                 id="tranfSupresionId"
-                class="form-control"
+                class="form-select"
                 formControlName="transfSupresionId"
               >
                 <option [ngValue]="0">Sin Información</option>
@@ -101,34 +101,38 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label for="unidadOrganizativaId" class="form-label"
-                >Unidad Org.</label
+              <label for="SubunidadOrganizativaId" class="form-label"
+                >Materia</label
               >
               <select
-                name="unidadOrganizativaId"
-                id="unidadOrganizativaId"
-                formControlName="unidadOrganizativaId"
-                class="form-control"
-                [attr.disabled]="true"
+                name="subunidadOrganizativaId"
+                id="subunidadOrganizativaId"
+                formControlName="subunidadOrganizativaId"
+                class="form-select"
               >
                 <option [ngValue]="0">Sin Información</option>
                 <option
-                  [ngValue]="unidad.id"
-                  *ngFor="let unidad of unidadesorganizativa_list"
+                  [ngValue]="subunidad.id"
+                  *ngFor="let subunidad of subunidades"
                 >
-                  {{ unidad.nombre }}
+                  {{ subunidad.nombre }}
                 </option>
               </select>
             </div>
             <div class="col-md-6">
               <label for="puntoId" class="form-label">Punto</label>
-              <input
+              <select
                 name="puntoId"
                 id="puntoId"
                 formControlName="puntoId"
-                class="form-control"
-                readonly
-              />
+                class="form-select"
+                [attr.disabled]="true"
+              >
+                <option [ngValue]="punto.id" *ngFor="let punto of puntos">
+                  {{ punto.id }} - {{ punto.codPunto }} -
+                  {{ punto.tipo_cargo.cargo }}
+                </option>
+              </select>
             </div>
 
             <br />
@@ -142,7 +146,7 @@
                 name="tipoDocId"
                 id="tipoDocId"
                 formControlName="tipoDocId"
-                class="form-control"
+                class="form-select"
               >
                 <option
                   [ngValue]="tipo.id"
@@ -300,27 +304,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="contenedor">
-    <mat-card>
-      <form novalidate>
-        <mat-card-header class="bg-primary">
-          <mat-card-title appearence="fill"> Designación </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-card-title>Datos del Cargo</mat-card-title>
-          <div class="form-group">
-            <label for="">Nro Cargo</label>
-            <input type="number" name="idCargo" id="idCargo" />
-          </div>
-          <div class="form-group">
-            <label for="unidad_organizativa_id">Unidad Org.</label>
-            <select name="" id="">
-              <option value="Seleccione">Seleccione</option>
-            </select>
-          </div>
-        </mat-card-content>
-      </form>
-    </mat-card>
-  </div>
-   -->

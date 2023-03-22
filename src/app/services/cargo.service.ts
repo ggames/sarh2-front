@@ -16,6 +16,10 @@ export class CargoService {
     return this.http.post<Cargo>(this.cargoURL + 'create', cargo);
   }
 
+  updateCargo(cargo: Cargo): Observable<Cargo> {
+    return this.http.put<Cargo>(this.cargoURL + `update/${cargo.id}`, cargo);
+  }
+
   getCargos(): Observable<Cargo[]> {
     return this.http.get<Cargo[]>(this.cargoURL + 'all');
   }

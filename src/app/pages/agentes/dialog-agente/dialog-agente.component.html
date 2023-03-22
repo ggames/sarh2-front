@@ -43,6 +43,7 @@
           id="tipoDocId"
           formControlName="tipoDocId"
           class="form-control"
+          (change)="cambiarTipoDocumento($event)"
         >
           <option [ngValue]="item.id" *ngFor="let item of tiposdocumento">
             {{ item.nombre }}

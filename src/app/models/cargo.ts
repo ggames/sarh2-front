@@ -1,3 +1,4 @@
+import { PuntosDTO } from './puntos-dto';
 import { Transformacion } from 'src/app/models/transformacion';
 import { caracterDTO } from './caracter-dto';
 import { EstadoCargoDTO } from './estadocargo-dto';
@@ -8,7 +9,7 @@ export class Cargo {
   id?: number;
   idCargo: number = 0;
   unidadOrganizativaId!: UnidadOrganizativa;
-  puntoId!: Puntos;
+  puntoId!: PuntosDTO;
   estadoCargo!: EstadoCargoDTO;
   caracter!: caracterDTO;
   transfCreacionId!: Transformacion;

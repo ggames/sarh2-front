@@ -1,0 +1,63 @@
+<mat-card-title>
+  <h1 mat-card-title>
+    {{ subunidad != null ? "Editar Materia" : "Crear Materia" }}
+  </h1>
+</mat-card-title>
+<mat-dialog-content class="mat-typography">
+  <div class="card-body">
+    <form
+      [formGroup]="SubUnidadForm"
+      (ngSubmit)="subunidad != null ? onUpdate() : onSave()"
+    >
+      <div class="form-group">
+        <label for="codigoGuarani" class="form-label">Cód Guarani</label>
+        <input
+          type="number"
+          name="codigoGuarani"
+          id="codigoGuarani"
+          class="form-control"
+          formControlName="codigoGuarani"
+        />
+      </div>
+      <div class="form-group">
+        <label for="nombre" class="form-label">Nombre Materia</label>
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          class="form-control"
+          formControlName="nombre"
+        />
+      </div>
+      <div class="form-group">
+        <label for="unidadOrganizativaId" class="form-label"
+          >Departamento</label
+        >
+        <select
+          name="unidadOrganizativaId"
+          id="unidadOrganizativaId"
+          formControlName="unidadOrganizativaId"
+          class="form-control"
+          (change)="cambiarDepartamento($event)"
+        >
+          <option
+            [ngValue]="unidad.id"
+            *ngFor="let unidad of unidadesOrganizativas"
+          >
+            {{ unidad.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <button
+        class="btn btn-inverse waves-effect waves-light m-r-10"
+        mat-dialog-close
+      >
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-success waves-effect waves-light">
+        Guardar
+      </button>
+    </form>
+  </div>
+</mat-dialog-content>

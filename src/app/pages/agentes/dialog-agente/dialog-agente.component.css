@@ -28,3 +28,8 @@ table.datatable th {
 	background-color: black;
 	font-family: sans-serif;
 }
+
+input.form-control {
+	height: 8px;
+	font-size: 12px;
+}

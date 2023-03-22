@@ -16,7 +16,7 @@ export class TipoDocumentoService {
     return this.http.get<TipoDocumento[]>(this.tipoDocumentoURL + 'tiposdocs');
   }
 
-  getTipoDocumentoById(id: string): Observable<TipoDocumento> {
+  getTipoDocumentoById(id: number): Observable<TipoDocumento> {
     return this.http.get<TipoDocumento>(
       this.tipoDocumentoURL + `tipodocs/${id}`
     );

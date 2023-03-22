@@ -1,0 +1,174 @@
+<div class="container">
+  <div class="row">
+    <div class="card card-custom gutter-b">
+      <div class="card-header">
+        <h2 class="text-blue font-weight-bold">
+          {{ _cargo != null ? "Editar" : "Creación" }} Cargo
+        </h2>
+      </div>
+
+      <div class="card-body">
+        <!--   <legend class="text-center header mb-3">Datos de Cargo</legend>
+ -->
+        <div class="titulo_operacion mbxa-3">
+          <h2 class="clearfix">
+            <span class="pull-left">Datos de Cargos</span>
+          </h2>
+        </div>
+
+        <form
+          [formGroup]="formCargo"
+          class="form-horizontal row g-3 mt-3"
+          (ngSubmit)="_cargo != null ? onUpdate() : onSave()"
+        >
+          <div class="mb-3 row">
+            <label for="idCargo" class="col-md-4 col-form-label bigicon"
+              >Cód. Cargo:</label
+            >
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="cargoId"
+                formControlName="idCargo"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="caracter_cargo" class="col-md-4 col-form-label bigicon"
+              >Caracter Cargo:</label
+            >
+            <div class="col-md-8">
+              <select
+                name="caracter"
+                id="caracter"
+                formControlName="caracter"
+                class="form-select input-sm"
+                (change)="cambiarCaracter()"
+              >
+                <option
+                  *ngFor="let caracter of caracter_cargos"
+                  [ngValue]="caracter.id"
+                >
+                  {{ caracter.nombre }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label
+              for="unidadOrganizativaId"
+              class="col-md-4 col-form-label bigicon"
+              >Unidad Organizativa:</label
+            >
+            <div class="col-md-8">
+              <select
+                name="unidadOrganizativaId"
+                id="unidadOrganizativaId"
+                formControlName="unidadOrganizativaId"
+                class="form-select input-sm"
+                (change)="cambiarUnidadOrganizativa()"
+              >
+                <option [ngValue]="unidad.id" *ngFor="let unidad of unidades">
+                  {{ unidad.nombre }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="estado_cargo" class="col-md-4 col-form-label bigicon"
+              >Estado Cargo:</label
+            >
+            <div class="col-md-8">
+              <select
+                name="estadoCargo"
+                id="estadoCargo"
+                formControlName="estadoCargo"
+                class="form-select input-sm"
+                (change)="cambiarEstadoCargo()"
+              >
+                <option
+                  [ngValue]="estado.id"
+                  *ngFor="let estado of estado_cargos"
+                >
+                  {{ estado.nombre }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="puntoId" class="col-md-4 col-form-label bigicon"
+              >Ptos. Asociados a Cargo:</label
+            >
+            <div class="col-md-8">
+              <select
+                name="puntoId"
+                id="puntoId"
+                formControlName="puntoId"
+                class="form-select input-sm"
+                (change)="cambiarPunto()"
+              >
+                <option [ngValue]="pto.id" *ngFor="let pto of puntos">
+                  {{ pto.id }} - {{ pto.tipo_cargo.cargo }} -
+                  {{ pto.puntos_disponibles }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label
+              for="transfCreacionId"
+              class="col-md-4 col-form-label bigicon"
+              >Transf. de Creación:</label
+            >
+            <div class="col-md-8">
+              <select
+                name="transfCreacionId"
+                id="transfCreacionId"
+                formControlName="transfCreacionId"
+                class="form-select"
+                (change)="cambiarTransformacionCreacion()"
+              >
+                <option
+                  [ngValue]="transf_crea.id"
+                  *ngFor="let transf_crea of transf_creaciones"
+                >
+                  {{ transf_crea.numeroResolucion }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label
+              for="transfSupresionId"
+              class="col-md-4 col-form-label bigicon"
+              >Transf. de Supresión</label
+            >
+            <div class="col-md-8">
+              <select
+                name="transfSupresionId"
+                id="transfSupresionId"
+                formControlName="transfSupresionId"
+                class="form-select"
+                (change)="cambiarTransformacionSupresion()"
+              >
+                <option
+                  [ngValue]="transf_sup.id"
+                  *ngFor="let transf_sup of transf_supresiones"
+                >
+                  {{ transf_sup.numeroResolucion }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <button class="btn btn-warning" type="button">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

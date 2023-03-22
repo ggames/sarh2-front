@@ -10,7 +10,17 @@
             Datos de Punto
           </div>
           <form class="row g-3" [formGroup]="formPunto" novalidate>
-            <div class="col-md-6">
+            <div class="col-md-3">
+              <label for="codPunto">Cód Punto</label>
+              <input
+                type="number"
+                name="codPunto"
+                formControlName="codPunto"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-5">
               <label for="" class="form-label">Pto. Cargo</label>
               <select
                 [ngClass]="{ 'is-invalid': submitted && f.tipo_cargo.errors }"
@@ -35,7 +45,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <label for="" class="form-label">Unidades Ptos.</label>
               <input
                 type="number"

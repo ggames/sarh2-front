@@ -25,7 +25,7 @@
                   class="accordion-item-header"
                   (click)="accordionItem.toggle()"
                 >
-                  <b>Filtro Agentes</b>
+                  <b>Filtro Transformación</b>
                   <span class="accordion-item-description">
                     <fa-icon [icon]="faAnglesDown"></fa-icon>
                   </span>
@@ -57,7 +57,8 @@
               <tbody>
                 <tr
                   *ngFor="
-                    let transformacion of transformaciones | slice: desde:hasta;
+                    let transformacion of transformaciones
+                      | slice : desde : hasta;
                     let i = index
                   "
                 >
