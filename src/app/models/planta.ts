@@ -6,11 +6,14 @@ export class Planta {
   id?: number;
   agenteId!: Agente;
   cargoId!: Cargo;
-  //subUnidadOrganizativaId!: SubUnidadOrganizativa;
-  fechaMovimiento!: Date;
+  subunidadOrganizativaId!: SubUnidadOrganizativa;
+  fechaMovimiento!: string;
   motivoMovimiento!: string;
   resolucionInicio!: string;
-  fechaInicio!: Date;
+  fechaInicio!: string;
   resolucionFin!: string;
-  fechaFin!: Date;
+  fechaFin!: string;
+  fechaCese!: string;
+  lic_Desde!: string;
+  lic_Hasta!: string;
 }

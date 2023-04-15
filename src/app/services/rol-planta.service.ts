@@ -16,6 +16,10 @@ export class RolPlantaService {
     return this.http.get<RolPlanta[]>(this.rolplantaURL + 'all');
   }
 
+  obtenerRolPlantaId(id: number): Observable<RolPlanta> {
+    return this.http.get<RolPlanta>(this.rolplantaURL + `${id}`);
+  }
+
   saveRolPlanta(rolplanta: RolPlanta): Observable<RolPlanta> {
     return this.http.post<RolPlanta>(this.rolplantaURL + 'create', rolplanta);
   }

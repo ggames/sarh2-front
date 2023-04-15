@@ -21,12 +21,8 @@ export class PlantaService {
     return this.http.get<Planta>(this.plantaURL + `${id}`);
   }
 
-  getPlantaByCargo(codigo: number): Observable<Planta> {
-    return this.http.get<Planta>(
-      this.plantaURL +
-        `
-    codigo/${codigo}`
-    );
+  getPlantaByCargo(codigo: number): Observable<Planta[]> {
+    return this.http.get<Planta[]>(this.plantaURL + `codigo/${codigo}`);
   }
 
   getPlantaTotal(): Observable<Planta[]> {
@@ -38,6 +34,8 @@ export class PlantaService {
   }
 
   actualizarPlanta(planta: Planta): Observable<Planta> {
+    console.log('CODIGO PLANTA ' + planta.id);
+
     return this.http.put<Planta>(
       this.plantaURL + `update/${planta.id}`,
       planta

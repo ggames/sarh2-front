@@ -46,6 +46,7 @@ export class AgenteComponent implements OnInit {
   ) {}
 
   readonly width: string = '600px';
+  readonly height: string = '800px';
 
   ngOnInit(): void {
     this.getAgentes();
@@ -70,6 +71,7 @@ export class AgenteComponent implements OnInit {
   openEdit(agente: Agente) {
     const dialogRef = this.matDialog.open(DialogAgenteComponent, {
       width: this.width,
+      //height: this.height,
       data: agente,
     });
 

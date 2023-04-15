@@ -1,3 +1,4 @@
+import { RolPlanta } from './../../../models/rol-planta';
 import { RolPlantaService } from './../../../services/rol-planta.service';
 import { SubUnidadOrganizativa } from './../../../models/subunidad-organizativa';
 import { SubunidadOrganizativaService } from './../../../services/subunidad-organizativa.service';
@@ -51,6 +52,10 @@ export class PlantaEditarComponent implements OnInit {
 
   planta = new Planta();
 
+  rolplanta!: RolPlanta;
+
+  subunidad!: SubUnidadOrganizativa;
+
   agente = new Agente();
 
   cargo = new Cargo();
@@ -85,19 +90,21 @@ export class PlantaEditarComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params: any) => {
       const _id = params?.id;
+
       if (_id !== undefined && typeof _id == 'number') {
         console.log('Valor del parametro ' + _id);
       }
-
       this.cargarPlanta(_id);
+      this.cambiarSubunidadOrganizativa();
     });
   }
 
   cargarPlanta(id: number) {
+    console.log('Valor del parametro PLANTA' + id);
+
     this.plantaService.getPlantaById(id).subscribe({
       next: (planta) => {
         this.reg_planta = planta;
-        //        console.log('PLANTA PERMANENTE ' + JSON.stringify(this.reg_planta));
 
         this.cargarFormPlanta(this.reg_planta);
       },
@@ -108,7 +115,7 @@ export class PlantaEditarComponent implements OnInit {
     this.formPlanta = this.fb.group({
       idCargo: [0, Validators.required],
       tipoCargo: [null],
-      subunidadOrganizativaId: [null],
+      subunidadOrganizativaId: [null, Validators.required],
       caracter: [null, Validators.required],
       estadoCargo: [null, Validators.required],
       puntoId: [null],
@@ -126,6 +133,9 @@ export class PlantaEditarComponent implements OnInit {
       fechaInicio: [null],
       resolucionFin: [null],
       fechaFin: [null],
+      fechaCese: [null],
+      lic_Desde: [null],
+      lic_Hasta: [null],
     });
   }
 
@@ -199,7 +209,7 @@ export class PlantaEditarComponent implements OnInit {
     this.formPlanta.patchValue({
       idCargo: planta.cargoId.idCargo,
       tipoCargo: planta.cargoId.puntoId.tipo_cargo.cargo,
-      subunidadOrganizativaId: planta.subUnidadOrganizativaId.id,
+      subunidadOrganizativaId: planta.subunidadOrganizativaId.id,
       caracter: planta.cargoId.caracter?.id,
       estadoCargo: planta.cargoId.estadoCargo?.id,
       puntoId: planta.cargoId.puntoId?.id,
@@ -210,19 +220,45 @@ export class PlantaEditarComponent implements OnInit {
       nombre: planta.agenteId.nombre,
       apellido: planta.agenteId.apellido,
       legajo: planta.agenteId.legajo,
-      fechaNac: formatDate(planta.agenteId.fechaNac, 'yyyy-MM-dd', 'en'),
-      fechaMovimiento: formatDate(planta.fechaMovimiento, 'yyyy-MM-dd', 'en'),
+      fechaNac:
+        planta.agenteId.fechaNac != undefined
+          ? formatDate(planta.agenteId.fechaNac, 'yyyy-MM-dd', 'en')
+          : null,
+      fechaMovimiento:
+        planta.fechaMovimiento != undefined
+          ? formatDate(planta.fechaMovimiento, 'yyyy-MM-dd', 'en')
+          : null,
       motivoMovimiento: planta.motivoMovimiento ?? null,
       resolucionInicio: planta.resolucionInicio ?? null,
-      fechaInicio: planta?.fechaInicio,
+      fechaInicio:
+        planta?.fechaInicio != undefined
+          ? formatDate(planta.fechaInicio, 'yyyy-MM-dd', 'en')
+          : null,
       resolucionFin: planta.resolucionFin,
-      fechaFin: planta.fechaFin,
+      fechaFin:
+        planta.fechaFin != undefined
+          ? formatDate(planta.fechaFin, 'yyyy-MM-dd', 'en')
+          : null,
+      fechaCese:
+        planta.fechaCese != undefined
+          ? formatDate(planta.fechaCese, 'yyyy-MM-dd', 'en')
+          : null,
+      lic_Desde:
+        planta.lic_Desde != undefined
+          ? formatDate(planta.lic_Desde, 'yyyy-MM-dd', 'en')
+          : null,
+      lic_Hasta:
+        planta.lic_Hasta != undefined
+          ? formatDate(planta.lic_Hasta, 'yyyy-MM-dd', 'en')
+          : null,
     });
   }
 
   editarPlanta() {
     // Datos del Agente
-    //console.log('AGENTE .... ' + JSON.stringify(this.reg_planta.agenteId));
+    console.log(
+      'PUNTOSSS .... ' + JSON.stringify(this.reg_planta.cargoId.puntoId)
+    );
 
     this.agente.id = this.reg_planta.agenteId.id;
     this.agente.tipoDocId = this.reg_planta.agenteId.tipoDocId;
@@ -248,6 +284,10 @@ export class PlantaEditarComponent implements OnInit {
     this.planta.cargoId = this.cargo;
     this.planta.agenteId = this.agente;
 
+    this.cambiarSubunidadOrganizativa();
+
+    this.planta.subunidadOrganizativaId = this.subunidad;
+
     this.planta.fechaInicio = this.formPlanta.get('fechaInicio')?.value;
     this.planta.resolucionInicio =
       this.formPlanta.get('resolucionInicio')?.value;
@@ -258,6 +298,10 @@ export class PlantaEditarComponent implements OnInit {
 
     this.planta.fechaFin = this.formPlanta.get('fechaFin')?.value;
     this.planta.resolucionFin = this.formPlanta.get('resolucionFin')?.value;
+
+    this.planta.fechaCese = this.formPlanta.get('fechaCese')?.value;
+    this.planta.lic_Desde = this.formPlanta.get('lic_Desde')?.value;
+    this.planta.lic_Hasta = this.formPlanta.get('lic_Hasta')?.value;
 
     console.log('Agente ... : ' + JSON.stringify(this.agente));
     console.log('Cargo ... : ' + JSON.stringify(this.cargo));
@@ -279,12 +323,20 @@ export class PlantaEditarComponent implements OnInit {
     return event.target.value.split(':')[1];
   }
 
-  cambiarEstadoCargo(e: any) {
-    const id = this.getValue(e);
+  cambiarEstadoCargo() {
+    //const id = this.getValue(e);
+    const id = this.formPlanta.get('estadoCargo')?.value;
+
     this.estadocargoService.getEstadoCargoById(id).subscribe({
       next: (res) => {
         this.estadoCargo = res;
       },
     });
+  }
+
+  cambiarSubunidadOrganizativa(): void {
+    const valor = this.formPlanta.get('subunidadOrganizativaId')?.value;
+
+    this.subunidad = this.subunidades.find((v) => v.id == valor)!;
   }
 }

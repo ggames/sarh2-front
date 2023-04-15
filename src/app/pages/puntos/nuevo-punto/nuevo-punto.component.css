@@ -28,3 +28,7 @@ table.datatable th {
 	background-color: black;
 	font-family: sans-serif;
 }
+
+.table-responsive {
+	max-height: 300px;
+}

@@ -8,16 +8,16 @@
           <form [formGroup]="formPlanta" class="row g-3">
             <div class="col-md-3">
               <label for="idCargo" class="form-label">Cód. Cargo</label>
-              <div class="input-group">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="idCargo"
-                  name="idCargo"
-                  formControlName="idCargo"
-                />
-              </div>
+
+              <input
+                type="number"
+                class="form-control"
+                id="idCargo"
+                name="idCargo"
+                formControlName="idCargo"
+              />
             </div>
+
             <div class="col-md-6">
               <label for="tipoCargo" class="form-label">Tipo Cgo</label>
               <input
@@ -52,7 +52,7 @@
                 name="estadoCargo"
                 id="estadoCargo"
                 formControlName="estadoCargo"
-                (change)="cambiarEstadoCargo($event)"
+                (change)="cambiarEstadoCargo()"
                 class="form-select"
               >
                 <option
@@ -102,13 +102,14 @@
             </div>
             <div class="col-md-6">
               <label for="SubunidadOrganizativaId" class="form-label"
-                >Materia</label
-              >
+                >Materia
+              </label>
               <select
                 name="subunidadOrganizativaId"
                 id="subunidadOrganizativaId"
                 formControlName="subunidadOrganizativaId"
                 class="form-select"
+                (change)="cambiarSubunidadOrganizativa()"
               >
                 <option [ngValue]="0">Sin Información</option>
                 <option
@@ -159,15 +160,13 @@
 
             <div class="col-md-3">
               <label for="documento" class="form-label">Documento</label>
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="documento"
-                  name="documento"
-                  formControlName="documento"
-                />
-              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="documento"
+                name="documento"
+                formControlName="documento"
+              />
             </div>
 
             <div class="col-md-4">
@@ -280,6 +279,38 @@
               />
             </div>
 
+            <div class="col-md-3">
+              <label for="lic_Desde" class="form-label"> Fecha Desde</label>
+              <input
+                type="date"
+                name="lic_Desde"
+                id="lic_Desde"
+                formControlName="lic_Desde"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-3">
+              <label for="lic_Hasta" class="form-label"> Fecha Hasta</label>
+              <input
+                type="date"
+                name="lic_Hasta"
+                id="lic_Hasta"
+                formControlName="lic_Hasta"
+                class="form-control"
+              />
+            </div>
+
+            <div class="col-md-3">
+              <label for="fechaCese" class="form-label"> Fecha Cese</label>
+              <input
+                type="date"
+                name="fechaCese"
+                id="fechaCese"
+                formControlName="fechaCese"
+                class="form-control"
+              />
+            </div>
             <div class="col-md-12">
               <label for="motivo" class="form-label">Motivo Movimiento</label>
               <textarea
@@ -293,7 +324,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-                (click)="editarPlanta()"
+                (click)="actualizarPlanta()"
               >
                 Confirmar
               </button>

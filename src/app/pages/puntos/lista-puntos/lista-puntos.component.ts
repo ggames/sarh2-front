@@ -1,3 +1,4 @@
+import { SortPipe } from './../../../directivas/sort.pipe';
 import { PuntoDetail } from './../../../models/puntoDetail';
 import { Planta } from './../../../models/planta';
 import { PlantaService } from './../../../services/planta.service';
@@ -44,12 +45,15 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
   constructor(
     private puntoService: PuntoService,
     private plantaService: PlantaService,
+    private sortPipe: SortPipe,
     public matDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     //this.obtenerAllPuntos();
     this.obtenerPuntosLibreOcupados();
+
+    this.sortPipe.transform(this.ocupadoLibres, 'desc', 'id');
   }
 
   obtenerPuntosLibreOcupados(): void {

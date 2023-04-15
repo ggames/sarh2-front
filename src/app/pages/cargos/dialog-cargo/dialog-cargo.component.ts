@@ -67,7 +67,7 @@ export class DialogCargoComponent implements OnInit {
       this.cambiarCaracter();
       this.getCaracterCargos(3);
     } else {
-      this.getCaracterCargos(0);
+      this.getCaracterCargos(-1);
     }
   }
 

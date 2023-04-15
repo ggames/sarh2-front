@@ -4,6 +4,6 @@ import { SubUnidadOrganizativa } from './subunidad-organizativa';
 export class RolPlanta {
   id?: number;
   tipoRol!: string;
-  subunidadOrganizacionalId!: SubUnidadOrganizativa;
+  subunidadOrganizativaId!: SubUnidadOrganizativa;
   plantaId!: Planta;
 }

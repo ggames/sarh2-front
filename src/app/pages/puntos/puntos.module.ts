@@ -24,6 +24,7 @@ import { MatSelect, MatSelectModule } from '@angular/material/select';
 
 import { ListaPuntosComponent } from './lista-puntos/lista-puntos.component';
 import { DialogPuntosComponent } from './dialog/dialogPuntos.component';
+import { SortPipe } from 'src/app/directivas/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { DialogPuntosComponent } from './dialog/dialogPuntos.component';
     EditarPuntoComponent,
     ListaPuntosComponent,
     DialogPuntosComponent,
+    SortPipe,
   ],
   imports: [
     CommonModule,
@@ -49,5 +51,6 @@ import { DialogPuntosComponent } from './dialog/dialogPuntos.component';
     MatCardModule,
     MatCheckboxModule,
   ],
+  providers: [SortPipe],
 })
 export class PuntosModule {}

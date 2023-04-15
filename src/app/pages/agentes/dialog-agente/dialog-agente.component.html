@@ -63,27 +63,47 @@
           required
         />
       </div>
+      <div class="form-check">
+        <input
+          type="checkbox"
+          name="esFallecido"
+          id="esFallecido"
+          value=""
+          class="form-check-input"
+          formControlName="esFallecido"
+        />
+        <label for="esFallecido" class="form-check-label">Fallecido?</label>
+      </div>
 
-      <!--  <div class="form-group">
-        <label>Fecha Nacimiento</label>
+      <div class="form-group">
+        <label for="fechaBaja" class="form-label">Fecha Baja</label>
         <input
           type="date"
-          id="fechaNac"
-          name="fechaNac"
-          formControlName="fechaNac"
+          name="fechaBaja"
+          id="fechaBaja"
           class="form-control"
-          required
+          formControlName="fechaBaja"
         />
       </div>
- -->
-      <mat-form-field appearance="fill">
+
+      <div class="form-group">
+        <label for="fechaNac" class="form-label">Fecha Nacimiento</label>
+        <input
+          type="date"
+          name="fechaNac"
+          id="fechaNac"
+          class="form-control"
+          formControlName="fechaNac"
+        />
+      </div> 
+      <!-- <mat-form-field appearance="fill">
         <mat-label>Fecha Nacimiento</mat-label>
         <input matInput [matDatepicker]="dp" formControlName="fechaNac" />
         <mat-hint>DD-MM-YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp></mat-datepicker>
       </mat-form-field>
-
+ -->
       <div class="form-group">
         <label>Legajo</label>
         <input

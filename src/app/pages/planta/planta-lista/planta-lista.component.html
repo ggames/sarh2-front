@@ -7,59 +7,65 @@
       <cdk-accordion class="accordion">
         <cdk-accordion-item> </cdk-accordion-item>
       </cdk-accordion>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Cod. Cargo</th>
+              <th>Documento</th>
+              <th>Apellido y Nombre</th>
+              <th>Estado</th>
+              <th>Cargo</th>
+              <th>Res. Inicio</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let planta of planta_arr | slice : desde : hasta;
+                let i = index
+              "
+            >
+              <th>{{ planta.cargoId.idCargo }}</th>
+              <th>
+                <div role="button" style="cursor: pointer">
+                  {{ planta.agenteId.tipoDocId.nombre }} :
+                  {{ planta.agenteId.documento }}
+                </div>
+              </th>
+              <th>
+                {{ planta.agenteId.apellido }} {{ planta.agenteId.nombre }}
+              </th>
 
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Cod. Cargo</th>
-            <th>Documento</th>
-            <th>Apellido y Nombre</th>
-            <th>Legajo</th>
-            <th>Cargo</th>
-            <th>Res. Inicio</th>
-            <th class="text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let planta of planta_arr | slice : desde : hasta;
-              let i = index
-            "
-          >
-            <th>{{ planta.cargoId.idCargo }}</th>
-            <th>
-              <div role="button" style="cursor: pointer">
-                {{ planta.agenteId.tipoDocId.nombre }} :
-                {{ planta.agenteId.documento }}
-              </div>
-            </th>
-            <th>{{ planta.agenteId.apellido }} {{ planta.agenteId.nombre }}</th>
-            <th>
-              {{ planta.agenteId.legajo }}
-            </th>
-            <th>
-              {{ planta.cargoId.puntoId.tipo_cargo.cargo }} -
-              {{ planta.cargoId.puntoId.puntos_disponibles }}
-            </th>
-            <th>
-              {{ planta.resolucionInicio }}
-            </th>
+              <th>
+                {{ planta.cargoId.estadoCargo.nombre }}
+              </th>
+              <th>
+                {{ planta.cargoId.puntoId.id }}
+                {{ planta.cargoId.puntoId.tipo_cargo.cargo }} -
+                {{ planta.cargoId.puntoId.puntos_disponibles }}
+              </th>
+              <th>
+                {{ planta.resolucionInicio }}
+              </th>
 
-            <th class="d-flex justify-content-center">
-              <a
-                class="btn btn-primary mr-3"
-                [routerLink]="['/app/planta/edit', planta.id]"
-              >
-                <i class="fa fa-pencil-square-o"></i>
-              </a>
-              <button class="btn btn-danger">
-                <i class="fa fa-trash-o"></i>
-              </button>
-            </th>
-          </tr>
-        </tbody>
-      </table>
+              <th class="d-flex justify-content-center">
+                <a
+                  class="btn btn-primary mr-3"
+                  [routerLink]="['/app/planta/edit', planta.id]"
+                >
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <button class="btn btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <mat-paginator
         [length]="planta_arr.length"
         [pageSize]="pageSize"

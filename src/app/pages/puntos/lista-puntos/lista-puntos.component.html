@@ -22,7 +22,9 @@
               <tr
                 [ngClass]="punto.color"
                 *ngFor="
-                  let punto of ocupadoLibres | slice : desde : hasta;
+                  let punto of ocupadoLibres
+                    | slice : desde : hasta
+                    | sort : 'asc' : 'id';
                   let i = index
                 "
               >

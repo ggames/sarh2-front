@@ -5,24 +5,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class HeaderComponent implements OnInit {
-
   isLogged = false;
 
-  constructor(private router: Router, private tokenService: TokenService) { }
+  constructor(private router: Router, private tokenService: TokenService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
-
-  onLogOut(){
-
+  onLogOut() {
     this.tokenService.logOut();
-  
-    this.router.navigate(['login']);    
-  }
 
+    this.router.navigate(['login']);
+  }
 }

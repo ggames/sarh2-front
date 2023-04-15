@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter,
@@ -94,7 +95,15 @@ export class DialogAgenteComponent implements OnInit {
       apellido: this.agente.apellido,
       tipoDocId: this.agente.tipoDocId?.id,
       documento: this.agente.documento,
-      fechaNac: moment(this.agente.fechaNac).format(),
+      esFallecido: this.agente.esFallecido,
+      fechaBaja:
+        this.agente.fechaBaja != undefined
+          ? formatDate(this.agente.fechaBaja, 'yyyy-MM-dd', 'en')
+          : '',
+      fechaNac:
+        this.agente.fechaNac != undefined
+          ? formatDate(this.agente.fechaNac, 'yyyy-MM-dd', 'en')
+          : '', //moment(this.agente.fechaNac).format(),
       legajo: this.agente.legajo,
       domicilio: this.agente.domicilio,
       email: this.agente.email,
@@ -112,7 +121,9 @@ export class DialogAgenteComponent implements OnInit {
       apellido: ['', Validators.required],
       tipoDocId: [null, Validators.required],
       documento: ['', Validators.required],
-      fechaNac: ['', Validators.required],
+      esFallecido: [null],
+      fechaBaja: [null],
+      fechaNac: [null, Validators.required],
       legajo: ['', Validators.required],
       domicilio: ['', Validators.required],
       email: ['', Validators.required],
@@ -138,7 +149,23 @@ export class DialogAgenteComponent implements OnInit {
       apellido: this.agentForm.get('apellido')?.value,
       tipoDocId: this.tipodocumento,
       documento: this.agentForm.get('documento')?.value,
-      fechaNac: moment(this.agentForm.get('fechaNac')?.value).format(),
+      esFallecido: this.agentForm.get('esFallecido')?.value,
+      fechaBaja:
+        this.agentForm.get('fechaBaja')?.value != undefined
+          ? formatDate(
+              this.agentForm.get('fechaBaja')?.value,
+              'yyyy-MM-dd',
+              'en'
+            )
+          : '',
+      fechaNac:
+        this.agentForm.get('fechaNac')?.value != undefined
+          ? formatDate(
+              this.agentForm.get('fechaNac')?.value,
+              'yyyy-MM-dd',
+              'en'
+            )
+          : '', //moment(this.agentForm.get('fechaNac')?.value).format(),
       legajo: this.agentForm.get('legajo')?.value,
       domicilio: this.agentForm.get('domicilio')?.value,
       email: this.agentForm.get('email')?.value,
@@ -162,7 +189,23 @@ export class DialogAgenteComponent implements OnInit {
       apellido: this.agentForm.get('apellido')?.value,
       tipoDocId: this.tipodocumento,
       documento: this.agentForm.get('documento')?.value,
-      fechaNac: moment(this.agentForm.get('fechaNac')?.value).format(),
+      esFallecido: this.agentForm.get('esFallecido')?.value,
+      fechaBaja:
+        this.agentForm.get('fechaBaja')?.value != undefined
+          ? formatDate(
+              this.agentForm.get('fechaBaja')?.value,
+              'yyyy-MM-dd',
+              'en'
+            )
+          : '',
+      fechaNac:
+        this.agentForm.get('fechaNac')?.value != undefined
+          ? formatDate(
+              this.agentForm.get('fechaNac')?.value,
+              'yyyy-MM-dd',
+              'en'
+            )
+          : '', //moment(this.agentForm.get('fechaNac')?.value).format(),
       legajo: this.agentForm.get('legajo')?.value,
       domicilio: this.agentForm.get('domicilio')?.value,
       email: this.agentForm.get('email')?.value,

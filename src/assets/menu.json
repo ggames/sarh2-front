@@ -1,0 +1,40 @@
+[
+{
+    "text": "Usuarios",
+    "icon": "person",
+    "routerLink": "/app/usuarios"
+},
+{
+    "text": "Planta Cargo",
+    "icon": "assignment_ind",
+    "routerLink":"/app/planta"
+},
+{
+    "text": "Puntos Docentes",
+    "icon": "monetization_on",
+    "routerLink":"/app/puntos"
+},
+{
+    "text": "Transformaciones",
+    "icon": "edit",
+    "routerLink":"/app/transformaciones"
+},
+
+{
+    "text": "Cargo Docentes",
+    "icon": "credit_card",
+    "routerLink":"/app/transformaciones"
+},
+{
+    "text": "Informes",
+    "icon": "receipt",
+    "children": [ {
+        "text": "Gestion Agentes",
+        "icon": "people",
+        "routerLink":"/app/agentes"
+    }]
+}
+
+
+
+]

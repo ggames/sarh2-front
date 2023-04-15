@@ -6,28 +6,33 @@
         <div class="card-body">
           <h4 class="card-title text-left mark lead">Datos del Cargo</h4>
           <form [formGroup]="formCargo" class="row g-3">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label for="idCargo" class="form-label">Cód. Cargo</label>
               <div class="input-group">
                 <input
                   type="number"
                   class="form-control"
+                  [ngClass]="{ 'is-invalid': existe_cargo }"
                   id="idCargo"
                   name="idCargo"
                   formControlName="idCargo"
                 />
-                <span class="input-group-btn">
-                  <button
-                    class="btn btn-success"
-                    type="button"
-                    (click)="buscarCargos()"
-                  >
-                    Buscar
-                  </button>
-                </span>
+                <button
+                  class="btn btn-success"
+                  type="button"
+                  (click)="buscar()"
+                >
+                  Buscar
+                </button>
+
+                <div *ngIf="existe_cargo" class="invalid-feedback">
+                  <div>
+                    {{ mensaje }}
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <label for="tipoCargo" class="form-label">Tipo Cgo</label>
               <input
                 type="text"
@@ -44,10 +49,11 @@
                 name="caracter"
                 id="caracter"
                 formControlName="caracter"
-                class="form-control"
+                class="form-select"
+                [attr.disabled]="true"
               >
                 <option
-                  [ngValue]="caracter"
+                  [ngValue]="caracter.id"
                   *ngFor="let caracter of caracter_list"
                 >
                   {{ caracter.nombre }}
@@ -60,10 +66,10 @@
                 name="estadoCargo"
                 id="estadoCargo"
                 formControlName="estadoCargo"
-                class="form-control"
+                class="form-select"
               >
                 <option
-                  [ngValue]="estado"
+                  [ngValue]="estado.id"
                   *ngFor="let estado of estadocargo_list"
                 >
                   {{ estado.nombre }}
@@ -77,12 +83,13 @@
               <select
                 name="transfCreacionId"
                 id="transfCreacionId"
-                class="form-control"
+                class="form-select"
                 formControlName="transfCreacionId"
+                [attr.disabled]="true"
               >
                 <option
                   *ngFor="let transf of transformacion_list"
-                  [ngValue]="transf"
+                  [ngValue]="transf.id"
                 >
                   {{ transf.numeroResolucion }}
                 </option>
@@ -90,222 +97,230 @@
             </div>
             <div class="col-md-4">
               <label for="tranfSupresionId" class="form-label"
-                >Transf Creacion</label
+                >Transf Supresión</label
               >
               <select
                 name="tranfSupresionId"
                 id="tranfSupresionId"
-                class="form-control"
+                class="form-select"
                 formControlName="transfSupresionId"
+                (change)="cambiarTransformacionSupr()"
               >
                 <option [ngValue]="0">Sin Información</option>
                 <option
                   *ngFor="let transf of transformacion_list"
-                  [ngValue]="transf"
+                  [ngValue]="transf.id"
                 >
                   {{ transf.numeroResolucion }}
                 </option>
               </select>
             </div>
             <div class="col-md-6">
-              <label for="unidadOrganizativaId" class="form-label"
-                >Unidad Org.</label
-              >
+              <label for="subunidadOrganizativaId" class="form-label"
+                >Materia
+              </label>
               <select
-                name="unidadOrganizativaId"
-                id="unidadOrganizativaId"
-                formControlName="unidadOrganizativaId"
-                class="form-control"
-                [disabled]="true"
+                name="subunidadOrganizativaId"
+                id="subunidadOrganizativaId"
+                formControlName="subunidadOrganizativaId"
+                class="form-select"
+                (change)="cambiarSubunidadOrganizativa()"
               >
                 <option [ngValue]="0">Sin Información</option>
                 <option
-                  [ngValue]="unidad"
-                  *ngFor="let unidad of unidadesorganizativa_list"
+                  [ngValue]="subunidad.id"
+                  *ngFor="let subunidad of subunidades"
                 >
-                  {{ unidad.nombre }}
+                  {{ subunidad.nombre }}
                 </option>
               </select>
             </div>
             <div class="col-md-6">
               <label for="puntoId" class="form-label">Punto</label>
-              <input
+              <select
                 name="puntoId"
                 id="puntoId"
                 formControlName="puntoId"
-                class="form-control"
-                readonly
-              />
-            </div>
-          </form>
-          <br />
-          <form [formGroup]="formAgente" class="row g-3">
-            <div class="mt-3">
-              <h4 class="card-title text-left mark lead">Datos del Agente</h4>
-            </div>
-
-            <div class="col-md-1">
-              <label for="tipoDocId" class="form-label">Tipo Doc.</label>
-              <select
-                name="tipoDocId"
-                id="tipoDocId"
-                formControlName="tipoDocId"
-                class="form-control"
+                class="form-select"
+                [attr.disabled]="true"
               >
-                <option
-                  [ngValue]="tipo"
-                  *ngFor="let tipo of tipodocumento_list"
-                >
-                  {{ tipo.nombre }}
+                <option [ngValue]="punto.id" *ngFor="let punto of puntos">
+                  {{ punto.id }} - {{ punto.codPunto }} -
+                  {{ punto.tipo_cargo.cargo }}
                 </option>
               </select>
             </div>
+          </form>
+          <br />
+          <div *ngIf="block_agente">
+            <form [formGroup]="formAgente" class="row g-3">
+              <div class="mt-3">
+                <h4 class="card-title text-left mark lead">Datos del Agente</h4>
+              </div>
 
-            <div class="col-md-3">
-              <label for="documento" class="form-label">Documento</label>
-              <div class="input-group">
+              <div class="col-md-1">
+                <label for="tipoDocId" class="form-label">Tipo Doc.</label>
+                <select
+                  name="tipoDocId"
+                  id="tipoDocId"
+                  formControlName="tipoDocId"
+                  class="form-control"
+                >
+                  <option
+                    [ngValue]="tipo.id"
+                    *ngFor="let tipo of tipodocumento_list"
+                  >
+                    {{ tipo.nombre }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label for="documento" class="form-label">Documento</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="documento"
+                    name="documento"
+                    [ngClass]="{ 'is-invalid': existe_agente }"
+                    formControlName="documento"
+                  />
+                  <span class="input-group-btn">
+                    <button
+                      class="btn btn-success"
+                      type="button"
+                      (click)="buscarAgente()"
+                    >
+                      Buscar
+                    </button>
+                  </span>
+                  <div *ngIf="existe_agente" class="invalid-feedback">
+                    <div>
+                      {{ mensaje }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="nombre" class="form-label">Nombre</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="documento"
-                  name="documento"
-                  formControlName="documento"
+                  id="nombre"
+                  name="nombre"
+                  formControlName="nombre"
                 />
-                <span class="input-group-btn">
-                  <button
-                    class="btn btn-success"
-                    type="button"
-                    (click)="buscarAgente()"
-                  >
-                    Buscar
-                  </button>
-                </span>
               </div>
-            </div>
+              <div class="col-md-4">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="apellido"
+                  name="apellido"
+                  formControlName="apellido"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="fechaNac" class="form-label">Fecha Nac.</label>
+                <input
+                  type="date"
+                  id="fechaNac"
+                  class="form-control"
+                  formControlName="fechaNac"
+                />
+              </div>
 
-            <div class="col-md-4">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input
-                type="text"
-                class="form-control"
-                id="nombre"
-                name="nombre"
-                formControlName="nombre"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="apellido" class="form-label">Apellido</label>
-              <input
-                type="text"
-                class="form-control"
-                id="apellido"
-                name="apellido"
-                formControlName="apellido"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="fechaNac" class="form-label">Fecha Nac.</label>
-              <input
-                type="date"
-                id="fechaNac"
-                class="form-control"
-                formControlName="fechaNac"
-              />
-            </div>
-            <!--      <div class="col-md-4" appearance="fill">
-              <input
-                matInput
-                class="form-control"
-                [matDatepicker]="dp"
-                formControlName="fechaNac"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="dp"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #dp></mat-datepicker>
-            </div>
+              <div class="col-md-4">
+                <label for="legajo" class="form-label">Nro. Legajo</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="legajo"
+                  name="legajo"
+                  formControlName="legajo"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="fechaMovimiento" class="form-label">
+                  Fecha Mov.</label
+                >
+                <input
+                  type="date"
+                  name="fechaMovimiento"
+                  id="fechaMovimiento"
+                  formControlName="fechaMovimiento"
+                  class="form-control"
+                  value=""
+                />
+              </div>
+              <div class="col-md-3">
+                <label for="resolucionInicio"> Res. Inicio</label>
+                <input
+                  type="text"
+                  name="resolucionInicio"
+                  id="resolucionInicio"
+                  formControlName="resolucionInicio"
+                  class="form-control"
+                />
+              </div>
+              <div class="col-md-3">
+                <label for="fechaInicio" class="form-label">
+                  Fecha Inicio</label
+                >
+                <input
+                  type="date"
+                  name="fechaInicio"
+                  id="fechaInicio"
+                  formControlName="fechaInicio"
+                  class="form-control"
+                  value=""
+                />
+              </div>
 
- -->
-            <div class="col-md-4">
-              <label for="legajo" class="form-label">Nro. Legajo</label>
-              <input
-                type="number"
-                class="form-control"
-                id="legajo"
-                name="legajo"
-                formControlName="legajo"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="fechaMovimiento" class="form-label">
-                Fecha Mov.</label
-              >
-              <input
-                type="date"
-                name="fechaMovimiento"
-                id="fechaMovimiento"
-                formControlName="fechaMovimiento"
-                class="form-control"
-              />
-            </div>
-            <div class="col-md-3">
-              <label for="resolucionInicio"> Res. Inicio</label>
-              <input
-                type="text"
-                name="resolucionInicio"
-                id="resolucionInicio"
-                formControlName="resolucionInicio"
-                class="form-control"
-              />
-            </div>
-            <div class="col-md-3">
-              <label for="fechaInicio" class="form-label"> Fecha Inicio</label>
-              <input
-                type="date"
-                name="fechaInicio"
-                id="fechaInicio"
-                formControlName="fechaInicio"
-                class="form-control"
-              />
-            </div>
+              <div class="col-md-3">
+                <label for="resolucionFin" class="form-label">
+                  Res. Final</label
+                >
+                <input
+                  type="text"
+                  name="resolucionFin"
+                  id="resolucionFin"
+                  formControlName="resolucionFin"
+                  class="form-control"
+                />
+              </div>
+              <div class="col-md-3">
+                <label for="fechaFin" class="form-label"> Fecha Final</label>
+                <input
+                  type="date"
+                  name="fechaFin"
+                  id="fechaFin"
+                  formControlName="fechaFin"
+                  class="form-control"
+                  value=""
+                />
+              </div>
 
-            <div class="col-md-3">
-              <label for="resolucionFin" class="form-label"> Res. Final</label>
-              <input
-                type="text"
-                name="resolucionFin"
-                id="resolucionFin"
-                formControlName="resolucionFin"
-                class="form-control"
-              />
-            </div>
-            <div class="col-md-3">
-              <label for="fechaFin" class="form-label"> Fecha Final</label>
-              <input
-                type="date"
-                name="fechaFin"
-                id="fechaFin"
-                formControlName="fechaFin"
-                class="form-control"
-              />
-            </div>
+              <div class="col-md-12">
+                <label for="motivo" class="form-label">Motivo Movimiento</label>
+                <textarea
+                  class="form-control"
+                  rows="5"
+                  id="motivo"
+                  name="motivo"
+                ></textarea>
+              </div>
+            </form>
+          </div>
 
-            <div class="col-md-12">
-              <label for="motivo" class="form-label">Motivo Movimiento</label>
-              <textarea
-                class="form-control"
-                rows="5"
-                id="motivo"
-                name="motivo"
-              ></textarea>
-            </div>
-            <div class="col-md-12">
-              <button type="submit" class="btn btn-primary" (click)="onSave()">
-                Confirmar
-              </button>
-            </div>
-          </form>
+          <div class="col-md-12 mt-3">
+            <button type="submit" class="btn btn-primary" (click)="onSave()">
+              Confirmar
+            </button>
+          </div>
         </div>
       </div>
     </div>

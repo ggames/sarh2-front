@@ -3,4 +3,5 @@ export enum EstadoCargo {
   VACANTE_TRANSITORIA,
   CONGELADO,
   SOLICITADA,
+  OCUPADO,
 }

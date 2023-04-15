@@ -207,6 +207,10 @@ export class NuevoPuntoComponent implements OnInit {
     }
   }
 
+  cambiarTransitorio(): void {
+    this.getPuntosLibres();
+  }
+
   getTipoCargos() {
     this.tipoCargoService.getTiposCargos().subscribe({
       next: (res) => {
@@ -300,11 +304,6 @@ export class NuevoPuntoComponent implements OnInit {
 
     this.addPuntosOrigen();
 
-    console.log(
-      'Puntos faltantes ' +
-        `${this.formPunto.get('puntos_disponibles')?.value - this.subtotal}`
-    );
-
     this.punto = {
       codPunto: this.formPunto.get('codPunto')?.value,
       tipo_cargo: this.tipo_c,
@@ -315,9 +314,11 @@ export class NuevoPuntoComponent implements OnInit {
       origenes: [],
     };
 
+    console.log('Puntos faltantes ' + JSON.stringify(this.punto));
+
     this.punto.origenes = this.detalleOrigenes;
 
-    console.log('VALOR DE TRANSITORIO ' + JSON.stringify(this.punto.origenes));
+    //console.log('VALOR DE TRANSITORIO ' + JSON.stringify(this.punto.origenes));
 
     this.puntoService.savePunto(this.punto).subscribe({
       next: (res) => {
@@ -331,43 +332,19 @@ export class NuevoPuntoComponent implements OnInit {
     this.formReset();
   }
 
-  /*  abrirDialogo(): void {
-    const dialogRef = this.dialog.open(DialogPuntosComponent, {
-      width: this.width,
-      data: this.formPunto.get('puntos_disponibles')?.value,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== null) {
-        result.forEach((x: any) => {
-          if (x.checked === true) this.puntosDetalles.push(x);
-        });
-      }
-    });
-  }
- */
   getPuntosLibres() {
-    this.puntoService.getPuntosLibres(false, [1, 2]).subscribe((res) => {
-      this.puntos_libres = res;
-    });
-  }
-
-  /* calcularPunto(pto: PuntosDTO, isChecked: boolean) {
-    console.log('CANTIDAD DE PUNTOS ASOCIADOS ' + this.data);
-
-    if (isChecked) {
-      this.resto = pto.puntos_disponibles - this.data;
-      this.ocupado = pto.puntos_disponibles - Math.max(0, this.resto);
-
-      pto.cant_ocupados = this.ocupado;
-      pto.puntos_disponibles = Math.max(0, this.resto);
-
-      this.data = Math.abs(this.resto);
-      this.total += pto.cant_ocupados;
-      // console.log('TOTAL PUNTOS ' + (this.punto_disponible_aux === this.total));
+    let es_transitorio = this.formPunto.get('transitorio')?.value;
+    if (es_transitorio === true) {
+      this.puntoService.getPuntosLibres(false, [1, 2]).subscribe((res) => {
+        this.puntos_libres = res;
+      });
+    } else {
+      this.puntoService.getPuntosLibres(false, [1]).subscribe((res) => {
+        this.puntos_libres = res;
+      });
     }
   }
- */
+
   confirmarPuntos(): PuntosDTO[] {
     let suma = 0;
 

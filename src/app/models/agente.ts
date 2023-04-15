@@ -5,6 +5,8 @@ export class Agente {
   apellido!: string;
   tipoDocId!: TipoDocumento;
   documento!: string;
+  esFallecido!: boolean;
+  fechaBaja!: string;
   fechaNac!: string;
   email!: string;
   telefono!: string;
