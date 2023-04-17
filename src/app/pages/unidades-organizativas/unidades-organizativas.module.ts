@@ -12,6 +12,7 @@ import { DialogUnidadComponent } from './dialog-unidad/dialog-unidad.component';
 import { MatInputModule } from '@angular/material/input';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [UnidadOrganizativaComponent, DialogUnidadComponent],
@@ -27,6 +28,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatInputModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    NgxMaskModule.forRoot(),
   ],
 })
 export class UnidadesOrganizativasModule {}

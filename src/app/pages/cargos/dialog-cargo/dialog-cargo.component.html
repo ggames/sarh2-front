@@ -31,12 +31,16 @@
                 class="form-control"
                 id="cargoId"
                 formControlName="idCargo"
+                [class.is-invalid]="cargoNoValido"
               />
+              <small *ngIf="cargoNoValido" class="text-danger"
+                >El código de cargo es obligatorio</small
+              >
             </div>
           </div>
 
           <div class="mb-3 row">
-            <label for="caracter_cargo" class="col-md-4 col-form-label bigicon"
+            <label for="caracter" class="col-md-4 col-form-label bigicon"
               >Caracter Cargo:</label
             >
             <div class="col-md-8">
@@ -44,7 +48,8 @@
                 name="caracter"
                 id="caracter"
                 formControlName="caracter"
-                class="form-select input-sm"
+                class="form-select"
+                [class.is-invalid]="caracterNoValido"
                 (change)="cambiarCaracter()"
               >
                 <option
@@ -54,6 +59,9 @@
                   {{ caracter.nombre }}
                 </option>
               </select>
+              <small *ngIf="caracterNoValido" class="text-danger"
+                >El caracter del Cargo es obligatorio</small
+              >
             </div>
           </div>
           <div class="mb-3 row">
@@ -67,6 +75,7 @@
                 name="unidadOrganizativaId"
                 id="unidadOrganizativaId"
                 formControlName="unidadOrganizativaId"
+                [class.is-invalid]="unidadOrganizativaNoValido"
                 class="form-select input-sm"
                 (change)="cambiarUnidadOrganizativa()"
               >
@@ -74,6 +83,9 @@
                   {{ unidad.nombre }}
                 </option>
               </select>
+              <small *ngIf="unidadOrganizativaNoValido" class="text-danger"
+                >El Departamento del Cargo es obligatorio</small
+              >
             </div>
           </div>
           <div class="mb-3 row">
@@ -87,6 +99,7 @@
                 formControlName="estadoCargo"
                 class="form-select input-sm"
                 (change)="cambiarEstadoCargo()"
+                [class.is-invalid]="estadoCargoNoValido"
               >
                 <option
                   [ngValue]="estado.id"
@@ -95,6 +108,9 @@
                   {{ estado.nombre }}
                 </option>
               </select>
+              <small *ngIf="estadoCargoNoValido" class="text-danger"
+                >El estado del Cargo es requerido</small
+              >
             </div>
           </div>
           <div class="mb-3 row">
@@ -107,6 +123,7 @@
                 id="puntoId"
                 formControlName="puntoId"
                 class="form-select input-sm"
+                [class.is-invalid]="puntoNoValido"
                 (change)="cambiarPunto()"
               >
                 <option [ngValue]="pto.id" *ngFor="let pto of puntos">
@@ -114,6 +131,9 @@
                   {{ pto.puntos_disponibles }}
                 </option>
               </select>
+              <small *ngIf="puntoNoValido" class="text-danger"
+                >El Punto es requerido</small
+              >
             </div>
           </div>
 

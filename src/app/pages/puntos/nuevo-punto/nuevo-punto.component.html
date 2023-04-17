@@ -56,19 +56,39 @@
               />
             </div>
 
-            <div class="col-md-6 form-check form-check-inline">
-              <input
-                class="form-comtrol form-check-input"
-                type="checkbox"
-                id="transitorio"
-                name="transitorio"
-                formControlName="transitorio"
-                (change)="cambiarTransitorio()"
-              />
-              <label class="form-check-label" for="transitorio">
-                Transitorio
-              </label>
+            <div class="col-md-3">
+              <div class="input-group-text">
+                <input
+                  class="form-control form-check-input"
+                  type="checkbox"
+                  id="transitorio"
+                  name="transitorio"
+                  formControlName="transitorio"
+                  (change)="cambiarTransitorio()"
+                />
+
+                <label class="form-check-label" for="transitorio">
+                  Transitorio
+                </label>
+              </div>
             </div>
+
+            <div class="col-md-3">
+              <div class="input-group-text">
+                <input
+                  class="form-control form-check-input"
+                  type="checkbox"
+                  id="deRectorado"
+                  name="deRectorado"
+                  formControlName="deRectorado"
+                />
+
+                <label class="form-check-label" for="deRectorado">
+                  Resolución 9999
+                </label>
+              </div>
+            </div>
+
             <div
               class="col-md-5 gap-3 d-md-flex justify-content-md-center mb-3"
             ></div>
@@ -88,6 +108,7 @@
                         <th></th>
                         <th>ID</th>
                         <th>Tipo Cargo</th>
+                        <th>Cod Punto</th>
                         <th>Ptos. Disponible</th>
                         <th>Ptos. Ocupado</th>
                       </thead>
@@ -133,6 +154,7 @@
                           </td>
                           <td>{{ punto.id }}</td>
                           <td>{{ punto.tipo_cargo.cargo }}</td>
+                          <td>{{ punto.codPunto }}</td>
                           <td>{{ punto.puntos_disponibles }}</td>
                           <td>{{ punto.cant_ocupados }}</td>
                         </tr>
@@ -165,6 +187,7 @@
             <thead>
               <th>ID</th>
               <th>Tipo Cargo</th>
+              <th>Cod Punto</th>
               <th>Ptos. Disponible</th>
               <th>Ptos. Ocupados</th>
             </thead>
@@ -172,6 +195,7 @@
               <tr *ngFor="let punto of puntosDetalles; let i = index">
                 <td>{{ punto.id }}</td>
                 <td>{{ punto.tipo_cargo.cargo }}</td>
+                <td>{{ punto.codPunto }}</td>
                 <td>{{ punto.puntos_disponibles }}</td>
                 <td>{{ punto.cant_ocupados }}</td>
               </tr>

@@ -37,6 +37,20 @@ export class DialogTransformacionComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  get numeroResolucionNoValido() {
+    return (
+      this.transformacionForm.get('numeroResolucion')?.invalid &&
+      this.transformacionForm.get('numeroResolucion')?.touched
+    );
+  }
+
+  get resultadoTransformacionNoValido() {
+    return (
+      this.transformacionForm.get('resultadoTransformacion')?.invalid &&
+      this.transformacionForm.get('resultadoTransformacion')?.touched
+    );
+  }
+
   createForm() {
     this.transformacionForm = this.fb.group({
       numeroResolucion: ['', Validators.required],

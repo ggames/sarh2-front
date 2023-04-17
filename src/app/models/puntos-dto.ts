@@ -6,6 +6,7 @@ export class PuntosDTO {
   codPunto!: number;
   tipo_cargo!: TipoCargo;
   transitorio!: boolean;
+  deRectorado!: boolean;
   origenes!: PuntoOrigen[];
   puntos_disponibles!: number;
   puntos_faltantes!: number;

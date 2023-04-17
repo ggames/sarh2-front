@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { TransformacionesRoutingModule } from './transformaciones-routing.module';
 import { TransformacionComponent } from './transformacion/transformacion.component';
@@ -27,6 +28,7 @@ import { DialogTransformacionComponent } from './dialog-transformacion/dialog-tr
     CdkAccordionModule,
     MatPaginatorModule,
     MatCardModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   entryComponents: [MatDialogModule],

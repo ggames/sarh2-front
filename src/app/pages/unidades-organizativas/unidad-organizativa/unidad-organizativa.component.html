@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12">
           <div class="d-flex">
-            <button class="btn btn-success ml-auto" (click)="openAdd()">
+            <button class="btn btn-success ml-auto mt-3" (click)="openAdd()">
               Agregar Unidad Organizativa
             </button>
           </div>
@@ -44,26 +44,29 @@
               </div>
             </cdk-accordion-item>
           </cdk-accordion>
-          <table class="table table-hover">
-            <thead>
+          <table
+            class="table table-bordered border-primary mt-3"
+            style="text-transform: uppercase"
+          >
+            <thead class="table-success">
               <tr>
-                <th>#</th>
-                <th>Nombre Unidad Organizativa</th>
-                <th>Codigo Director</th>
+                <th scope="col">#</th>
+                <th scope="col">Departamento</th>
+                <th scope="col">Codigo Director</th>
                 <th class="text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 *ngFor="
-                  let unidad of unidades_organizativas | slice: desde:hasta;
+                  let unidad of unidades_organizativas | slice : desde : hasta;
                   let i = index
                 "
               >
-                <th>{{ unidad.id }}</th>
-                <th>{{ unidad.nombre }}</th>
-                <th>{{ unidad.directorId }}</th>
-                <th class="d-flex justify-content-center">
+                <td>{{ unidad.id }}</td>
+                <td>{{ unidad.nombre }}</td>
+                <td>{{ unidad.directorId }}</td>
+                <td class="d-flex justify-content-center">
                   <button
                     class="btn btn-primary mr-3"
                     (click)="openEdit(unidad)"
@@ -73,7 +76,7 @@
                   <button class="btn btn-danger">
                     <i class="fa fa-trash-o"></i>
                   </button>
-                </th>
+                </td>
               </tr>
             </tbody>
           </table>

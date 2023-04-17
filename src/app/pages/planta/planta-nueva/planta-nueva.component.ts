@@ -121,7 +121,7 @@ export class PlantaNuevaComponent implements OnInit {
     this.formCargo = this.fb.group({
       idCargo: ['', Validators.required],
       tipoCargo: [null],
-      subunidadOrganizativaId: [null],
+      subunidadOrganizativaId: [null, Validators.required],
       caracter: [null, Validators.required],
       estadoCargo: [null, Validators.required],
       puntoId: [null],

@@ -1,5 +1,74 @@
 <mat-card-title>
   <h1 mat-dialog-title>
-    <!--  {{ unidad != null }}  -->
+    {{ unidad != null ? "Editar Departamento" : "Crear Departamento" }}
   </h1>
 </mat-card-title>
+<br />
+<mat-dialog-content class="mat-typography">
+  <div class="card-body">
+    <form
+      [formGroup]="unidadForm"
+      (ngSubmit)="unidad != null ? onUpdate() : onSave()"
+    >
+      <div class="col-md-12">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="nombre" class="form-label">Departamento</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              formControlName="nombre"
+              [class.is-invalid]="nombreNoValido"
+              class="form-control"
+            />
+            <small *ngIf="nombreNoValido" class="text-danger"
+              >Debe ingresar un nombre de Departamento</small
+            >
+          </div>
+          <div class="form-group col-md-4">
+            <label for="directorId" class="form-label">Cód Director</label>
+            <input
+              type="number"
+              id="directorId"
+              name="directorId"
+              formControlName="directorId"
+              [class.is-invalid]="directorNoValido"
+              class="form-control"
+            />
+            <small *ngIf="directorNoValido" class="text-danger"
+              >El código del Director es requerido</small
+            >
+          </div>
+          <div class="col-md-4 offset-md-8"></div>
+          <div class="form-group col-md-4">
+            <label for="viceDirectorId" class="form-label"
+              >Cód Vicedirector</label
+            >
+            <input
+              type="number"
+              id="viceDirectorId"
+              name="viceDirectorId"
+              formControlName="viceDirectorId"
+              [class.is-invalid]="viceDirectorNoValido"
+              class="form-control"
+            />
+            <small *ngIf="viceDirectorNoValido" class="text-danger"
+              >El código del Vice Director es requerido</small
+            >
+          </div>
+          <div class="col-md-8 offset-md-8"></div>
+        </div>
+      </div>
+      <button
+        class="btn btn-inverse waves-effect waves-light m-r-10"
+        mat-dialog-close
+      >
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-success waves-effect waves-light">
+        Guardar
+      </button>
+    </form>
+  </div>
+</mat-dialog-content>

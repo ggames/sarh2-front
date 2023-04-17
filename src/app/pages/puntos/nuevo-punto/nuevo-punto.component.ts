@@ -166,6 +166,7 @@ export class NuevoPuntoComponent implements OnInit {
       puntos_disponibles: [0],
       puntos_faltantes: [0],
       transitorio: [''],
+      deRectorado: [''],
     });
   }
 
@@ -228,7 +229,7 @@ export class NuevoPuntoComponent implements OnInit {
     puntoNuevo.puntos_disponibles =
       this.formPunto.get('puntos_disponibles')?.value;
     puntoNuevo.transitorio = this.formPunto.get('transitorio')?.value;
-
+    puntoNuevo.deRectorado = this.formPunto.get('deRectorado')?.value;
     this.puntosDetalles.forEach((x) =>
       this.detalleOrigenes.push({
         puntoOrigenId: x?.id,
@@ -309,8 +310,11 @@ export class NuevoPuntoComponent implements OnInit {
       tipo_cargo: this.tipo_c,
       puntos_disponibles: this.formPunto.get('puntos_disponibles')?.value,
       puntos_faltantes:
-        this.formPunto.get('puntos_disponibles')?.value - this.subtotal,
+        this.formPunto.get('deRectorado')?.value == true
+          ? this.formPunto.get('puntos_disponibles')?.value - this.subtotal
+          : 0,
       transitorio: this.formPunto.get('transitorio')?.value,
+      deRectorado: this.formPunto.get('deRectorado')?.value,
       origenes: [],
     };
 

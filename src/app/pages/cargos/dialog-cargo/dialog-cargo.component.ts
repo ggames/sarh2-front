@@ -1,21 +1,22 @@
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CargoService } from '../../../services/cargo.service';
-import { Cargo } from 'src/app/models/cargo';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PuntosDTO } from '../../../models/puntos-dto';
-import { caracterDTO } from '../../../models/caracter-dto';
-import { EstadoCargo } from '../../../models/estadoCargo';
-import { UnidadOrganizativa } from '../../../models/unidad-organizativa';
-import { Puntos } from '../../../models/puntos';
+import { Component, Inject, OnInit } from '@angular/core';
+
 import { TransformacionesService } from '../../../services/transformaciones.service';
-import { Transformacion } from 'src/app/models/transformacion';
 import { CaracterService } from '../../../services/caracter.service';
 import { EstadocargoService } from '../../../services/estadocargo.service';
 import { UnidadOrganizativaService } from '../../../services/unidad-organizativa.service';
 import { PuntoService } from '../../../services/punto.service';
-import { Component, Inject, OnInit } from '@angular/core';
+import { CargoService } from '../../../services/cargo.service';
+
+import { UnidadOrganizativa } from '../../../models/unidad-organizativa';
+import { PuntosDTO } from '../../../models/puntos-dto';
+import { caracterDTO } from '../../../models/caracter-dto';
+import { Transformacion } from 'src/app/models/transformacion';
 import { EstadoCargoDTO } from 'src/app/models/estadocargo-dto';
-import { filter } from 'rxjs';
+import { Cargo } from 'src/app/models/cargo';
+
+//import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-cargo-nuevo',
@@ -71,15 +72,50 @@ export class DialogCargoComponent implements OnInit {
     }
   }
 
+  get cargoNoValido() {
+    return (
+      this.formCargo.get('idCargo')?.invalid &&
+      this.formCargo.get('idCargo')?.touched
+    );
+  }
+
+  get caracterNoValido() {
+    return (
+      this.formCargo.get('caracter')?.invalid &&
+      this.formCargo.get('caracter')?.touched
+    );
+  }
+
+  get unidadOrganizativaNoValido() {
+    return (
+      this.formCargo.get('unidadOrganizativaId')?.invalid &&
+      this.formCargo.get('unidadOrganizativaId')?.touched
+    );
+  }
+
+  get estadoCargoNoValido() {
+    return (
+      this.formCargo.get('estadoCargo')?.invalid &&
+      this.formCargo.get('estadoCargo')?.touched
+    );
+  }
+
+  get puntoNoValido() {
+    return (
+      this.formCargo.get('puntoId')?.invalid &&
+      this.formCargo.get('puntoId')?.touched
+    );
+  }
+
   createForm() {
     this.formCargo = this.fb.group({
-      idCargo: [0, Validators.required],
+      idCargo: ['', Validators.required],
       caracter: [null, Validators.required],
       unidadOrganizativaId: [null, Validators.required],
       estadoCargo: [null, Validators.required],
       puntoId: [null, Validators.required],
       transfCreacionId: [null, Validators.required],
-      transfSupresionId: [null, Validators.required],
+      transfSupresionId: [null],
     });
   }
 
