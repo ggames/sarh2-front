@@ -1,15 +1,22 @@
-<div class="row gt-3">
+<div class="col-12">
   <div class="box-row animate_animated animate_fadeIn">
     <div class="row">
       <div class="d-flex">
-        <button class="btn btn-success ml-auto">Agregar</button>
+        <button
+          class="btn btn-success ml-auto"
+          [routerLink]="['/app/planta', 'create']"
+        >
+          Agregar
+        </button>
       </div>
       <cdk-accordion class="accordion">
         <cdk-accordion-item> </cdk-accordion-item>
       </cdk-accordion>
       <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
+        <table
+          class="table table-bordered border table-striped table-hover mt-3"
+        >
+          <thead class="table-success" style="text-transform: uppercase">
             <tr>
               <th>Cod. Cargo</th>
               <th>Documento</th>
@@ -27,30 +34,30 @@
                 let i = index
               "
             >
-              <th>{{ planta.cargoId.idCargo }}</th>
-              <th>
+              <td>{{ planta.cargoId.idCargo }}</td>
+              <td>
                 <div role="button" style="cursor: pointer">
                   {{ planta.agenteId.tipoDocId.nombre }} :
                   {{ planta.agenteId.documento }}
                 </div>
-              </th>
-              <th>
+              </td>
+              <td>
                 {{ planta.agenteId.apellido }} {{ planta.agenteId.nombre }}
-              </th>
+              </td>
 
-              <th>
+              <td>
                 {{ planta.cargoId.estadoCargo.nombre }}
-              </th>
-              <th>
-                {{ planta.cargoId.puntoId.id }}
+              </td>
+              <td>
+                {{ planta.cargoId.puntoId.codPunto }}
                 {{ planta.cargoId.puntoId.tipo_cargo.cargo }} -
                 {{ planta.cargoId.puntoId.puntos_disponibles }}
-              </th>
-              <th>
+              </td>
+              <td>
                 {{ planta.resolucionInicio }}
-              </th>
+              </td>
 
-              <th class="d-flex justify-content-center">
+              <td class="d-flex justify-content-center">
                 <a
                   class="btn btn-primary mr-3"
                   [routerLink]="['/app/planta/edit', planta.id]"
@@ -60,7 +67,7 @@
                 <button class="btn btn-danger">
                   <i class="fa fa-trash-o"></i>
                 </button>
-              </th>
+              </td>
             </tr>
           </tbody>
         </table>

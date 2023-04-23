@@ -4,7 +4,7 @@ import { SubUnidadOrganizativa } from './../../../models/subunidad-organizativa'
 import { SubunidadOrganizativaService } from './../../../services/subunidad-organizativa.service';
 import { Cargo } from 'src/app/models/cargo';
 import { Agente } from './../../../models/agente';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -75,7 +75,8 @@ export class PlantaEditarComponent implements OnInit {
     private tipoDocumentoService: TipoDocumentoService,
     private rolPlantaService: RolPlantaService,
     private fb: FormBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private route: Router
   ) {
     this.createForm();
   }
@@ -338,5 +339,9 @@ export class PlantaEditarComponent implements OnInit {
     const valor = this.formPlanta.get('subunidadOrganizativaId')?.value;
 
     this.subunidad = this.subunidades.find((v) => v.id == valor)!;
+  }
+
+  onCancelar() {
+    this.route.navigate(['/app/planta']);
   }
 }

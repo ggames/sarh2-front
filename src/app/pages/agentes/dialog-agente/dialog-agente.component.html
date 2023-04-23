@@ -1,27 +1,28 @@
-<mat-card-title>
-  <h1 mat-dialog-title>
+<div class="p-3 mb-2 bg-info">
+  <h1 style="text-align: cemter">
     {{ agente != null ? "Editar Agente" : "Nuevo Agente" }}
   </h1>
-</mat-card-title>
-<mat-dialog-content class="mat-typography">
+</div>
+
+<div mat-dialog-content class="mat-typography">
   <div class="card-body">
     <form
       [formGroup]="agentForm"
       novalidate
       (ngSubmit)="agente != null ? editAgente() : addAgente()"
     >
-      <mat-form-field>
-        <mat-label>Nombre</mat-label>
+      <div class="form-group">
+        <label class="form-label" for="nombre">Nombre</label>
         <input
-          matInput
           type="text"
           id="nombre"
           name="nombre"
+          class="form-control"
           formControlName="nombre"
           placeholder="Nombre de Agente"
           required
         />
-      </mat-form-field>
+      </div>
 
       <div class="form-group">
         <label>Apellido</label>
@@ -63,30 +64,61 @@
           required
         />
       </div>
-      <div class="form-check">
+
+      <div class="input-group mb-3">
         <input
           type="checkbox"
           name="esFallecido"
           id="esFallecido"
           value=""
-          class="form-check-input"
+          class="form-check-input mt-0"
           formControlName="esFallecido"
         />
-        <label for="esFallecido" class="form-check-label">Fallecido?</label>
+        <label for="esFallecido" class="form-label">es Fallecido?</label>
       </div>
 
       <div class="form-group">
         <label for="fechaBaja" class="form-label">Fecha Baja</label>
-        <input
-          type="date"
-          name="fechaBaja"
-          id="fechaBaja"
-          class="form-control"
-          formControlName="fechaBaja"
-        />
+        <div class="input-group">
+          <input
+            [matDatepicker]="picker"
+            placeholder="dd/mm/aaaa"
+            name="fechaBaja"
+            id="fechaBaja"
+            class="form-control"
+            formControlName="fechaBaja"
+          />
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+        </div>
       </div>
 
       <div class="form-group">
+        <label for="fechaBaja" class="form-label">Fecha Nacimiento</label>
+        <div class="input-group">
+          <input
+            [matDatepicker]="picker"
+            placeholder="dd/mm/aaaa"
+            name="fechaNac"
+            id="fechaNac"
+            [class.is-invalid]="fechaNacimientoNoValido"
+            class="form-control"
+            formControlName="fechaNac"
+          />
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+        </div>
+        <small *ngIf="fechaNacimientoNoValido" class="text-danger">
+          Fecha de nacimiento es requerido
+        </small>
+      </div>
+      <!--  <div class="form-group">
         <label for="fechaNac" class="form-label">Fecha Nacimiento</label>
         <input
           type="date"
@@ -95,7 +127,7 @@
           class="form-control"
           formControlName="fechaNac"
         />
-      </div> 
+      </div> -->
       <!-- <mat-form-field appearance="fill">
         <mat-label>Fecha Nacimiento</mat-label>
         <input matInput [matDatepicker]="dp" formControlName="fechaNac" />
@@ -165,4 +197,4 @@
       </button>
     </form>
   </div>
-</mat-dialog-content>
+</div>

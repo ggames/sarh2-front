@@ -32,6 +32,7 @@
                 id="cargoId"
                 formControlName="idCargo"
                 [class.is-invalid]="cargoNoValido"
+                [attr.disabled]="!editar ? false : null"
               />
               <small *ngIf="cargoNoValido" class="text-danger"
                 >El código de cargo es obligatorio</small
@@ -125,9 +126,11 @@
                 class="form-select input-sm"
                 [class.is-invalid]="puntoNoValido"
                 (change)="cambiarPunto()"
+                [attr.disabled]="!editar ? false : null"
               >
                 <option [ngValue]="pto.id" *ngFor="let pto of puntos">
-                  {{ pto.id }} - {{ pto.tipo_cargo.cargo }} -
+                  {{ pto.id }}- {{ pto.codPunto }} -
+                  {{ pto.tipo_cargo.cargo }} -
                   {{ pto.puntos_disponibles }}
                 </option>
               </select>

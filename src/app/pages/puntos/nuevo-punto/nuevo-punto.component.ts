@@ -39,6 +39,7 @@ import { PuntoService } from '../../../services/punto.service';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-puntos',
@@ -127,7 +128,8 @@ export class NuevoPuntoComponent implements OnInit {
     private tipoCargoService: TipoCargosService,
     private fb: FormBuilder,
     private sb: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.puntos$ = new Subject();
     this.puntoDetalles$ = new ReplaySubject();
@@ -367,10 +369,13 @@ export class NuevoPuntoComponent implements OnInit {
 
   formReset(): void {
     this.formPunto.reset();
-    this.getPuntosLibres();
+    // this.getPuntosLibres();
+    this.puntos_libres = [];
     this.puntosDetalles = [];
     this.puntosDisponible = [];
     this.confirmado = false;
     this.submitted = false;
+    this.block = false;
+    this.router.navigate(['/app/puntos']);
   }
 }

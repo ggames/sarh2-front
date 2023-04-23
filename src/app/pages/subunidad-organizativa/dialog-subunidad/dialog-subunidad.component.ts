@@ -62,6 +62,27 @@ export class DialogSubunidadComponent implements OnInit {
     });
   }
 
+  get nombreNoValido() {
+    return (
+      this.SubUnidadForm.get('nombre')?.invalid &&
+      this.SubUnidadForm.get('nombre')?.touched
+    );
+  }
+
+  get UnidadNoValido() {
+    return (
+      this.SubUnidadForm.get('unidadOrganizativaId')?.invalid &&
+      this.SubUnidadForm.get('unidadOrganizativaId')?.touched
+    );
+  }
+
+  get codigoGuaraniNoValido() {
+    return (
+      this.SubUnidadForm.get('codigoGuarani')?.invalid &&
+      this.SubUnidadForm.get('codigoGuarani')?.touched
+    );
+  }
+
   getValue(event: any): number {
     return event.target.value.split(':')[1];
   }

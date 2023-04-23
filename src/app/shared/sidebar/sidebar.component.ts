@@ -12,9 +12,12 @@ import * as data from '../../../assets/menu.json';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
+  tituloModulo!: string;
+
   constructor() {}
 
   ngOnInit(): void {
+    // this.tituloModulo = 'Gestión de Cargos';
     // console.log('ENTROOOOOO' + JSON.stringify(data));
     /*  this.http
       .get('../../assets/menu.json')

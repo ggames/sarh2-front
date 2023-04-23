@@ -5,9 +5,19 @@
     "routerLink": "/app/usuarios"
 },
 {
+    "text": "Gestion Agentes",
+    "icon": "people",
+    "routerLink":"/app/agentes"  
+},
+{
     "text": "Planta Cargo",
     "icon": "assignment_ind",
     "routerLink":"/app/planta"
+},
+{
+    "text": "Gestión de Tipo Cargos",
+    "icon": "",
+    "routerLink": "/app/tipocargo"
 },
 {
     "text": "Puntos Docentes",
@@ -19,19 +29,31 @@
     "icon": "edit",
     "routerLink":"/app/transformaciones"
 },
+{
+    "text": "Gestion de Materias",
+    "icon": "library_books",
+    "routerLink": "/app/subunidades"
+},
+{
+
+    "text": "Gestión de Departamento",
+    "icon": "account_balance_wallet",
+    "routerLink": "/app/unidades"
+},
+
 
 {
     "text": "Cargo Docentes",
     "icon": "credit_card",
-    "routerLink":"/app/transformaciones"
+    "routerLink":"/app/cargo"
 },
 {
     "text": "Informes",
     "icon": "receipt",
     "children": [ {
-        "text": "Gestion Agentes",
+        "text": "Informe de Avance",
         "icon": "people",
-        "routerLink":"/app/agentes"
+        "routerLink": ""
     }]
 }
 

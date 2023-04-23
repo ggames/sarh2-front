@@ -10,6 +10,7 @@
 
 <ng-template #parentMenu let-menu="menu">
   <mat-list-item
+    (click)="tituloModuloCambiar(menu)"
     [routerLink]="menu.routerLink"
     routerLinkActive="is-active"
     [routerLinkActiveOptions]="{ exact: true }"
@@ -26,6 +27,7 @@
     </mat-expansion-panel-header>
     <mat-nav-list>
       <mat-list-item
+        (click)="tituloModuloCambiar(submenu)"
         [routerLink]="submenu.routerLink"
         *ngFor="let submenu of menu.children"
         routerLinkActive="is-active"

@@ -27,6 +27,7 @@ import {
 import { TipoDocumento } from './../../../models/tipodocumento';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 export const MY_FORMATS = {
   parse: {
@@ -68,6 +69,8 @@ export class DialogAgenteComponent implements OnInit {
 
   agentForm!: FormGroup;
   constructor(
+    private dateAdapter: DateAdapter<Date>,
+    private toastrSrv: ToastrService,
     private agenteService: AgenteService,
     private tpdocumentoService: TipoDocumentoService,
     private fb: FormBuilder,
@@ -75,7 +78,9 @@ export class DialogAgenteComponent implements OnInit {
     @Inject(LOCALE_ID) public locale: string,
     public dialogRef: MatDialogRef<DialogAgenteComponent>,
     @Inject(MAT_DIALOG_DATA) public agente: Agente
-  ) {}
+  ) {
+    this.dateAdapter.setLocale('es-Es');
+  }
 
   ngOnInit(): void {
     //console.log('Fecha Nacimiento ' + this.myDate);
@@ -122,13 +127,27 @@ export class DialogAgenteComponent implements OnInit {
       tipoDocId: [null, Validators.required],
       documento: ['', Validators.required],
       esFallecido: [null],
-      fechaBaja: [null],
-      fechaNac: [null, Validators.required],
+      fechaBaja: [''],
+      fechaNac: ['', Validators.required],
       legajo: ['', Validators.required],
       domicilio: ['', Validators.required],
       email: ['', Validators.required],
       telefono: [''],
     });
+  }
+
+  get nombreNoValido() {
+    return (
+      this.agentForm.get('nombre')?.valid &&
+      this.agentForm.get('nombre')?.touched
+    );
+  }
+
+  get fechaNacimientoNoValido() {
+    return (
+      this.agentForm.get('fechaNac')?.invalid &&
+      this.agentForm.get('fechaNac')?.touched
+    );
   }
 
   getTipoDocumentos() {
@@ -183,6 +202,8 @@ export class DialogAgenteComponent implements OnInit {
   }
 
   editAgente() {
+    console.log('Fecha de BAJA  ' + this.agentForm.get('fecbaBaja')?.value);
+
     let agente_update = {
       id: this.agente.id,
       nombre: this.agentForm.get('nombre')?.value,
@@ -190,14 +211,7 @@ export class DialogAgenteComponent implements OnInit {
       tipoDocId: this.tipodocumento,
       documento: this.agentForm.get('documento')?.value,
       esFallecido: this.agentForm.get('esFallecido')?.value,
-      fechaBaja:
-        this.agentForm.get('fechaBaja')?.value != undefined
-          ? formatDate(
-              this.agentForm.get('fechaBaja')?.value,
-              'yyyy-MM-dd',
-              'en'
-            )
-          : '',
+      fechaBaja: this.agentForm.get('fechaBaja')?.value,
       fechaNac:
         this.agentForm.get('fechaNac')?.value != undefined
           ? formatDate(
@@ -211,8 +225,15 @@ export class DialogAgenteComponent implements OnInit {
       email: this.agentForm.get('email')?.value,
       telefono: this.agentForm.get('telefono')?.value,
     };
+
+    console.log('DATOS DE AGENTE ' + JSON.stringify(agente_update));
+
     this.agenteService.actualizarAgente(agente_update).subscribe({
       next: (response) => {
+        this.toastrSrv.success(
+          'Los datos del agente se actualizo con existo',
+          'App Fich'
+        );
         console.log('Edicion Agente ' + JSON.stringify(response));
       },
     });

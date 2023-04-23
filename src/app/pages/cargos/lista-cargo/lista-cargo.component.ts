@@ -17,6 +17,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lista-cargo',
@@ -34,8 +35,8 @@ import {
   ],
 })
 export class ListaCargoComponent implements OnInit {
-  faAnglesDown = faAngleDown;
-  faAnglesUp = faAngleUp;
+  faAnglesDown = faAnglesDown;
+  faAnglesUp = faAnglesUp;
 
   pageSize = 5;
   i = 1;
@@ -45,6 +46,7 @@ export class ListaCargoComponent implements OnInit {
   cargos: Cargo[] = [];
 
   constructor(
+    private toastSrv: ToastrService,
     private cargoService: CargoService,
     private matDialog: MatDialog
   ) {}
@@ -74,12 +76,16 @@ export class ListaCargoComponent implements OnInit {
   }
 
   editDialog(cargo: Cargo): void {
-    const dialogRef = this.matDialog.open(DialogCargoComponent, {
-      width: this.width,
-      data: cargo,
-    });
+    if (cargo.estadoCargo.id == 1 && cargo.puntoId.transitorio == true) {
+      this.toastSrv.error('No se puede modificar el registro', 'App Fich');
+    } else {
+      const dialogRef = this.matDialog.open(DialogCargoComponent, {
+        width: this.width,
+        data: cargo,
+      });
 
-    dialogRef.afterClosed().subscribe(() => this.obtenerCargos());
+      dialogRef.afterClosed().subscribe(() => this.obtenerCargos());
+    }
   }
 
   cambiarPagina(e: PageEvent) {

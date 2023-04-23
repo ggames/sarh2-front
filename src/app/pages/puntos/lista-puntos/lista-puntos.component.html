@@ -3,11 +3,16 @@
     <div class="box-row animate_animated animate_fadeIn">
       <div class="row">
         <div class="d-flex">
-          <button class="btn btn-success ml-auto">Agregar</button>
+          <button
+            class="btn btn-success ml-auto"
+            [routerLink]="['/app/puntos', 'create']"
+          >
+            Agregar Puntos
+          </button>
         </div>
         <div class="row">
-          <table class="table table-bordered">
-            <thead>
+          <table class="table table-bordered border table-hover mt-3">
+            <thead class="table-success" style="text-transform: uppercase">
               <tr>
                 <th>ID</th>
                 <th>Nombre y Apellido</th>

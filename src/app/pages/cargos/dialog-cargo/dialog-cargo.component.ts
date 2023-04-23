@@ -66,9 +66,13 @@ export class DialogCargoComponent implements OnInit {
     if (this._cargo != null) {
       this.cargarCargo(this._cargo);
       this.cambiarCaracter();
+
       this.getCaracterCargos(3);
+      this.getTodosPuntos();
+      this.editar = false;
     } else {
       this.getCaracterCargos(-1);
+      this.editar = true;
     }
   }
 
@@ -127,7 +131,8 @@ export class DialogCargoComponent implements OnInit {
       estadoCargo: cargo.estadoCargo.id,
       puntoId: cargo.puntoId.id,
       transfCreacionId: cargo.transfCreacionId.id,
-      transfSupresionId: null,
+      transfSupresionId:
+        cargo.transfSupresionId != null ? cargo.transfSupresionId.id : null,
     };
     this.caracterCargo = cargo.caracter;
     this.unidadOrganizativa = cargo.unidadOrganizativaId;
@@ -198,6 +203,14 @@ export class DialogCargoComponent implements OnInit {
         },
       });
     }
+  }
+
+  getTodosPuntos(): void {
+    this.ptoService.obtenerPuntos().subscribe({
+      next: (res) => {
+        this.puntos = res;
+      },
+    });
   }
 
   getPuntos(): void {

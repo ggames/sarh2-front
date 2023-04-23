@@ -18,6 +18,8 @@ import { HeaderComponent } from './shared/header/header.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component';
 import { SidenavbarComponent } from './shared/sidenavbar/sidenavbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import { SidenavbarComponent } from './shared/sidenavbar/sidenavbar.component';
     BreadcrumbsComponent,
     AppComponent,
     SidenavbarComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     FormsModule,
     HttpClientModule,
     MatSidenavModule,

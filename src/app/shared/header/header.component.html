@@ -1,9 +1,28 @@
-<div class="header-container">
-  <mat-divider vertical class="vertical-divider"></mat-divider>
-  <div class="header-page-title">
-    <h2></h2>
-  </div>
-  <div class="header-user-profile">
-    <h1>Home</h1>
-  </div>
-</div>
+<!-- ============================================================== -->
+<!-- Topbar header - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <!-- ============================================================== -->
+    <!-- Logo -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- End Logo -->
+    <!-- ============================================================== -->
+    <div class="navbar-collapse">
+      <!-- ============================================================== -->
+      <!-- toggle and nav items -->
+      <!-- ============================================================== -->
+
+      <!-- ============================================================== -->
+      <!-- User profile and search -->
+      <!-- ============================================================== -->
+
+      <ul class="navbar-nav my-lg-0">
+        <li class="nav-item mr-auto" (click)="onLogOut()">
+          <a class="nav-link"><i class="fa fa-power-off"></i> Cerrar Sesión</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

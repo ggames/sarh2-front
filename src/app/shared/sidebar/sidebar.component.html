@@ -1,19 +1,33 @@
 <div class="sidebar-container">
   <mat-toolbar class="sidebar-toolbar">
-    <h1 class="sidebar-app-name">
-      <img src="assets/images/fich.png" alt="homepage" class="dark-logo" />
-      <!-- Light Logo icon -->
+    <h1 class="sidebar-app-name mr-auto">
+      <img src="assets/images/fich.png" alt="homepage" />
+      <button
+        mat-icon-button
+        class="btn btn-sm ml-1"
+        aria-label="Toggle sidenav"
+        (click)="snav.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      {{ tituloModulo }}
     </h1>
-    <button mat-icon-button class="btn btn-sm" (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
+
+    <div class="row mt-3 ml-auto">
+      <app-header [titulo]="tituloModulo"></app-header>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12"></div>
+    </div>
   </mat-toolbar>
   <mat-sidenav-container class="sidebar-sidenav-container">
     <mat-sidenav #snav mode="side" fixedTopGap="56" opened="true">
-      <app-side-navbar></app-side-navbar>
+      <app-side-navbar (tituloModulo)="tituloModulo = $event"></app-side-navbar>
     </mat-sidenav>
-    <mat-sidenav-content class="page-wrapper">
+    <mat-sidenav-content class="router-container bg-light">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <app-footer></app-footer>
 </div>

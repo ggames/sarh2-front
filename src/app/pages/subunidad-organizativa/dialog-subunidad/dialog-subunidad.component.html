@@ -16,8 +16,12 @@
           name="codigoGuarani"
           id="codigoGuarani"
           class="form-control"
+          [class.is-invalid]="codigoGuaraniNoValido"
           formControlName="codigoGuarani"
         />
+        <small *ngIf="codigoGuaraniNoValido" class="text-danger"
+          >El código Guarani es un dato requerido</small
+        >
       </div>
       <div class="form-group">
         <label for="nombre" class="form-label">Nombre Materia</label>
@@ -26,8 +30,12 @@
           name="nombre"
           id="nombre"
           class="form-control"
+          [class.is-invalid]="nombreNoValido"
           formControlName="nombre"
         />
+        <small *ngIf="nombreNoValido" class="text-danger"
+          >El nombre de la materia es requerido</small
+        >
       </div>
       <div class="form-group">
         <label for="unidadOrganizativaId" class="form-label"
@@ -38,6 +46,7 @@
           id="unidadOrganizativaId"
           formControlName="unidadOrganizativaId"
           class="form-control"
+          [class.is-invalid]="UnidadNoValido"
           (change)="cambiarDepartamento($event)"
         >
           <option
@@ -47,6 +56,10 @@
             {{ unidad.nombre }}
           </option>
         </select>
+
+        <small *ngIf="UnidadNoValido" class="text-danger"
+          >El departamento es un dato obligatorio</small
+        >
       </div>
 
       <button

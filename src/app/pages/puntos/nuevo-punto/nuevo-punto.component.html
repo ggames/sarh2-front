@@ -103,8 +103,13 @@
               <div mat-dialog-content *ngIf="block">
                 <div class="row">
                   <div class="table-responsive">
-                    <table class="datatable">
-                      <thead>
+                    <table
+                      class="table table-bordered border table-striped table-hover"
+                    >
+                      <thead
+                        class="table-success"
+                        style="text-transform: uppercase"
+                      >
                         <th></th>
                         <th>ID</th>
                         <th>Tipo Cargo</th>
@@ -183,8 +188,8 @@
             </div>
           </div>
 
-          <table class="datatable">
-            <thead>
+          <table class="table table-bordered border table-striped table-hover">
+            <thead class="table-success" style="text-transform: uppercase">
               <th>ID</th>
               <th>Tipo Cargo</th>
               <th>Cod Punto</th>
@@ -205,6 +210,13 @@
         <div class="gap-3 d-md-flex justify-content-md-center mb-3">
           <button class="btn btn-primary" type="button" (click)="onSave()">
             Confirmar Punto
+          </button>
+          <button
+            class="btn btn-ligth-outline"
+            type="button"
+            (click)="formReset()"
+          >
+            Cancelar
           </button>
         </div>
       </div>
