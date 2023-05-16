@@ -1,4 +1,5 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 
@@ -45,7 +46,9 @@ export class DialogCargoComponent implements OnInit {
   editar: boolean = false;
 
   constructor(
+    private dialogRef: MatDialogRef<DialogCargoComponent>,
     private fb: FormBuilder,
+    private toastrSrv: ToastrService,
     private cargoService: CargoService,
     private ptoService: PuntoService,
     private unidadService: UnidadOrganizativaService,
@@ -284,9 +287,14 @@ export class DialogCargoComponent implements OnInit {
 
     this.cargoService.saveCargo(cargo_nuevo).subscribe({
       next: (res) => {
-        console.log('El Cargo se guardo exitosamente');
+        this.toastrSrv.success('El cargo se a creado con exito', 'Fich App', {
+          positionClass: 'toast-bottom-right',
+        });
+        //console.log('El Cargo se guardo exitosamente');
       },
       error: (err) => {
+        this.toastrSrv.error('Error al guardar el Cargo', 'Fich App');
+
         console.log('Error al guardar el Cargo');
       },
     });
@@ -321,5 +329,9 @@ export class DialogCargoComponent implements OnInit {
         console.log('Error al guardar el Cargo');
       },
     });
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
   }
 }

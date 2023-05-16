@@ -1,3 +1,4 @@
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
@@ -29,6 +30,7 @@ import { NgxMaskModule } from 'ngx-mask';
     MatFormFieldModule,
     MatPaginatorModule,
     NgxMaskModule.forRoot(),
+    FilterPipe,
   ],
 })
 export class UnidadesOrganizativasModule {}

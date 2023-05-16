@@ -5,7 +5,6 @@ import { UnidadOrganizativaService } from './../../../services/unidad-organizati
 import { Component, OnInit } from '@angular/core';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { DialogSubunidadComponent } from '../dialog-subunidad/dialog-subunidad.component';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-subunidad-organizativa',
@@ -19,9 +18,11 @@ export class SubunidadOrganizativaComponent implements OnInit {
   readonly width: string = '600px';
 
   pageSize = 5;
-  i = 1;
-  desde: number = 0;
-  hasta: number = 5;
+  page: number = 0;
+
+  filtro_valor = '';
+
+  totalRegistro = 0;
 
   subunidades: SubUnidadOrganizativa[] = [];
 
@@ -35,20 +36,29 @@ export class SubunidadOrganizativaComponent implements OnInit {
     this.cargarSubunidades();
   }
 
+  onSearch(search: string) {
+    this.page = 0;
+    this.filtro_valor = search;
+  }
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  nextPage() {
+    if (this.page < this.totalRegistro - this.pageSize)
+      this.page += this.pageSize;
+  }
+
   cargarSubunidades(): void {
     this.subunidadService.obtenerSubunidades().subscribe({
       next: (res) => {
         this.subunidades = res;
+        this.totalRegistro = this.subunidades.length;
       },
       error: (err) => {
         console.log('No hay registros de Subunidades');
       },
     });
-  }
-
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex + this.pageSize;
-    this.hasta = this.desde + this.pageSize;
   }
 
   openDialog() {

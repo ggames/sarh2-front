@@ -1,0 +1,145 @@
+<div class="container">
+  <form>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="departamentoElegido"><b>Departamento:</b> </label>
+          <select
+            class="form-control"
+            name="departamentoElegido"
+            id="departamentoElegido"
+            [(ngModel)]="departamentoElegido"
+            (change)="onChangeDepartamento()"
+          >
+            <option [ngValue]="null" selected>Elige un Departamento</option>
+            <option
+              [ngValue]="departamento"
+              *ngFor="let departamento of departamentos"
+            >
+              {{ departamento.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="materia"><b>Materia:</b> </label>
+          <select
+            *ngIf="!departamentoElegido"
+            class="form-control"
+            name="materia"
+            id="materia"
+            disabled
+          >
+            <option value="''" selected>Elige una Materia</option>
+          </select>
+          <select
+            *ngIf="departamentoElegido"
+            class="form-control"
+            name="materia"
+            id="materia"
+            [(ngModel)]="busqueda.materia"
+            (change)="listaPlantas()"
+          >
+            <option [ngValue]="''" selected>Elige una Materia</option>
+            <option
+              [ngValue]=""
+              *ngFor="let materia of departamentoElegido.subunidades"
+            >
+              {{ materia.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="docente"><b>Docente:</b></label>
+          <div class="input-group">
+            <button class="btn btn-outline-danger" (click)="clearDocente()">
+              Vaciar
+            </button>
+            <input
+              type="text"
+              class="form-control"
+              name="docente"
+              id="docente"
+              [(ngModel)]="busqueda.docente"
+            />
+            <button class="btn btn-outline-success" (click)="listaPlantas()">
+              Filtrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="tipocargo"><b>Tipo Cargo:</b> </label>
+          <select
+            class="form-control"
+            name="tipocargo"
+            id="tipocargo"
+            [(ngModel)]="tipocargoElegido"
+            (change)="onChangeTipoCargo()"
+          >
+            <option [ngValue]="''" selected>Elige el Tipo de Cargo</option>
+            <option [ngValue]="tipocargo" *ngFor="let tipocargo of tiposcargos">
+              {{ tipocargo.cargo }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="reset"><b>Reset:</b></label>
+          <button class="btn btn-outline-danger form-control" (click)="clear()">
+            Borrar Filtros
+          </button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="reset"><b>Generar Informe:</b></label>
+
+          <div class="input-group">
+            <button
+              class="btn btn-outline-danger form-control"
+              (click)="getPlantaListPdf()"
+            >
+              Generar PDF
+            </button>
+            <button
+              class="btn btn-outline-success form-control"
+              (click)="getPlantaListExcel()"
+            >
+              Generar XLS
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="container mb-5">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nro Cargo</th>
+        <th scope="col">Docente</th>
+        <th scope="col">Departamento</th>
+        <th scope="col">Materia</th>
+        <th scope="col">Tipo Cargo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let planta of plantas">
+        <td>{{ planta.cargoId.idCargo }}</td>
+        <td>{{ planta.agenteId.apellido }} {{ planta.agenteId.nombre }}</td>
+        <td>{{ planta.cargoId.unidadOrganizativaId.nombre }}</td>
+        <td>{{ planta.subunidadOrganizativaId.nombre }}</td>
+        <td>{{ planta.cargoId.puntoId.tipo_cargo.cargo }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

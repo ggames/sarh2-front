@@ -16,7 +16,7 @@
 },
 {
     "text": "Gestión de Tipo Cargos",
-    "icon": "",
+    "icon": "elevator",
     "routerLink": "/app/tipocargo"
 },
 {
@@ -53,7 +53,7 @@
     "children": [ {
         "text": "Informe de Avance",
         "icon": "people",
-        "routerLink": ""
+        "routerLink": "/app/consultas"
     }]
 }
 

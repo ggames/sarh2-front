@@ -1,9 +1,11 @@
+import { NotificationService } from './../../../services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Agente } from './../../../models/agente';
 import { Component, OnInit } from '@angular/core';
 import { faAnglesUp, faAnglesDown } from '@fortawesome/free-solid-svg-icons';
 
-import { PageEvent } from '@angular/material/paginator';
+import { ToastrService } from 'ngx-toastr';
+
 import { AgenteService } from 'src/app/services/agente.service';
 import {
   animate,
@@ -35,27 +37,42 @@ export class AgenteComponent implements OnInit {
 
   agentes: Agente[] = [];
 
+  notificationJubilaciones: Agente[] = [];
+
+  public page: number = 0;
   pageSize = 5;
   i: number = 1;
-  desde: number = 0;
-  hasta: number = 5;
-
-  constructor(
-    private agenteService: AgenteService,
-    private matDialog: MatDialog
-  ) {}
 
   readonly width: string = '600px';
   readonly height: string = '800px';
 
+  filtro_valor = '';
+
+  totalRegistro: number = 0;
+
+  totalNotification: number = 0;
+
+  constructor(
+    private agenteService: AgenteService,
+    private notificationService: NotificationService,
+    private toastrSrv: ToastrService,
+    private matDialog: MatDialog
+  ) {}
+
   ngOnInit(): void {
     this.getAgentes();
+    this.getNotification();
   }
 
-  getAgentes() {
+  /*   handleSearch(value: any) {
+    this.filtro_valor = value;
+  }
+
+ */ getAgentes() {
     this.agenteService.getAllAgentes().subscribe({
       next: (res) => {
         this.agentes = res;
+        this.totalRegistro = this.agentes.length;
       },
       error: (err) => {
         console.log('Error en la carga ...');
@@ -63,9 +80,38 @@ export class AgenteComponent implements OnInit {
     });
   }
 
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex * e.pageSize;
-    this.hasta = this.desde + e.pageSize;
+  sendNotification() {
+    this.notificationService.sendNotification().subscribe({
+      next: (res) => {
+        this.toastrSrv.success(
+          `Se ha enviado ${this.totalNotification} notificaciones de jubilaciones`,
+          'Fich App'
+        );
+      },
+    });
+  }
+
+  getNotification() {
+    this.notificationService.getAgenteJubilacion().subscribe({
+      next: (res) => {
+        this.notificationJubilaciones = res;
+        this.totalNotification = this.notificationJubilaciones.length;
+      },
+    });
+  }
+
+  nextPage() {
+    if (this.page < this.totalRegistro - this.pageSize)
+      this.page += this.pageSize;
+  }
+
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  onSearch(search: string) {
+    this.page = 0;
+    this.filtro_valor = search;
   }
 
   openEdit(agente: Agente) {

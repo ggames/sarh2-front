@@ -12,8 +12,8 @@ export class UnidadOrganizativaService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getUnidades(): Observable<UnidadOrganizativa[]> {
-    return this.httpClient.get<UnidadOrganizativa[]>(this.unidadURL + 'all');
+  getUnidades(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.unidadURL + 'all');
   }
 
   saveUnidad(unidad: UnidadOrganizativa): Observable<UnidadOrganizativa> {

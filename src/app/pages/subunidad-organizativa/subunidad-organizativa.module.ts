@@ -1,3 +1,4 @@
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +12,7 @@ import { SubunidadOrganizativaRoutingModule } from './subunidad-organizativa-rou
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SubunidadOrganizativaComponent } from './subunidad-organizativa/subunidad-organizativa.component';
 import { DialogSubunidadComponent } from './dialog-subunidad/dialog-subunidad.component';
+import { MateriasSearchPipe } from 'src/app/directivas/materias-search.pipe';
 
 @NgModule({
   declarations: [SubunidadOrganizativaComponent, DialogSubunidadComponent],
@@ -25,6 +27,7 @@ import { DialogSubunidadComponent } from './dialog-subunidad/dialog-subunidad.co
     MatFormFieldModule,
     MatCardModule,
     MatPaginatorModule,
+    MateriasSearchPipe,
   ],
 })
 export class SubunidadOrganizativaModule {}

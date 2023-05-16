@@ -1,3 +1,4 @@
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DateInputConverter } from './../../utils/date-input-converter.directive';
@@ -36,6 +37,7 @@ import { PlantaEditarComponent } from './planta-editar/planta-editar.component';
     MatCardModule,
     MatNativeDateModule,
     CdkAccordionModule,
+    FilterPipe,
   ],
 })
 export class PlantaModule {}

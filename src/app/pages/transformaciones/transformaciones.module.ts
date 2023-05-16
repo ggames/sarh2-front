@@ -1,3 +1,4 @@
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
@@ -29,6 +30,7 @@ import { DialogTransformacionComponent } from './dialog-transformacion/dialog-tr
     MatPaginatorModule,
     MatCardModule,
     NgxMaskModule.forRoot(),
+    FilterPipe,
   ],
   providers: [],
   entryComponents: [MatDialogModule],

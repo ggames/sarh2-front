@@ -1,3 +1,4 @@
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { NuevoPuntoComponent } from './nuevo-punto/nuevo-punto.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -50,6 +51,7 @@ import { SortPipe } from 'src/app/directivas/sort.pipe';
     MatSnackBarModule,
     MatCardModule,
     MatCheckboxModule,
+    FilterPipe,
   ],
   providers: [SortPipe],
 })

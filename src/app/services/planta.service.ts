@@ -1,3 +1,4 @@
+import { Busqueda } from './../models/busqueda';
 import { PuntoDetail } from './../models/puntoDetail';
 import { HttpClient } from '@angular/common/http';
 import { Planta } from './../models/planta';
@@ -12,6 +13,10 @@ export class PlantaService {
   plantaURL = environment.plantaURL;
 
   constructor(private http: HttpClient) {}
+
+  getPlantas(busqueda: Busqueda): Observable<Planta[]> {
+    return this.http.post<Planta[]>(this.plantaURL + 'list', busqueda);
+  }
 
   getPuntosOcupadosLibres(): Observable<PuntoDetail[]> {
     return this.http.get<PuntoDetail[]>(this.plantaURL + 'libres/ocupado');

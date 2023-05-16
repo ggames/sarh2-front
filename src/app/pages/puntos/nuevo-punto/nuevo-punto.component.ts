@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { DialogPuntosComponent } from './../dialog/dialogPuntos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PuntoOrigenRequest } from './../../../models/puntoorigen-request';
@@ -126,6 +127,7 @@ export class NuevoPuntoComponent implements OnInit {
   constructor(
     private puntoService: PuntoService,
     private tipoCargoService: TipoCargosService,
+    private toastrServ: ToastrService,
     private fb: FormBuilder,
     private sb: MatSnackBar,
     private dialog: MatDialog,
@@ -328,10 +330,12 @@ export class NuevoPuntoComponent implements OnInit {
 
     this.puntoService.savePunto(this.punto).subscribe({
       next: (res) => {
-        console.log('El punto se guardo con exito');
+        this.toastrServ.success('El punto se creo con exito', 'App');
+        //console.log('El punto se guardo con exito');
       },
       error: (err) => {
-        console.log(err.error.mensaje);
+        this.toastrServ.error(err.error.mensaje, 'Fich App');
+        // console.log(err.error.mensaje);
       },
     });
 

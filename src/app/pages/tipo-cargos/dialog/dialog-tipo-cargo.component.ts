@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { TipoCargosService } from './../../../services/tipo-cargos.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -12,6 +13,7 @@ export class DialogTipoCargoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private toastrSrv: ToastrService,
     private tipoCargosService: TipoCargosService
   ) {}
 
@@ -31,7 +33,14 @@ export class DialogTipoCargoComponent implements OnInit {
       .updateAllTipoCargo(this.formTipoCargo.value)
       .subscribe({
         next: (res) => {
-          console.log('Se actualizo correctamente ' + res);
+          this.toastrSrv.success(
+            `El tipo de cargo se actualizo correctamente ${res}`
+          );
+          // console.log('Se actualizo correctamente ' + res);
+        },
+
+        error: (err) => {
+          this.toastrSrv.error(err.error.mensaje);
         },
       });
   }

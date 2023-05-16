@@ -32,6 +32,8 @@ import { ToastrModule } from 'ngx-toastr';
     AppComponent,
     SidenavbarComponent,
     FooterComponent,
+    //SearchComponent,
+    //FilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatExpansionModule,
     MatToolbarModule,
   ],
+
   providers: [interceptorProvider],
   bootstrap: [AppComponent],
 })

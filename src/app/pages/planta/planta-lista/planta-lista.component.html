@@ -1,83 +1,109 @@
-<div class="col-12">
-  <div class="box-row animate_animated animate_fadeIn">
-    <div class="row">
-      <div class="d-flex">
-        <button
-          class="btn btn-success ml-auto"
-          [routerLink]="['/app/planta', 'create']"
-        >
-          Agregar
-        </button>
+<div class="row animate__animated animate__fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar Plantas"
+          #txtSearch
+          (keyup)="onSearch(txtSearch.value)"
+        />
+        <!--   <app-search (search)="handleSearch($event)"></app-search>
+       -->
       </div>
-      <cdk-accordion class="accordion">
-        <cdk-accordion-item> </cdk-accordion-item>
-      </cdk-accordion>
-      <div class="table-responsive">
-        <table
-          class="table table-bordered border table-striped table-hover mt-3"
-        >
-          <thead class="table-success" style="text-transform: uppercase">
-            <tr>
-              <th>Cod. Cargo</th>
-              <th>Documento</th>
-              <th>Apellido y Nombre</th>
-              <th>Estado</th>
-              <th>Cargo</th>
-              <th>Res. Inicio</th>
-              <th class="text-center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let planta of planta_arr | slice : desde : hasta;
-                let i = index
-              "
+    </div>
+  </div>
+</div>
+
+<div class="row animate_animated animate_fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex">
+          <h3 class="card-title position-relative btn btn-secondary">
+            Plazas Registrados
+            <small
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >{{ totalRegistro }}</small
             >
-              <td>{{ planta.cargoId.idCargo }}</td>
-              <td>
-                <div role="button" style="cursor: pointer">
-                  {{ planta.agenteId.tipoDocId.nombre }} :
-                  {{ planta.agenteId.documento }}
-                </div>
-              </td>
-              <td>
-                {{ planta.agenteId.apellido }} {{ planta.agenteId.nombre }}
-              </td>
+          </h3>
+          <button
+            class="btn btn-success ml-auto"
+            [routerLink]="['/app/planta', 'create']"
+          >
+            Agregar
+          </button>
+        </div>
 
-              <td>
-                {{ planta.cargoId.estadoCargo.nombre }}
-              </td>
-              <td>
-                {{ planta.cargoId.puntoId.codPunto }}
-                {{ planta.cargoId.puntoId.tipo_cargo.cargo }} -
-                {{ planta.cargoId.puntoId.puntos_disponibles }}
-              </td>
-              <td>
-                {{ planta.resolucionInicio }}
-              </td>
+        <div class="table-responsive">
+          <table
+            class="table table-bordered border table-striped table-hover mt-3"
+          >
+            <thead class="table-success" style="text-transform: uppercase">
+              <tr>
+                <th>Cod. Cargo</th>
+                <th>Documento</th>
+                <th>Apellido y Nombre</th>
+                <th>Estado</th>
+                <th>Cargo</th>
+                <th>Res. Inicio</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let planta of planta_arr | search : page : filtro_valor;
+                  let i = index
+                "
+              >
+                <td>{{ planta.cargoId.idCargo }}</td>
+                <td>
+                  <div role="button" style="cursor: pointer">
+                    {{ planta.agenteId.tipoDocId.nombre }} :
+                    {{ planta.agenteId.documento }}
+                  </div>
+                </td>
+                <td>
+                  {{ planta.agenteId.apellido }} {{ planta.agenteId.nombre }}
+                </td>
 
-              <td class="d-flex justify-content-center">
-                <a
-                  class="btn btn-primary mr-3"
-                  [routerLink]="['/app/planta/edit', planta.id]"
-                >
-                  <i class="fa fa-pencil-square-o"></i>
-                </a>
-                <button class="btn btn-danger">
-                  <i class="fa fa-trash-o"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+                  {{ planta.cargoId.estadoCargo.nombre }}
+                </td>
+                <td>
+                  {{ planta.cargoId.puntoId.codPunto }}
+                  {{ planta.cargoId.puntoId.tipo_cargo.cargo }} -
+                  {{ planta.cargoId.puntoId.puntos_disponibles }}
+                </td>
+                <td>
+                  {{ planta.resolucionInicio }}
+                </td>
+
+                <td class="d-flex justify-content-center">
+                  <a
+                    class="btn btn-primary mr-3"
+                    [routerLink]="['/app/planta/edit', planta.id]"
+                  >
+                    <i class="fa fa-pencil-square-o"></i>
+                  </a>
+                  <button class="btn btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-primary" (click)="prevPage()">
+            Anteriores
+          </button>
+          &nbsp;
+          <button class="btn btn-primary" (click)="nextPage()">
+            Siguientes
+          </button>
+        </div>
       </div>
-
-      <mat-paginator
-        [length]="planta_arr.length"
-        [pageSize]="pageSize"
-        (page)="cambiarPagina($event)"
-      ></mat-paginator>
     </div>
   </div>
 </div>

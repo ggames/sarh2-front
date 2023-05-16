@@ -11,10 +11,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class PlantaListaComponent implements OnInit {
   planta_arr: Planta[] = [];
+
   pageSize = 5;
-  i: number = 1;
-  desde: number = 0;
-  hasta: number = 5;
+  page: number = 0;
+
+  totalRegistro = 0;
+
+  filtro_valor = '';
 
   constructor(
     private plantaService: PlantaService,
@@ -26,20 +29,30 @@ export class PlantaListaComponent implements OnInit {
     this.cargarPlanta();
   }
 
+  nextPage() {
+    if (this.page < this.totalRegistro - this.pageSize)
+      this.page += this.pageSize;
+  }
+
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  onSearch(search: string) {
+    this.page = 0;
+    this.filtro_valor = search;
+  }
+
   cargarPlanta(): void {
     this.plantaService.getPlantaTotal().subscribe({
       next: (planta) => {
         this.planta_arr = planta;
+        this.totalRegistro = this.planta_arr.length;
       },
     });
   }
 
   abrirEditar(planta: Planta) {
     this.router.navigate(['/planta/edit', planta.id]);
-  }
-
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex * e.pageSize;
-    this.hasta = this.desde + e.pageSize;
   }
 }

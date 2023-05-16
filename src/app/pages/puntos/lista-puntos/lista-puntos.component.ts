@@ -20,10 +20,12 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 export class ListaPuntosComponent implements OnInit, AfterViewInit {
   // ****  VARIABLES DE PAGINACION ****************** ////
 
-  pageSize = 10;
-  i: number = 1;
-  desde: number = 0;
-  hasta: number = 10;
+  page: number = 0;
+  pageSize = 5;
+
+  filtro_valor = '';
+
+  totalRegistro = 0;
 
   public puntosOrigen: PuntoOrigen[] = [];
 
@@ -56,10 +58,25 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
     this.sortPipe.transform(this.ocupadoLibres, 'desc', 'id');
   }
 
+  onSearch(search: string) {
+    this.page = 0;
+    this.filtro_valor = search;
+  }
+
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  nextPage() {
+    if (this.page < this.totalRegistro - this.pageSize)
+      this.page += this.pageSize;
+  }
+
   obtenerPuntosLibreOcupados(): void {
     this.plantaService.getPuntosOcupadosLibres().subscribe({
       next: (res) => {
         this.ocupadoLibres = res;
+        this.totalRegistro = this.ocupadoLibres.length;
         this.pintarRegistroPorEstado();
       },
     });
@@ -69,16 +86,19 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
     console.log('Puntos Ocupados y Libre ' + this.ocupadoLibres.length);
 
     this.ocupadoLibres.forEach((elem) => {
-      if (elem.disponible == 0) {
+      if (elem.disponible == 0 && elem.estado == 'Vacante Definitiva') {
         elem.color = 'bg-danger';
         console.log('COLOR ' + elem.color);
       }
-      if (elem.disponible > 0) {
+      if (
+        elem.disponible > 0 &&
+        (elem.estado == 'Vacante Definitiva' || elem.estado == null)
+      ) {
         elem.color = 'bg-success';
         console.log('COLOR ' + elem.color);
       }
-      if (elem.codCargo !== null) {
-        elem.color = 'bg-warning';
+      if (elem.disponible > 0 && elem.estado == 'Ocupado') {
+        elem.color = 'bg-info';
         console.log('COLOR ' + elem.color);
       }
     });
@@ -90,10 +110,5 @@ export class ListaPuntosComponent implements OnInit, AfterViewInit {
         this.puntos = res;
       },
     });
-  }
-
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex * e.pageSize;
-    this.hasta = this.desde + e.pageSize;
   }
 }

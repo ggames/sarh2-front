@@ -192,17 +192,23 @@ export class DialogAgenteComponent implements OnInit {
     };
     this.agenteService.saveAgente(agente_nuevo).subscribe({
       next: (res) => {
-        console.log('El agente se ha registrado exitosamente');
+        this.toastrSrv.success(
+          'El agente se ha registrado exitosamente',
+          'Fich App'
+        );
       },
 
       error: (err) => {
+        this.toastrSrv.error('No se pudo registrar al agente', 'Fich App', {
+          positionClass: 'toast-bottom-center',
+        });
         console.log('No se pudo registrar al agente');
       },
     });
   }
 
   editAgente() {
-    console.log('Fecha de BAJA  ' + this.agentForm.get('fecbaBaja')?.value);
+    //console.log('Fecha de BAJA  ' + this.agentForm.get('fecbaBaja')?.value);
 
     let agente_update = {
       id: this.agente.id,
@@ -226,15 +232,21 @@ export class DialogAgenteComponent implements OnInit {
       telefono: this.agentForm.get('telefono')?.value,
     };
 
-    console.log('DATOS DE AGENTE ' + JSON.stringify(agente_update));
+    // console.log('DATOS DE AGENTE ' + JSON.stringify(agente_update));
 
     this.agenteService.actualizarAgente(agente_update).subscribe({
       next: (response) => {
         this.toastrSrv.success(
-          'Los datos del agente se actualizo con existo',
+          'Los datos del agente se actualizo con exito',
           'App Fich'
         );
         console.log('Edicion Agente ' + JSON.stringify(response));
+      },
+      error: (err) => {
+        this.toastrSrv.error(
+          'Los datos del agente no se pudieron actualizar',
+          'App Fich'
+        );
       },
     });
   }

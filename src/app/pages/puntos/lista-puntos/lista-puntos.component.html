@@ -1,8 +1,57 @@
-<div class="container m-3">
-  <div class="row gt-3">
-    <div class="box-row animate_animated animate_fadeIn">
-      <div class="row">
+<div class="row animate__animated animate__fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="accordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                aria-expanded="true"
+                aria-controls="panelsStayOpen-collapseOne"
+              >
+                Filtro Puntos
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseOne"
+              class="accordion-collapse collapse show"
+            >
+              <div class="accordion-body">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar Plantas"
+                  #txtSearch
+                  (keyup)="onSearch(txtSearch.value)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--   <app-search (search)="handleSearch($event)"></app-search>
+       -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row animate_animated animate_fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
         <div class="d-flex">
+          <h3 class="card-title position-relative btn btn-secondary">
+            Puntos Registrados
+            <small
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >{{ totalRegistro }}</small
+            >
+          </h3>
           <button
             class="btn btn-success ml-auto"
             [routerLink]="['/app/puntos', 'create']"
@@ -10,46 +59,42 @@
             Agregar Puntos
           </button>
         </div>
-        <div class="row">
-          <table class="table table-bordered border table-hover mt-3">
-            <thead class="table-success" style="text-transform: uppercase">
-              <tr>
-                <th>ID</th>
-                <th>Nombre y Apellido</th>
-                <th>Tipo Cargo</th>
-                <th>Estado Cargo</th>
-                <th>Cod. Cargo</th>
-                <th>Ptos Disponibles</th>
-                <th>Ptos Res 99</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                [ngClass]="punto.color"
-                *ngFor="
-                  let punto of ocupadoLibres
-                    | slice : desde : hasta
-                    | sort : 'asc' : 'id';
-                  let i = index
-                "
-              >
-                <td>{{ punto.id }}</td>
-                <td>{{ punto.apellido }} - {{ punto.nombre }}</td>
-                <td>{{ punto.cargo }}</td>
-                <td>{{ punto.estado }}</td>
-                <td>{{ punto.codCargo }}</td>
-                <td>{{ punto.disponible }}</td>
-                <td>{{ punto.faltantes }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <mat-paginator
-            [pageSize]="pageSize"
-            [length]="ocupadoLibres.length"
-            (page)="cambiarPagina($event)"
-            showFirstLastButtons
-          ></mat-paginator>
-        </div>
+
+        <table class="table table-bordered border table-hover mt-3">
+          <thead class="table-success" style="text-transform: uppercase">
+            <tr>
+              <th>ID</th>
+              <th>Nombre y Apellido</th>
+              <th>Tipo Cargo</th>
+              <th>Estado Cargo</th>
+              <th>Cod. Cargo</th>
+              <th>Ptos Disponibles</th>
+              <th>Ptos Res 99</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              [ngClass]="punto.color"
+              *ngFor="
+                let punto of ocupadoLibres
+                  | search : page : filtro_valor
+                  | sort : 'asc' : 'id';
+                let i = index
+              "
+            >
+              <td>{{ punto.id }}</td>
+              <td>{{ punto.apellido }} - {{ punto.nombre }}</td>
+              <td>{{ punto.cargo }}</td>
+              <td>{{ punto.estado }}</td>
+              <td>{{ punto.codCargo }}</td>
+              <td>{{ punto.disponible }}</td>
+              <td>{{ punto.faltantes }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary" (click)="prevPage()">Anteriores</button>
+        &nbsp;
+        <button class="btn btn-primary" (click)="nextPage()">Siguientes</button>
       </div>
     </div>
   </div>

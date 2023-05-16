@@ -33,10 +33,13 @@ export class TransformacionComponent implements OnInit {
   faAnglesDown = faAngleDown;
   faAnglesUp = faAngleUp;
 
+  page: number = 0;
   pageSize = 5;
   i = 1;
-  desde: number = 0;
-  hasta: number = 5;
+
+  filtro_valor = '';
+
+  totalRegistro = 0;
 
   transformaciones: Transformacion[] = [];
 
@@ -51,20 +54,31 @@ export class TransformacionComponent implements OnInit {
     this.getTransformaciones();
   }
 
+  onSearch(search: string) {
+    this.page = 0;
+
+    this.filtro_valor = search;
+  }
+
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  nextPage() {
+    if (this.page < this.totalRegistro - this.pageSize)
+      this.page += this.pageSize;
+  }
+
   getTransformaciones() {
     this.transformacionService.getTransformaciones().subscribe({
       next: (resp) => {
         this.transformaciones = resp;
+        this.totalRegistro = this.transformaciones.length;
       },
       error: (err) => {
         console.log('Error de carga');
       },
     });
-  }
-
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex + this.pageSize;
-    this.hasta = this.desde + this.pageSize;
   }
 
   openEdit(transformacion: Transformacion) {

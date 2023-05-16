@@ -76,7 +76,7 @@ export class NuevoUsuarioComponent implements OnInit {
           icon: 'error',
           title: 'Oops...',
           text: 'No se pudo registrar al usuario',
-          footer: '<a href="">Why do I have this issue?</a>',
+          footer: '<a href=""></a>',
         });
       },
     });

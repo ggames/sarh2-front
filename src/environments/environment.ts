@@ -23,6 +23,7 @@ export const environment = {
   plantaURL: URL + 'planta/',
   subunidadURL: URL + 'subunidad/',
   rolplantaURL: URL + 'rolplanta/',
+  notificationURL: URL + 'notification/',
   API_URL: 'http://localhost:4200/',
 };
 

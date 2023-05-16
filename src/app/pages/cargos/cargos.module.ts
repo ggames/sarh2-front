@@ -1,3 +1,4 @@
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -27,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     FontAwesomeModule,
     MatDialogModule,
+    FilterPipe,
   ],
   providers: [],
   entryComponents: [MatDialogModule],

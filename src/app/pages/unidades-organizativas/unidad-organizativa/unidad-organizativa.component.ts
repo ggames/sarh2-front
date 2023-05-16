@@ -15,11 +15,14 @@ export class UnidadOrganizativaComponent implements OnInit {
   faAngleDown = faAngleDown;
   faAngleUp = faAngleUp;
 
+  page: number = 0;
+
   pageSize = 5;
   i = 1;
 
-  desde: number = 0;
-  hasta: number = 5;
+  filtro_valor = '';
+
+  totalRegistro = 0;
 
   unidades_organizativas: UnidadOrganizativa[] = [];
 
@@ -34,10 +37,25 @@ export class UnidadOrganizativaComponent implements OnInit {
     this.getUnidadesOrganizativas();
   }
 
+  onSearch(search: string) {
+    this.page = 0;
+    this.filtro_valor = search;
+  }
+
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  nextPage() {
+    if (this.page < this.totalRegistro - this.pageSize)
+      this.page += this.pageSize;
+  }
+
   getUnidadesOrganizativas() {
     this.unidadesService.getUnidades().subscribe({
       next: (resp) => {
         this.unidades_organizativas = resp;
+        this.totalRegistro = this.unidades_organizativas.length;
       },
       error: (err) => {
         console.log('Error en la carga de unidades organizativas');
@@ -64,10 +82,5 @@ export class UnidadOrganizativaComponent implements OnInit {
     dialogRef.afterClosed().subscribe((resp) => {
       this.getUnidadesOrganizativas();
     });
-  }
-
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex + this.pageSize;
-    this.hasta = this.desde + this.pageSize;
   }
 }

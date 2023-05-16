@@ -3,13 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Cargo } from 'src/app/models/cargo';
 import { CargoService } from './../../../services/cargo.service';
 import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import {
-  faAnglesUp,
-  faAnglesDown,
-  faAngleDown,
-  faAngleUp,
-} from '@fortawesome/free-solid-svg-icons';
+import { faAnglesUp, faAnglesDown } from '@fortawesome/free-solid-svg-icons';
 import {
   animate,
   state,
@@ -38,10 +32,12 @@ export class ListaCargoComponent implements OnInit {
   faAnglesDown = faAnglesDown;
   faAnglesUp = faAnglesUp;
 
-  pageSize = 5;
-  i = 1;
-  desde: number = 0;
-  hasta: number = 5;
+  public page: number = 0;
+  pageSize = 8;
+
+  totalRegistro: number = 0;
+
+  filtro_valor = '';
 
   cargos: Cargo[] = [];
 
@@ -57,10 +53,25 @@ export class ListaCargoComponent implements OnInit {
     this.obtenerCargos();
   }
 
+  nextPage() {
+    if (this.page < this.cargos.length - this.pageSize)
+      this.page += this.pageSize;
+  }
+
+  prevPage() {
+    if (this.page > 0) this.page -= this.pageSize;
+  }
+
+  onSearch(search: string) {
+    this.page = 0;
+    this.filtro_valor = search;
+  }
+
   obtenerCargos(): void {
     this.cargoService.getCargos().subscribe({
       next: (res) => {
         this.cargos = res;
+        this.totalRegistro = this.cargos.length;
 
         console.log('CARGOS CANTIDAD ' + this.cargos.length);
       },
@@ -86,10 +97,5 @@ export class ListaCargoComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(() => this.obtenerCargos());
     }
-  }
-
-  cambiarPagina(e: PageEvent) {
-    this.desde = e.pageIndex + this.pageSize;
-    this.hasta = this.desde + this.pageSize;
   }
 }

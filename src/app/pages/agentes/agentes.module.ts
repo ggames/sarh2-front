@@ -1,5 +1,4 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { FilterPipe } from './../../directivas/filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,9 +17,19 @@ import { AgentesRoutingModule } from './agentes-routing.module';
 import { EditarAgenteComponent } from './editar-agente/editar-agente.component';
 import { AgenteComponent } from './agente/agente.component';
 import { DialogAgenteComponent } from './dialog-agente/dialog-agente.component';
+import { PagesModule } from '../pages.module';
+import { SearchComponent } from '../search/search.component';
 
 @NgModule({
-  declarations: [AgenteComponent, EditarAgenteComponent, DialogAgenteComponent],
+  declarations: [
+    AgenteComponent,
+    EditarAgenteComponent,
+    DialogAgenteComponent,
+    //FilterPipe,
+  ],
+  //  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [],
+  entryComponents: [MatDialogModule],
   imports: [
     CommonModule,
     // BrowserAnimationsModule,
@@ -36,8 +45,9 @@ import { DialogAgenteComponent } from './dialog-agente/dialog-agente.component';
     MatDatepickerModule,
     MatNativeDateModule,
     FontAwesomeModule,
+    PagesModule,
+    SearchComponent,
+    FilterPipe,
   ],
-  providers: [],
-  entryComponents: [MatDialogModule],
 })
 export class AgentesModule {}

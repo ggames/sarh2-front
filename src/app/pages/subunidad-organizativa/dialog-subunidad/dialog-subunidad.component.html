@@ -1,76 +1,82 @@
-<mat-card-title>
-  <h1 mat-card-title>
-    {{ subunidad != null ? "Editar Materia" : "Crear Materia" }}
-  </h1>
-</mat-card-title>
-<mat-dialog-content class="mat-typography">
-  <div class="card-body">
-    <form
-      [formGroup]="SubUnidadForm"
-      (ngSubmit)="subunidad != null ? onUpdate() : onSave()"
-    >
-      <div class="form-group">
-        <label for="codigoGuarani" class="form-label">Cód Guarani</label>
-        <input
-          type="number"
-          name="codigoGuarani"
-          id="codigoGuarani"
-          class="form-control"
-          [class.is-invalid]="codigoGuaraniNoValido"
-          formControlName="codigoGuarani"
-        />
-        <small *ngIf="codigoGuaraniNoValido" class="text-danger"
-          >El código Guarani es un dato requerido</small
+<div class="container">
+  <div class="col-12">
+    <div class="card">
+      <h1 mat-card-title>
+        {{ subunidad != null ? "Editar Materia" : "Crear Materia" }}
+      </h1>
+      <div class="card-body">
+        <form
+          [formGroup]="SubUnidadForm"
+          (ngSubmit)="subunidad != null ? onUpdate() : onSave()"
         >
-      </div>
-      <div class="form-group">
-        <label for="nombre" class="form-label">Nombre Materia</label>
-        <input
-          type="text"
-          name="nombre"
-          id="nombre"
-          class="form-control"
-          [class.is-invalid]="nombreNoValido"
-          formControlName="nombre"
-        />
-        <small *ngIf="nombreNoValido" class="text-danger"
-          >El nombre de la materia es requerido</small
-        >
-      </div>
-      <div class="form-group">
-        <label for="unidadOrganizativaId" class="form-label"
-          >Departamento</label
-        >
-        <select
-          name="unidadOrganizativaId"
-          id="unidadOrganizativaId"
-          formControlName="unidadOrganizativaId"
-          class="form-control"
-          [class.is-invalid]="UnidadNoValido"
-          (change)="cambiarDepartamento($event)"
-        >
-          <option
-            [ngValue]="unidad.id"
-            *ngFor="let unidad of unidadesOrganizativas"
+          <div class="form-group">
+            <label for="codigoGuarani" class="form-label">Cód Guarani</label>
+            <input
+              type="number"
+              name="codigoGuarani"
+              id="codigoGuarani"
+              class="form-control"
+              [class.is-invalid]="codigoGuaraniNoValido"
+              formControlName="codigoGuarani"
+            />
+            <small *ngIf="codigoGuaraniNoValido" class="text-danger"
+              >El código Guarani es un dato requerido</small
+            >
+          </div>
+          <div class="form-group">
+            <label for="nombre" class="form-label">Nombre Materia</label>
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              class="form-control"
+              [class.is-invalid]="nombreNoValido"
+              formControlName="nombre"
+            />
+            <small *ngIf="nombreNoValido" class="text-danger"
+              >El nombre de la materia es requerido</small
+            >
+          </div>
+          <div class="form-group">
+            <label for="unidadOrganizativaId" class="form-label"
+              >Departamento</label
+            >
+            <select
+              name="unidadOrganizativaId"
+              id="unidadOrganizativaId"
+              formControlName="unidadOrganizativaId"
+              class="form-control"
+              [class.is-invalid]="UnidadNoValido"
+              (change)="cambiarDepartamento($event)"
+            >
+              <option
+                [ngValue]="unidad.id"
+                *ngFor="let unidad of unidadesOrganizativas"
+              >
+                {{ unidad.nombre }}
+              </option>
+            </select>
+
+            <small *ngIf="UnidadNoValido" class="text-danger"
+              >El departamento es un dato obligatorio</small
+            >
+          </div>
+
+          <button
+            class="btn btn-inverse waves-effect waves-light m-r-10"
+            mat-dialog-close
+            (click)="onClose()"
           >
-            {{ unidad.nombre }}
-          </option>
-        </select>
-
-        <small *ngIf="UnidadNoValido" class="text-danger"
-          >El departamento es un dato obligatorio</small
-        >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success waves-effect waves-light"
+          >
+            Guardar
+          </button>
+        </form>
       </div>
-
-      <button
-        class="btn btn-inverse waves-effect waves-light m-r-10"
-        mat-dialog-close
-      >
-        Cancelar
-      </button>
-      <button type="submit" class="btn btn-success waves-effect waves-light">
-        Guardar
-      </button>
-    </form>
+    </div>
   </div>
-</mat-dialog-content>
+</div>

@@ -2,12 +2,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Buscar Usuario"
-          #input
-        />
+        <app-search (search)="handleSearch($event)"></app-search>
       </div>
     </div>
   </div>
@@ -18,15 +13,18 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-between mb-3">
-          <h3 class="card-title">
-            Agentes Registrados (<small>{{ totalRegistrado }}</small
-            >)
+          <h3 class="card-title position-relative btn btn-secondary">
+            Usuarios Registrados
+            <small
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >{{ totalRegistrado }}</small
+            >
           </h3>
           <button
-            class="btn btn-primary btn-rounded"
+            class="btn btn-success btn-rounded ml-auto"
             [routerLink]="['/app/usuarios', 'create']"
           >
-            <i class="fa fa-plus"></i>Crear Usuario
+            <mat-icon>group_add</mat-icon> Usuario
           </button>
         </div>
 
@@ -43,7 +41,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let usuario of usuarios">
+            <tr *ngFor="let usuario of usuarios | search : page : filtro_valor">
               <th>
                 <div role="button" style="cursor: pointer">
                   {{ usuario.nombre }}
@@ -68,6 +66,9 @@
             </tr>
           </tbody>
         </table>
+        <button class="btn btn-primary" (click)="prevPage()">Anteriores</button>
+        &nbsp;
+        <button class="btn btn-primary" (click)="nextPage()">Siguientes</button>
       </div>
     </div>
   </div>

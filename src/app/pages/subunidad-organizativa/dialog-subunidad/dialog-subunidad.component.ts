@@ -1,6 +1,7 @@
+import { ToastrService } from 'ngx-toastr';
 import { UnidadOrganizativa } from './../../../models/unidad-organizativa';
 import { SubUnidadOrganizativa } from './../../../models/subunidad-organizativa';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UnidadOrganizativaService } from './../../../services/unidad-organizativa.service';
 import { SubunidadOrganizativaService } from './../../../services/subunidad-organizativa.service';
@@ -20,8 +21,10 @@ export class DialogSubunidadComponent implements OnInit {
 
   constructor(
     private subunidadService: SubunidadOrganizativaService,
+    private toastrSrv: ToastrService,
     private unidadService: UnidadOrganizativaService,
     private fb: FormBuilder,
+    public dialogRef: MatDialogRef<DialogSubunidadComponent>,
     @Inject(MAT_DIALOG_DATA) public subunidad: SubUnidadOrganizativa
   ) {}
 
@@ -56,7 +59,7 @@ export class DialogSubunidadComponent implements OnInit {
 
   createForm(): void {
     this.SubUnidadForm = this.fb.group({
-      codigoGuarani: [0, Validators.required],
+      codigoGuarani: ['', Validators.required],
       nombre: ['', Validators.required],
       unidadOrganizativaId: [null, Validators.required],
     });
@@ -92,7 +95,7 @@ export class DialogSubunidadComponent implements OnInit {
     this.unidadService.getUnidad(_id).subscribe({
       next: (res) => {
         this.unidad_organizativa = res;
-        console.log('UNIDAD ' + JSON.stringify(this.unidad_organizativa));
+        //console.log('UNIDAD ' + JSON.stringify(this.unidad_organizativa));
       },
     });
   }
@@ -106,7 +109,14 @@ export class DialogSubunidadComponent implements OnInit {
 
     this.subunidadService.save(this.subunidad).subscribe({
       next: (res) => {
-        console.log('La materia se creo con exito');
+        this.toastrSrv.success('La materia se creo con exito', 'Fich App', {
+          positionClass: 'toast-bottom-right',
+        });
+
+        //console.log('La materia se creo con exito');
+      },
+      error: (err) => {
+        this.toastrSrv.error(err.error.mensaje, 'Fich App');
       },
     });
   }
@@ -121,8 +131,16 @@ export class DialogSubunidadComponent implements OnInit {
 
     this.subunidadService.update(subunidad_update).subscribe({
       next: (res) => {
-        console.log('La materia se actualizo con exito');
+        this.toastrSrv.success('La materia se actualizo con exito', 'Fich App');
+        //console.log('La materia se actualizo con exito');
+      },
+      error: (err) => {
+        this.toastrSrv.error('Error al actualizar los datos', 'Fich App');
       },
     });
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
   }
 }

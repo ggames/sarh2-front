@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { UnidadOrganizativaService } from './../../../services/unidad-organizativa.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +15,7 @@ export class DialogUnidadComponent implements OnInit {
 
   constructor(
     private unidadService: UnidadOrganizativaService,
+    private toastrSrv: ToastrService,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public unidad: UnidadOrganizativa
   ) {}
@@ -74,7 +76,14 @@ export class DialogUnidadComponent implements OnInit {
     };
     this.unidadService.saveUnidad(this.unidad).subscribe({
       next: (res) => {
+        this.toastrSrv.success(
+          `Se ha agregado el Departamento ${this.unidad.nombre} con exito`,
+          'Fich App'
+        );
         console.log('El Dpto se guardo con exito');
+      },
+      error: (err) => {
+        this.toastrSrv.error(err.error.mensaje, 'Fich App');
       },
     });
   }
@@ -91,7 +100,14 @@ export class DialogUnidadComponent implements OnInit {
 
     this.unidadService.updateUnidad(unidad_update).subscribe({
       next: (res) => {
+        this.toastrSrv.success(
+          `Se ha actualizado el Departamento ${this.unidad.nombre} con exito`,
+          'Fich App'
+        );
         console.log('La unidad se actualizo con exito');
+      },
+      error: (err) => {
+        this.toastrSrv.error(err.error.mensaje, 'Fich App');
       },
     });
   }

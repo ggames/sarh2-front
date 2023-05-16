@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Transformacion } from './../../../models/transformacion';
 import { DialogAgenteComponent } from './../../agentes/dialog-agente/dialog-agente.component';
 import { TransformacionesService } from './../../../services/transformaciones.service';
@@ -20,6 +21,7 @@ export class DialogTransformacionComponent implements OnInit {
 
   constructor(
     private transformacionesService: TransformacionesService,
+    private toastrSrv: ToastrService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogAgenteComponent>,
     @Inject(MAT_DIALOG_DATA) public transformacion: Transformacion
@@ -63,7 +65,17 @@ export class DialogTransformacionComponent implements OnInit {
       .saveTransformacion(this.transformacionForm.value)
       .subscribe({
         next: (response) => {
+          this.toastrSrv.success(
+            'La transformación se creo con exito',
+            'Fich App'
+          );
           console.log('Edicion Agente ' + JSON.stringify(response));
+        },
+        error: (err) => {
+          this.toastrSrv.error(
+            'Se produjo un error al actualizar la transformación',
+            'Fich App'
+          );
         },
       });
   }
@@ -73,7 +85,11 @@ export class DialogTransformacionComponent implements OnInit {
       .updateTransformacion(this.transformacionForm.value)
       .subscribe({
         next: (response) => {
-          console.log('Edicion Agente ' + JSON.stringify(response));
+          this.toastrSrv.success(
+            'La transformación se actualizo con exito',
+            'Fich App'
+          );
+          //console.log('Edicion Agente ' + JSON.stringify(response));
         },
       });
   }
